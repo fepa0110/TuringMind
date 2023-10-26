@@ -15,7 +15,8 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.fepa0110.turingmachineapp"
     },
     "android": {
       "adaptiveIcon": {
@@ -32,6 +33,12 @@
         "projectId": "b3d68762-54e5-4f24-92d8-e42fdc6e4b5d"
       }
     },
-    "owner": "fepa0110"
+    "owner": "fepa0110",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/b3d68762-54e5-4f24-92d8-e42fdc6e4b5d"
+    }
   }
 }
