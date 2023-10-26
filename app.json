@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "turingmachine",
-    "slug": "turingmachine",
+    "slug": "turingmachineapp",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -21,10 +21,17 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.fepa0110.turingmachineapp"
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "b3d68762-54e5-4f24-92d8-e42fdc6e4b5d"
+      }
+    },
+    "owner": "fepa0110"
   }
 }
