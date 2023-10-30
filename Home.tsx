@@ -24,11 +24,11 @@ import { PrimaryIconButton } from "./components/PrimaryIconButton";
 import { SecondaryIconButton } from "./components/SecondaryIconButton";
 import { useTheme } from "./hooks/useTheme";
 import { Theme } from "./types/Theme";
-
+import { TablaEstados } from "./components/TablaEstados";
 
 export default function Home() {
-    const { getTheme } = useTheme()
-	const colors = getTheme()
+	const { getTheme } = useTheme();
+	const colors = getTheme();
 
 	const [cinta, setCinta] = useState<String[]>([
 		"",
@@ -48,20 +48,29 @@ export default function Home() {
 	const [tablaEstados, setTablaEstados] = useState<string[]>(["R", "L", "L"]);
 	const [estadoActual, setEstadoActual] = useState<number>(0);
 
-	const [text, onChangeText] = React.useState<string>(" ");
+	/* 
+		1 [ "a"   "b"   "c"]
+		2 [ "R/2","L/3, "R/2"]
+		3 [ "L/2","L/2","R/2"]
+	*/
 
+	const [text, onChangeText] = React.useState<string>("");
+
+	useEffect(() => {
+	  ejecutarEstadoNuevo()
+	}, [estadoActual])
+	
 	function moverseDerecha() {
 		if (cinta.length - 1 === indiceActual) {
 			setCinta((prevState) => [...prevState, " "]);
 		}
-		setIndiceActual(prevIndiceActual => prevIndiceActual + 1);
+		setIndiceActual((prevIndiceActual) => prevIndiceActual + 1);
 	}
 
 	function moverseIzquierda() {
 		if (indiceActual === 0) {
 			setCinta((prevState) => [" ", ...prevState]);
-		} 
-		else setIndiceActual(prevIndiceActual => prevIndiceActual - 1);
+		} else setIndiceActual((prevIndiceActual) => prevIndiceActual - 1);
 	}
 
 	function saltarPosicionCinta(posicion: number) {
@@ -87,7 +96,12 @@ export default function Home() {
 	function Cinta() {
 		return (
 			<View style={styles(colors).cintaContainer}>
-				<ScrollView style={{ alignSelf: "center" }} horizontal={true}>
+				<ScrollView
+						style={{ alignSelf: "center", height:80 }}
+						horizontal={true}
+						alwaysBounceHorizontal={true}
+						centerContent={true}
+					>
 					{cinta.map((caracter, index) => {
 						return (
 							<View
@@ -131,28 +145,27 @@ export default function Home() {
 		if (tablaEstados[estadoActual] === "R") {
 			console.log("🚀 Derecha:", estadoActual);
 			moverseDerecha();
-		} 
-		else if (tablaEstados[estadoActual] === "L") {
+		} else if (tablaEstados[estadoActual] === "L") {
 			console.log("🚀 Izquierda:", estadoActual);
 			moverseIzquierda();
 		}
-	}
+	};
 
 	function siguienteEstado() {
 		if (estadoActual < tablaEstados.length - 1) {
-			setEstadoActual(prevEstado => prevEstado+1)
-			ejecutarEstadoNuevo()
+			setEstadoActual((prevEstado) => prevEstado + 1);
+			ejecutarEstadoNuevo();
 		}
 	}
 
 	function anteriorEstado() {
 		if (estadoActual > 0) {
-			setEstadoActual(prevEstado => prevEstado-1)
-			ejecutarEstadoNuevo()
+			setEstadoActual((prevEstado) => prevEstado - 1);
+			ejecutarEstadoNuevo();
 		}
 	}
 
-	function TablaEstados() {
+	/* function TablaEstados() {
 		return (
 			<View style={[styles(colors).tablaEstadosContainer]}>
 				<View style={{ flexDirection: "row", gap: 6 }}>
@@ -182,11 +195,15 @@ export default function Home() {
 						icon={faArrowRight}
 					/>
 				</View>
-				<Text style={{color: colors.onBackground}}>{"estadoActual: " + estadoActual}</Text>
-				<Text style={{color: colors.onBackground}}>{"estadoActualNombre: " + tablaEstados[estadoActual]}</Text>
+				<Text style={{ color: colors.onBackground }}>
+					{"estadoActual: " + estadoActual}
+				</Text>
+				<Text style={{ color: colors.onBackground }}>
+					{"estadoActualNombre: " + tablaEstados[estadoActual]}
+				</Text>
 			</View>
 		);
-	}
+	} */
 
 	return (
 		<View style={styles(colors).container}>
@@ -196,8 +213,10 @@ export default function Home() {
 				<Cinta />
 
 				<View style={styles(colors).controlsContainer}>
-					<Text style={{color: colors.onBackground}}>{cinta}</Text>
-					<Text style={{color: colors.onBackground}}>{indiceActual + " => " + cinta[indiceActual]} </Text>
+					<Text style={{ color: colors.onBackground }}>{cinta}</Text>
+					<Text style={{ color: colors.onBackground }}>
+						{indiceActual + " => " + cinta[indiceActual]}{" "}
+					</Text>
 
 					<View style={styles(colors).buttonsContainer}>
 						<TouchableOpacity
@@ -255,81 +274,82 @@ export default function Home() {
 	);
 }
 
-const styles = (colors: Theme) => StyleSheet.create({
-	button: {
-		flexDirection: "row",
-		height: 48,
-		width: "auto",
-		gap: 6,
-		paddingHorizontal: 12,
-		backgroundColor: colors.secondary,
-		alignItems: "center",
-		justifyContent: "center",
-		borderRadius: 8,
-	},
-	buttonsContainer: {
-		flexDirection: "row",
-		gap: 10,
-		marginVertical: 10,
-	},
-	container: {
-		flex: 1,
-		flexDirection: "column",
-		height: "100%",
-		backgroundColor: colors.background,
-		alignItems: "center",
-		justifyContent: "space-between",
-	},
-	controlsContainer: {
-		flex: 1,
-		flexDirection: "column",
-		justifyContent: "flex-start",
-		alignItems: "center",
-		marginVertical: 32,
-		width: "100%",
-	},
-	cintaContainer: {
-		flexDirection: "row",
-		gap: 2,
-		width: "100%",
-		justifyContent: "center",
-		marginVertical: 32,
-	},
-	input: {
-		height: 40,
-		width: 200,
-		marginVertical: 16,
-		marginHorizontal: 8,
-		padding: 10,
-		color: colors.onBackground,
-		backgroundColor: colors.background
-	},
-	fieldContainer: {
-		flexDirection: "row",
-		width: "100%",
-		height: "auto",
-		justifyContent: "center",
-		alignItems: "center",
-		gap: 6,
-	},
-	mainContentContainer: {
-		flex: 1,
-		width: "100%",
-		justifyContent: "space-between",
-		alignItems: "center",
-	},
-	setCharacterButton: {
-		height: 40,
-		width: 40,
-		backgroundColor: colors.secondary,
-		alignItems: "center",
-		justifyContent: "center",
-		borderRadius: 32,
-	},
-	tablaEstadosContainer: {
-		marginHorizontal: 12,
-		borderWidth: 1,
-		borderColor: colors.neutral,
-		width: "90%",
-	},
-});
+const styles = (colors: Theme) =>
+	StyleSheet.create({
+		button: {
+			flexDirection: "row",
+			height: 48,
+			width: "auto",
+			gap: 6,
+			paddingHorizontal: 12,
+			backgroundColor: colors.secondary,
+			alignItems: "center",
+			justifyContent: "center",
+			borderRadius: 8,
+		},
+		buttonsContainer: {
+			flexDirection: "row",
+			gap: 10,
+			marginVertical: 10,
+		},
+		container: {
+			flex: 1,
+			flexDirection: "column",
+			height: "100%",
+			backgroundColor: colors.background,
+			alignItems: "center",
+			justifyContent: "space-between",
+		},
+		controlsContainer: {
+			flex: 1,
+			flexDirection: "column",
+			justifyContent: "flex-start",
+			alignItems: "center",
+			marginVertical: 32,
+			width: "100%",
+		},
+		cintaContainer: {
+			flexDirection: "row",
+			gap: 2,
+			width: "100%",
+			justifyContent: "center",
+			marginVertical: 32,
+		},
+		input: {
+			height: 40,
+			width: 200,
+			marginVertical: 16,
+			marginHorizontal: 8,
+			padding: 10,
+			color: colors.onBackground,
+			backgroundColor: colors.background,
+		},
+		fieldContainer: {
+			flexDirection: "row",
+			width: "100%",
+			height: "auto",
+			justifyContent: "center",
+			alignItems: "center",
+			gap: 6,
+		},
+		mainContentContainer: {
+			flex: 1,
+			width: "100%",
+			justifyContent: "space-between",
+			alignItems: "center",
+		},
+		setCharacterButton: {
+			height: 40,
+			width: 40,
+			backgroundColor: colors.secondary,
+			alignItems: "center",
+			justifyContent: "center",
+			borderRadius: 32,
+		},
+		tablaEstadosContainer: {
+			marginHorizontal: 12,
+			borderWidth: 1,
+			borderColor: colors.neutral,
+			width: "90%",
+		},
+	});
