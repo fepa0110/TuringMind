@@ -29,36 +29,35 @@ import { TablaEstados } from "./components/TablaEstados";
 export default function Home() {
 	const { getTheme } = useTheme();
 	const colors = getTheme();
+	
+	const caracterVacio : string = "$"
 
 	const [cinta, setCinta] = useState<String[]>([
-		"$",
+		caracterVacio,
 		"0",
 		"0",
 		"1",
-		"$",
-		"$",
-		"$",
-		"$",
-		"$",
-		"$"
+		caracterVacio,
+		caracterVacio,
+		caracterVacio,
+		caracterVacio,
+		caracterVacio,
+		caracterVacio
 	]);
 	const [indiceActual, setIndiceActual] = useState<number>(0);
-
-	const [tablaEstados, setTablaEstados] = useState<string[]>(["R", "L", "L"]);
-	const [estadoActual, setEstadoActual] = useState<number>(0);
 
 	const [caracterIngresado, onChangeCaracterIngresado] = React.useState<string>("");
 
 	function moverseDerecha() {
 		if (cinta.length - 1 === indiceActual) {
-			setCinta((prevState) => [...prevState, " "]);
+			setCinta((prevState) => [...prevState, caracterVacio]);
 		}
 		setIndiceActual((prevIndiceActual) => prevIndiceActual + 1);
 	}
 
 	function moverseIzquierda() {
 		if (indiceActual === 0) {
-			setCinta((prevState) => [" ", ...prevState]);
+			setCinta((prevState) => [caracterVacio, ...prevState]);
 		} else setIndiceActual((prevIndiceActual) => prevIndiceActual - 1);
 	}
 
@@ -79,7 +78,7 @@ export default function Home() {
 	function limpiarCaracterActual() {
 		setCinta(
 			cinta.map((caracterCinta, indexCaractetCinta) => {
-				return indexCaractetCinta === indiceActual ? "" : caracterCinta;
+				return indexCaractetCinta === indiceActual ? caracterVacio : caracterCinta;
 			})
 		);
 	}
