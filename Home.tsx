@@ -48,6 +48,21 @@ export default function Home() {
 
 	const [caracterIngresado, onChangeCaracterIngresado] = React.useState<string>("");
 
+	useEffect(() => {
+		setCinta([
+			caracterVacio,
+			"0",
+			"0",
+			"1",
+			caracterVacio,
+			caracterVacio,
+			caracterVacio,
+			caracterVacio,
+			caracterVacio,
+			caracterVacio
+		])
+	}, [caracterVacio])
+	
 	function moverseDerecha() {
 		if (cinta.length - 1 === indiceActual) {
 			setCinta((prevState) => [...prevState, caracterVacio]);
