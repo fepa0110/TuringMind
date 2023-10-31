@@ -31,35 +31,24 @@ export default function Home() {
 	const colors = getTheme();
 
 	const [cinta, setCinta] = useState<String[]>([
-		"",
-		"*",
-		"*",
-		"a",
-		"b",
-		"*",
-		"",
-		"",
-		"",
-		"",
-		"",
+		"$",
+		"0",
+		"0",
+		"1",
+		"$",
+		"$",
+		"$",
+		"$",
+		"$",
+		"$"
 	]);
 	const [indiceActual, setIndiceActual] = useState<number>(0);
 
 	const [tablaEstados, setTablaEstados] = useState<string[]>(["R", "L", "L"]);
 	const [estadoActual, setEstadoActual] = useState<number>(0);
 
-	/* 
-		1 [ "a"   "b"   "c"]
-		2 [ "R/2","L/3, "R/2"]
-		3 [ "L/2","L/2","R/2"]
-	*/
+	const [caracterIngresado, onChangeCaracterIngresado] = React.useState<string>("");
 
-	const [text, onChangeText] = React.useState<string>("");
-
-	useEffect(() => {
-	  ejecutarEstadoNuevo()
-	}, [estadoActual])
-	
 	function moverseDerecha() {
 		if (cinta.length - 1 === indiceActual) {
 			setCinta((prevState) => [...prevState, " "]);
@@ -77,10 +66,12 @@ export default function Home() {
 		setIndiceActual(posicion);
 	}
 
-	function setActualCaracter() {
+	function setActualCaracter(caracterNuevo: string) {
 		setCinta(
 			cinta.map((caracterCinta, indexCaractetCinta) => {
-				return indexCaractetCinta === indiceActual ? text : caracterCinta;
+				return indexCaractetCinta === indiceActual
+					? caracterNuevo
+					: caracterCinta;
 			})
 		);
 	}
@@ -97,11 +88,10 @@ export default function Home() {
 		return (
 			<View style={styles(colors).cintaContainer}>
 				<ScrollView
-						style={{ alignSelf: "center", height:80 }}
-						horizontal={true}
-						alwaysBounceHorizontal={true}
-						centerContent={true}
-					>
+					style={{ alignSelf: "center", height: 80 }}
+					horizontal={true}
+					alwaysBounceHorizontal={true}
+					centerContent={true}>
 					{cinta.map((caracter, index) => {
 						return (
 							<View
@@ -140,70 +130,6 @@ export default function Home() {
 			</View>
 		);
 	}
-
-	const ejecutarEstadoNuevo = () => {
-		if (tablaEstados[estadoActual] === "R") {
-			console.log("🚀 Derecha:", estadoActual);
-			moverseDerecha();
-		} else if (tablaEstados[estadoActual] === "L") {
-			console.log("🚀 Izquierda:", estadoActual);
-			moverseIzquierda();
-		}
-	};
-
-	function siguienteEstado() {
-		if (estadoActual < tablaEstados.length - 1) {
-			setEstadoActual((prevEstado) => prevEstado + 1);
-			ejecutarEstadoNuevo();
-		}
-	}
-
-	function anteriorEstado() {
-		if (estadoActual > 0) {
-			setEstadoActual((prevEstado) => prevEstado - 1);
-			ejecutarEstadoNuevo();
-		}
-	}
-
-	/* function TablaEstados() {
-		return (
-			<View style={[styles(colors).tablaEstadosContainer]}>
-				<View style={{ flexDirection: "row", gap: 6 }}>
-					{tablaEstados.map((estado, estadoIndex) => {
-						return (
-							<Text
-								key={"estadoTabla" + estadoIndex}
-								style={
-									estadoIndex === estadoActual
-										? { color: colors.primary }
-										: { color: colors.neutral }
-								}>
-								{estado}
-							</Text>
-						);
-					})}
-				</View>
-				<View
-					style={{
-						flexDirection: "row",
-						justifyContent: "center",
-						gap: 6,
-					}}>
-					<PrimaryIconButton onPress={anteriorEstado} icon={faArrowLeft} />
-					<PrimaryIconButton
-						onPress={siguienteEstado}
-						icon={faArrowRight}
-					/>
-				</View>
-				<Text style={{ color: colors.onBackground }}>
-					{"estadoActual: " + estadoActual}
-				</Text>
-				<Text style={{ color: colors.onBackground }}>
-					{"estadoActualNombre: " + tablaEstados[estadoActual]}
-				</Text>
-			</View>
-		);
-	} */
 
 	return (
 		<View style={styles(colors).container}>
@@ -245,8 +171,8 @@ export default function Home() {
 					<View style={styles(colors).fieldContainer}>
 						<TextInput
 							style={styles(colors).input}
-							onChangeText={onChangeText}
-							value={text}
+							onChangeText={onChangeCaracterIngresado}
+							value={caracterIngresado}
 							placeholder="Caracter actual"
 							placeholderTextColor={colors.onBackground}
 							cursorColor={colors.primary}
@@ -257,7 +183,7 @@ export default function Home() {
 						/>
 
 						<PrimaryIconButton
-							onPress={setActualCaracter}
+							onPress={() => setActualCaracter(caracterIngresado)}
 							icon={faArrowUp}
 						/>
 
@@ -267,7 +193,12 @@ export default function Home() {
 						/>
 					</View>
 
-					<TablaEstados />
+					<TablaEstados
+						caracterActualCinta={cinta[indiceActual]}
+						moverseDerecha={moverseDerecha}
+						moverseIzquierda={moverseIzquierda}
+						colocarCaracter={setActualCaracter}
+					/>
 				</View>
 			</View>
 		</View>

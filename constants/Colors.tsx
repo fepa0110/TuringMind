@@ -34,6 +34,10 @@ export const LightColors : Theme = {
     onSecondary: ColorsNames.WhiteSmoke,
 
     terciary: ColorsNames.Teal,
+
+    active: ColorsNames.Celadon,
+    onActive: ColorsNames.RaisinBlack,
+
     background: ColorsNames.WhiteSmoke,
     onBackground: ColorsNames.Night,
 
@@ -55,6 +59,9 @@ export const DarkColors : Theme = {
     onSecondary: ColorsNames.WhiteSmoke,
 
     terciary: ColorsNames.Teal,
+
+    active: ColorsNames.Celadon,
+    onActive: ColorsNames.RaisinBlack,
 
     background: ColorsNames.EerieBlack,
     onBackground: ColorsNames.WhiteSmoke,

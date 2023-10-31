@@ -1,19 +1,184 @@
-import React from "react";
+import React, { useState } from "react";
 import { Text, View } from "react-native";
 
 import AutomataJson from "../automata.json";
 import { Automata } from "../types/Automata";
 import { useTheme } from "../hooks/useTheme";
+import { Estado } from "../types/Estado";
+import { Transicion } from "../types/Transicion";
+import { PrimaryIconButton } from "./PrimaryIconButton";
 
-export function TablaEstados() {
-    const { getTheme } = useTheme()
-    const colors = getTheme()
+import { faAngleLeft, faAngleRight, faStepForward, faUndo } from "@fortawesome/free-solid-svg-icons";
+import { SecondaryIconButton } from "./SecondaryIconButton";
+
+interface TablaEstadosProps {
+	caracterActualCinta: String;
+	moverseDerecha: () => void;
+	moverseIzquierda: () => void;
+	colocarCaracter: (caracter: string) => void;
+}
+
+export function TablaEstados({
+	caracterActualCinta,
+	moverseDerecha,
+	moverseIzquierda,
+	colocarCaracter,
+}: TablaEstadosProps) {
+	const caracterVacio : string = "$"
+	const finAutomata : number = -1
+
+	const { getTheme } = useTheme();
+	const colors = getTheme();
 
 	const automata: Automata = AutomataJson;
+
+	const [estadoActual, setEstadoActual] = useState<Estado>(
+		automata.estados[0]
+	);
 
 	const caracteres: String[] = automata.estados[0].transiciones.map(
 		(transicion) => transicion.caracter
 	);
+
+	function isTransicionActual(estado: Estado, transicion: Transicion) {
+		return (
+			estado.nombre === estadoActual.nombre &&
+			transicion.caracter === caracterActualCinta
+		);
+	}
+
+	function CeldaEstadoTransicionActiva({
+		estado,
+		transicion,
+	}: {
+		estado: Estado;
+		transicion: Transicion;
+	}) {
+		return (
+			<View
+				key={"transicion" + estado.nombre + transicion.caracter}
+				style={{
+					borderWidth: 1,
+					borderColor: colors.secondary,
+					backgroundColor: isTransicionActual(estado, transicion)
+						? colors.active
+						: colors.background,
+					width: 50,
+					height: 32,
+					padding: 4,
+					justifyContent: "center",
+					alignItems: "center",
+				}}>
+				<Text style={{ fontSize: 16, color: colors.onActive }}>
+					{transicion.operacion}/{transicion.nuevoEstado}
+				</Text>
+			</View>
+		);
+	}
+
+	function CeldaEstadoTransicionInactiva({
+		estado,
+		transicion,
+	}: {
+		estado: Estado;
+		transicion: Transicion;
+	}) {
+		return (
+			<View
+				key={"transicion" + estado.nombre + transicion.caracter}
+				style={{
+					borderWidth: 1,
+					borderColor: colors.secondary,
+					backgroundColor: isTransicionActual(estado, transicion)
+						? colors.active
+						: colors.background,
+					width: 50,
+					height: 32,
+					padding: 4,
+					justifyContent: "center",
+					alignItems: "center",
+				}}>
+				<Text style={{ fontSize: 16, color: colors.onBackground }}>
+					{transicion.operacion}/{transicion.nuevoEstado}
+				</Text>
+			</View>
+		);
+	}
+
+	function RowEstado({ estado }: { estado: Estado }) {
+		return (
+			<View style={{ flexDirection: "row", gap: 5 }}>
+				{estado.transiciones.map((transicion) => {
+					return isTransicionActual(estado, transicion) ? (
+						<CeldaEstadoTransicionActiva
+							key={"celda" + estado.nombre + transicion.caracter}
+							estado={estado}
+							transicion={transicion}
+						/>
+					) : (
+						<CeldaEstadoTransicionInactiva
+							key={"celda" + estado.nombre + transicion.caracter}
+							estado={estado}
+							transicion={transicion}
+						/>
+					);
+				})}
+			</View>
+		);
+	}
+
+	function LabelsCaracteres() {
+		return (
+			<View style={{ flexDirection: "row", gap: 5, marginLeft: 14 }}>
+				{caracteres.map((caracter, indexCaracter) => {
+					return (
+						<View
+							key={"caracter" + indexCaracter}
+							style={{
+								width: 50,
+								height: 22,
+								justifyContent: "center",
+								alignItems: "center",
+							}}>
+							<Text style={{ fontSize: 16, color: colors.onBackground }}>
+								{caracter}
+							</Text>
+						</View>
+					);
+				})}
+			</View>
+		);
+	}
+
+	function ejecutarSiguienteTransicion() {
+		const transicionActual = estadoActual.transiciones.find((transicion) => {
+			return isTransicionActual(estadoActual, transicion);
+		});
+
+		if (transicionActual !== undefined) {
+			console.log(transicionActual?.operacion);
+			if (transicionActual.operacion === "R") moverseDerecha();
+			else if (transicionActual.operacion === "L") moverseIzquierda();
+			else if (transicionActual.operacion !== "-" && transicionActual.operacion !== caracterVacio) colocarCaracter(transicionActual.operacion);
+
+			if(transicionActual.nuevoEstado === finAutomata) {
+				reiniciarAutomata()
+				console.log("Automata finalizado")
+			}
+			else{
+				const estadoNuevo = automata.estados.find((estado)=> estado.nombre === transicionActual.nuevoEstado)
+			
+				if(estadoNuevo !== undefined) setEstadoActual(estadoNuevo)
+				else console.log("No existe el estado");
+			}
+
+		}
+	}
+
+	function reiniciarAutomata() {
+		setEstadoActual(automata.estados[0])
+		console.log("Automata reiniciado");
+	}
 
 	return (
 		<View
@@ -24,28 +189,9 @@ export function TablaEstados() {
 				width: "90%",
 				gap: 5,
 				paddingVertical: 6,
-                marginHorizontal: 6,
+				marginHorizontal: 6,
 			}}>
-			<View style={{ flexDirection: "row", gap: 5, marginLeft:14 }}>
-                    {caracteres.map((caracter, indexCaracter) => {
-                        return (
-                            <View
-                                key={
-                                    "caracter" + indexCaracter
-                                }
-                                style={{
-                                    width: 50,
-                                    height: 22,
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                }}>
-                                <Text style={{ fontSize: 16, color: colors.onBackground }}>
-                                    {caracter}
-                                </Text>
-                            </View>
-                        );
-                    })}
-                </View>
+			<LabelsCaracteres />
 
 			{automata.estados.map((estado, indexEstado) => {
 				return (
@@ -56,34 +202,35 @@ export function TablaEstados() {
 							alignItems: "center",
 							gap: 5,
 						}}>
-						<Text style={{ fontSize: 18, color: colors.onBackground }}>{estado.nombre}</Text>
+						<Text
+							style={{
+								fontSize: 18,
+								color:
+									estado.nombre === estadoActual.nombre
+										? colors.active
+										: colors.onBackground,
+							}}>
+							{estado.nombre}
+						</Text>
 
-						<View style={{ flexDirection: "row", gap: 5 }}>
-							{estado.transiciones.map((transicion, indexTransicion) => {
-								return (
-									<View
-										key={
-											"transicion" + estado.nombre + indexTransicion
-										}
-										style={{
-											borderWidth: 1,
-                                            borderColor: colors.secondary,
-											width: 50,
-											height: 32,
-                                            padding: 4,
-											justifyContent: "center",
-											alignItems: "center",
-										}}>
-										<Text style={{ fontSize: 16, color: colors.onBackground }}>
-											{transicion.operacion}/{transicion.nuevoEstado}
-										</Text>
-									</View>
-								);
-							})}
-						</View>
+						<RowEstado estado={estado} />
 					</View>
 				);
 			})}
+
+			<View
+				style={{
+					flex: 1,
+					flexDirection: "row",
+					gap: 5,
+					marginVertical: 6,
+				}}>
+				<PrimaryIconButton
+					icon={faAngleRight}
+					onPress={ejecutarSiguienteTransicion}
+				/>
+				<SecondaryIconButton icon={faUndo} onPress={reiniciarAutomata} />
+			</View>
 		</View>
 	);
 }

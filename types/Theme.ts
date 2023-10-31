@@ -7,6 +7,9 @@ export interface Theme {
 
     terciary: string,
 
+    active: string,
+    onActive: string,
+
     background: string,
     onBackground: string,
     
