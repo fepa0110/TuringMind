@@ -69,7 +69,9 @@ export function TablaEstados({
 					justifyContent: "center",
 					alignItems: "center",
 				}}>
-				<Text style={{ fontSize: 16, color: colors.onActive }}>
+				<Text style={{ fontSize: 16, 
+					// fontFamily: "Play_400Regular", 
+					color: colors.onActive }}>
 					{transicion.operacion}/{transicion.nuevoEstado}
 				</Text>
 			</View>
@@ -98,7 +100,9 @@ export function TablaEstados({
 					justifyContent: "center",
 					alignItems: "center",
 				}}>
-				<Text style={{ fontSize: 16, color: colors.onBackground }}>
+				<Text style={{ fontSize: 16, 
+					// fontFamily: "Play_400Regular",
+					color: colors.onBackground }}>
 					{transicion.operacion}/{transicion.nuevoEstado}
 				</Text>
 			</View>
@@ -189,7 +193,7 @@ export function TablaEstados({
 				width: "90%",
 				gap: 5,
 				paddingVertical: 6,
-				marginHorizontal: 6,
+				marginHorizontal: 6
 			}}>
 			<LabelsCaracteres />
 
@@ -205,6 +209,7 @@ export function TablaEstados({
 						<Text
 							style={{
 								fontSize: 18,
+								// fontFamily: "Play_400Regular",
 								color:
 									estado.nombre === estadoActual.nombre
 										? colors.active

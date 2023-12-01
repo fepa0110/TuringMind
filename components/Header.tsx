@@ -34,7 +34,7 @@ export function Header() {
 						/>
 
 						<Text style={{ color: colors.onPrimary, fontWeight: "bold" }}>
-							Maquina de Turing
+							Matur
 						</Text>
 					</View>
 

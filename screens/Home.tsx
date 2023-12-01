@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
 
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+
 import {
 	faArrowRight,
 	faArrowLeft,
@@ -10,6 +11,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 
 import {
+	FlatList,
 	ScrollView,
 	StyleSheet,
 	Text,
@@ -18,19 +20,20 @@ import {
 	View,
 } from "react-native";
 
-import { Celda } from "./components/Celda";
-import { Header } from "./components/Header";
-import { PrimaryIconButton } from "./components/PrimaryIconButton";
-import { SecondaryIconButton } from "./components/SecondaryIconButton";
-import { useTheme } from "./hooks/useTheme";
-import { Theme } from "./types/Theme";
-import { TablaEstados } from "./components/TablaEstados";
+import { Theme } from "../types/Theme";
+import { useTheme } from "../hooks/useTheme";
 
-export default function Home() {
+import { Celda } from "../components/Celda";
+import { Header } from "../components/Header";
+import { PrimaryIconButton } from "../components/PrimaryIconButton";
+import { SecondaryIconButton } from "../components/SecondaryIconButton";
+import { TablaEstados } from "../components/TablaEstados";
+
+export default function Home() {		
 	const { getTheme } = useTheme();
 	const colors = getTheme();
-	
-	const caracterVacio : string = "$"
+
+	const caracterVacio: string = "$";
 
 	const [cinta, setCinta] = useState<String[]>([
 		caracterVacio,
@@ -42,11 +45,12 @@ export default function Home() {
 		caracterVacio,
 		caracterVacio,
 		caracterVacio,
-		caracterVacio
+		caracterVacio,
 	]);
 	const [indiceActual, setIndiceActual] = useState<number>(0);
 
-	const [caracterIngresado, onChangeCaracterIngresado] = React.useState<string>("");
+	const [caracterIngresado, onChangeCaracterIngresado] =
+		React.useState<string>("");
 
 	useEffect(() => {
 		setCinta([
@@ -59,10 +63,10 @@ export default function Home() {
 			caracterVacio,
 			caracterVacio,
 			caracterVacio,
-			caracterVacio
-		])
-	}, [caracterVacio])
-	
+			caracterVacio,
+		]);
+	}, [caracterVacio]);
+
 	function moverseDerecha() {
 		if (cinta.length - 1 === indiceActual) {
 			setCinta((prevState) => [...prevState, caracterVacio]);
@@ -93,70 +97,125 @@ export default function Home() {
 	function limpiarCaracterActual() {
 		setCinta(
 			cinta.map((caracterCinta, indexCaractetCinta) => {
-				return indexCaractetCinta === indiceActual ? caracterVacio : caracterCinta;
+				return indexCaractetCinta === indiceActual
+					? caracterVacio
+					: caracterCinta;
 			})
 		);
 	}
 
 	function Cinta() {
 		return (
-			<View style={styles(colors).cintaContainer}>
-				<ScrollView
-					style={{ alignSelf: "center", height: 80 }}
-					horizontal={true}
-					alwaysBounceHorizontal={true}
-					centerContent={true}>
-					{cinta.map((caracter, index) => {
-						return (
-							<View
-								key={"viewCelda" + index}
-								style={{
-									flex: 1,
-									flexDirection: "column",
-									alignItems: "center",
-									marginHorizontal: 2,
-								}}>
-								<TouchableOpacity
-									onPress={() => saltarPosicionCinta(index)}
+			<View
+				style={{
+					flexDirection: "column",
+					width: "100%",
+					marginVertical: 10,
+					gap: 10,
+					justifyContent: "center",
+					alignItems: "center",
+				}}>
+				<View style={styles(colors).cintaContainer}>
+					<ScrollView
+						style={{
+							alignSelf: "center",
+							alignContent: "center",
+							height: "auto",
+							width: "100%",
+							// borderTopWidth: 1,
+							// borderBottomWidth: 1,
+							borderWidth: 1,
+							borderEndColor: colors.error,
+							borderColor: colors.outline,
+							borderStyle: "dashed",
+							paddingVertical: 3,
+						}}
+						horizontal={true}
+						alwaysBounceHorizontal={true}
+						centerContent={true}
+						showsHorizontalScrollIndicator={false}>
+						{cinta.map((caracter, index) => {
+							return (
+								<View
+									key={"viewCaracter" + index}
 									style={{
+										flexDirection: "row",
+										justifyContent: "center",
+									}}>
+									<Text
+										key={"caracter" + index}
+										style={{
+											color:
+												index != indiceActual
+													? colors.onBackground
+													: colors.active,
+											textAlign: "center",
+										}}>
+										{caracter}
+									</Text>
+								</View>
+							);
+						})}
+					</ScrollView>
+				</View>
+				<View style={styles(colors).cintaContainer}>
+					<ScrollView
+						style={{ alignSelf: "center", height: "auto" }}
+						horizontal={true}
+						alwaysBounceHorizontal={true}
+						centerContent={true}>
+						{cinta.map((caracter, index) => {
+							return (
+								<View
+									key={"viewCelda" + index}
+									style={{
+										flex: 1,
 										flexDirection: "column",
 										alignItems: "center",
+										marginHorizontal: 2,
 									}}>
-									<Celda
-										key={"caracter" + index}
-										caracter={caracter}
-									/>
-									{index == indiceActual ? (
-										<FontAwesomeIcon
-											style={{
-												marginVertical: 5,
-												color: colors.secondary,
-											}}
-											icon={faArrowUpLong}
-											size={24}
+									<TouchableOpacity
+										onPress={() => saltarPosicionCinta(index)}
+										style={{
+											flexDirection: "column",
+											alignItems: "center",
+										}}>
+										<Celda
+											key={"caracter" + index}
+											caracter={caracter}
 										/>
-									) : null}
-								</TouchableOpacity>
-							</View>
-						);
-					})}
-				</ScrollView>
+										{index == indiceActual ? (
+											<FontAwesomeIcon
+												style={{
+													marginVertical: 5,
+													color: colors.secondary,
+												}}
+												icon={faArrowUpLong}
+												size={24}
+											/>
+										) : null}
+									</TouchableOpacity>
+								</View>
+							);
+						})}
+					</ScrollView>
+				</View>
 			</View>
 		);
 	}
 
 	return (
 		<View style={styles(colors).container}>
-			<Header />
+			{/* <Header /> */}
 
 			<View style={styles(colors).mainContentContainer}>
 				<Cinta />
 
 				<View style={styles(colors).controlsContainer}>
-					<Text style={{ color: colors.onBackground }}>{cinta}</Text>
+					{/* <Text style={{ color: colors.onBackground }}>{cinta}</Text>
 					<Text style={{ color: colors.onBackground }}>
 						{indiceActual + " => " + cinta[indiceActual]}{" "}
-					</Text>
+					</Text> */}
 
 					<View style={styles(colors).buttonsContainer}>
 						<TouchableOpacity
@@ -241,9 +300,9 @@ const styles = (colors: Theme) =>
 			flex: 1,
 			flexDirection: "column",
 			height: "100%",
-			backgroundColor: colors.background,
 			alignItems: "center",
 			justifyContent: "space-between",
+			backgroundColor: colors.background
 		},
 		controlsContainer: {
 			flex: 1,
@@ -258,7 +317,7 @@ const styles = (colors: Theme) =>
 			gap: 2,
 			width: "100%",
 			justifyContent: "center",
-			marginVertical: 32,
+			alignItems: "center"
 		},
 		input: {
 			height: 40,
@@ -268,6 +327,7 @@ const styles = (colors: Theme) =>
 			padding: 10,
 			color: colors.onBackground,
 			backgroundColor: colors.background,
+			// fontFamily: "Play_400Regular"
 		},
 		fieldContainer: {
 			flexDirection: "row",
@@ -296,5 +356,6 @@ const styles = (colors: Theme) =>
 			borderWidth: 1,
 			borderColor: colors.neutral,
 			width: "90%",
+			// fontFamily: "Play_400Regular"
 		},
 	});

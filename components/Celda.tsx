@@ -15,7 +15,9 @@ export function Celda({ caracter } : CeldaProps) {
 
     return(
         <View style={styles.celdaContainer}>
-            <Text style={{ fontSize: 18, color: Colors.onBackground }}>
+            <Text style={{ fontSize: 18, 
+                // fontFamily: "Play_400Regular",
+                color: Colors.onBackground }}>
                 {caracter}
             </Text>
         </View>
