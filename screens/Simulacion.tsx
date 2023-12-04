@@ -27,9 +27,9 @@ import { Celda } from "../components/Celda";
 import { Header } from "../components/Header";
 import { PrimaryIconButton } from "../components/PrimaryIconButton";
 import { SecondaryIconButton } from "../components/SecondaryIconButton";
-import { TablaEstados } from "../components/TablaEstados";
+import { TablaEstadosSimulacion } from "../components/TablaEstadosSimulacion";
 
-export default function Home() {		
+export default function Simulacion() {		
 	const { getTheme } = useTheme();
 	const colors = getTheme();
 
@@ -266,7 +266,7 @@ export default function Home() {
 						/>
 					</View>
 
-					<TablaEstados
+					<TablaEstadosSimulacion
 						caracterActualCinta={cinta[indiceActual]}
 						moverseDerecha={moverseDerecha}
 						moverseIzquierda={moverseIzquierda}

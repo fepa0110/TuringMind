@@ -3,21 +3,20 @@ import { useFonts, Play_400Regular } from "@expo-google-fonts/play";
 
 import { ThemeProvider } from "./context/theme";
 
-import Home from "./screens/Home";
-import Biblioteca from "./screens/Biblioteca";
-
 import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+import 'react-native-gesture-handler';
 
 import { Header } from "./components/Header";
 
-import { createDrawerNavigator } from "@react-navigation/drawer";
 import { useTheme } from "./hooks/useTheme";
 import { View, Text } from "react-native";
 import SwitchThemeButton from "./components/SwitchThemeButton";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import * as SplashScreen from "expo-splash-screen";
+import { BibliotecaNavigation } from "./navigation/BibliotecaNavigation";
+import Simulacion from "./screens/Simulacion";
 
 const DrawerNavigatorApp = createDrawerNavigator();
 
@@ -103,10 +102,15 @@ export default function App() {
 						headerRight: SwitchThemeButton,
 						headerRightContainerStyle: {paddingRight: "3%"}
 					}}>
-					<DrawerNavigatorApp.Screen name="Home" component={Home} />
+					<DrawerNavigatorApp.Screen 
+						name="Simulación" 
+						component={Simulacion} 
+						options={{ title: "Simulación"  }}
+					/>
 					<DrawerNavigatorApp.Screen
-						name="Biblioteca"
-						component={Biblioteca}
+						name="BibliotecaNavigation"
+						component={BibliotecaNavigation}
+						options={{ title: "Biblioteca"  }}
 					/>
 				</DrawerNavigatorApp.Navigator>
 			</NavigationContainer>

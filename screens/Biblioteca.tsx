@@ -1,14 +1,27 @@
-import { ScrollView, StyleSheet, Text, View } from "react-native";
+import {
+	ScrollView,
+	StyleSheet,
+	Text,
+	TouchableOpacity,
+	View,
+} from "react-native";
 import React from "react";
+
 import { useTheme } from "../hooks/useTheme";
 import { Theme } from "../types/Theme";
+
 import { FlashList } from "@shopify/flash-list";
 
 import { Automata } from "../types/Automata";
 
 import AutomataJson from "../automata.json";
+import { StackScreenProps } from "@react-navigation/stack";
+import { BibliotecaNavigationStackParamList } from "../navigation/types/BibliotecaNavigationType";
 
-export default function Biblioteca() {
+type BibliotecaNavigationProps = StackScreenProps<BibliotecaNavigationStackParamList, 'Biblioteca'>;
+
+export default function Biblioteca({ navigation } : BibliotecaNavigationProps) {
+
 	const { getTheme } = useTheme();
 	const colors = getTheme();
 
@@ -16,10 +29,16 @@ export default function Biblioteca() {
 
 	const AutomataItem = ({ item }: { item: Automata }) => {
 		return (
-			<View style={styles().automataItemContainer}>
+			<TouchableOpacity
+				style={styles().automataItemContainer}
+				onPress={() => {
+					navigation.navigate('VerAutomata', { automata: item})
+				}}>
 				<Text style={styles().itemPrimaryLabel}>{item.nombre}</Text>
-				<Text style={styles().itemSecondaryLabel}>{item.estados.length + " estados"}</Text>
-			</View>
+				<Text style={styles().itemSecondaryLabel}>
+					{item.estados.length + " estados"}
+				</Text>
+			</TouchableOpacity>
 		);
 	};
 
@@ -42,7 +61,7 @@ const styles = (colors = useTheme().getTheme()) =>
 			flex: 1,
 			flexDirection: "column",
 			alignItems: "flex-start",
-      justifyContent: "center",
+			justifyContent: "center",
 			height: 60,
 			width: "100%",
 			backgroundColor: colors.background,

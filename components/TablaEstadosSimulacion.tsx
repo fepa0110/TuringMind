@@ -11,19 +11,19 @@ import { PrimaryIconButton } from "./PrimaryIconButton";
 import { faAngleLeft, faAngleRight, faStepForward, faUndo } from "@fortawesome/free-solid-svg-icons";
 import { SecondaryIconButton } from "./SecondaryIconButton";
 
-interface TablaEstadosProps {
+interface TablaEstadosSimulacionProps {
 	caracterActualCinta: String;
 	moverseDerecha: () => void;
 	moverseIzquierda: () => void;
 	colocarCaracter: (caracter: string) => void;
 }
 
-export function TablaEstados({
+export function TablaEstadosSimulacion({
 	caracterActualCinta,
 	moverseDerecha,
 	moverseIzquierda,
 	colocarCaracter,
-}: TablaEstadosProps) {
+}: TablaEstadosSimulacionProps) {
 	const caracterVacio : string = "$"
 	const finAutomata : number = -1
 
