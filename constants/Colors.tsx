@@ -79,7 +79,7 @@ export const DarkColors : Theme = {
     terciary: ColorsNames.Teal,
 
     active: ColorsNames.KellyGreen,
-    onActive: ColorsNames.RaisinBlack,
+    onActive: ColorsNames.WhiteSmoke,
 
     background: ColorsNames.EerieBlack,
     onBackground: ColorsNames.WhiteSmoke,
