@@ -1,23 +1,40 @@
 import { Theme } from "../types/Theme"
 
 const ColorsNames = {
+    // Claros
     WhiteSmoke: "#F5F5F5",
 
+    // Rojos
     ImperialRed: "#F93943",
     Carmine: "#931F1D",
     Crimson: "#D91E36",
     Tomato: "#FC5130",
     
+    // Azules
     PalatinateBlue: "#473BF0",
+    PolynesianBlue: "#1F487E",
     SlateBlue: "#6665DD",
     ArgentinianBlue: "#49B6FF",
     CelestialBlue: "#008DD5",
-    
-    Celadon: "#8FDC97",
+    Verdigris: "#75B9BE",
+    FluorescentCyan: "#7CFEF0",
+    PrincessCyan: "#01BAEF",
+
+    // Verdosos
+    Celadon: "#8FCB9B",
     Teal: "#087E8B",
     DarkSlateGray: "#255957",
-    TimberWolf: "#CDD3CEAA",
+    DarkCyan: "#4B8F8C",
+    ShamrockGreen: "#28965A",
+    Aquamarine: "#2CEAA3",
+    KellyGreen: "#38A700",
     
+    // Grises
+    ToupeGray: "#7F7B82",
+    TimberWolf: "#CDD3CEAA",
+    Silver: "#B0BBBF",
+    
+    // Oscuros
     Jet: "#2E2F2F",
     Night: "#0D160B",
     RaisinBlack: "#232020",
@@ -26,6 +43,7 @@ const ColorsNames = {
     EerieBlack: "#1A1D1A"
 }
 
+// Colores originales
 export const LightColors : Theme = {
     primary: ColorsNames.Crimson,
     onPrimary: ColorsNames.WhiteSmoke,
@@ -35,8 +53,8 @@ export const LightColors : Theme = {
 
     terciary: ColorsNames.Teal,
 
-    active: ColorsNames.Celadon,
-    onActive: ColorsNames.RaisinBlack,
+    active: ColorsNames.KellyGreen,
+    onActive: ColorsNames.WhiteSmoke,
 
     background: ColorsNames.WhiteSmoke,
     onBackground: ColorsNames.Night,
@@ -47,9 +65,9 @@ export const LightColors : Theme = {
     neutral: ColorsNames.RaisinBlack,
     neutralVariant: ColorsNames.Jet,
 
-    outline: ColorsNames.TimberWolf,
+    outline: ColorsNames.Silver,
     onOutline: ColorsNames.RaisinBlack,
-}
+} 
 
 export const DarkColors : Theme = {
     primary: ColorsNames.Crimson,
@@ -60,7 +78,7 @@ export const DarkColors : Theme = {
 
     terciary: ColorsNames.Teal,
 
-    active: ColorsNames.Celadon,
+    active: ColorsNames.KellyGreen,
     onActive: ColorsNames.RaisinBlack,
 
     background: ColorsNames.EerieBlack,

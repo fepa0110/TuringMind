@@ -28,44 +28,37 @@ import { Header } from "../components/Header";
 import { PrimaryIconButton } from "../components/PrimaryIconButton";
 import { SecondaryIconButton } from "../components/SecondaryIconButton";
 import { TablaEstadosSimulacion } from "../components/TablaEstadosSimulacion";
+import { useBiblioteca } from "../hooks/useBiblioteca";
+import Toast from "../components/Toast";
 
-export default function Simulacion() {		
+export default function Simulacion() {
 	const { getTheme } = useTheme();
 	const colors = getTheme();
 
-	const caracterVacio: string = "$";
+	const [showToast, setShowToast] = useState(false);
+	const [messageToast, setMessageToast] = useState("Automata finalizado");
+
+	const { caracterVacio } = useBiblioteca();
 
 	const [cinta, setCinta] = useState<String[]>([
-		caracterVacio,
-		"0",
-		"0",
-		"1",
-		caracterVacio,
 		caracterVacio,
 		caracterVacio,
 		caracterVacio,
 		caracterVacio,
 		caracterVacio,
 	]);
+
 	const [indiceActual, setIndiceActual] = useState<number>(0);
 
 	const [caracterIngresado, onChangeCaracterIngresado] =
 		React.useState<string>("");
 
-	useEffect(() => {
-		setCinta([
-			caracterVacio,
-			"0",
-			"0",
-			"1",
-			caracterVacio,
-			caracterVacio,
-			caracterVacio,
-			caracterVacio,
-			caracterVacio,
-			caracterVacio,
-		]);
-	}, [caracterVacio]);
+	function ejecutarToast() {
+		setShowToast(true);
+		setTimeout(() => {
+			setShowToast(false);
+		}, 5000);
+	}
 
 	function moverseDerecha() {
 		if (cinta.length - 1 === indiceActual) {
@@ -122,8 +115,6 @@ export default function Simulacion() {
 							alignContent: "center",
 							height: "auto",
 							width: "100%",
-							// borderTopWidth: 1,
-							// borderBottomWidth: 1,
 							borderWidth: 1,
 							borderEndColor: colors.error,
 							borderColor: colors.outline,
@@ -200,6 +191,18 @@ export default function Simulacion() {
 						})}
 					</ScrollView>
 				</View>
+				<View style={styles(colors).buttonsContainer}>
+					<PrimaryIconButton
+						icon={faArrowLeft}
+						onPress={moverseIzquierda}
+						size={48}
+					/>
+					<PrimaryIconButton
+						icon={faArrowRight}
+						onPress={moverseDerecha}
+						size={48}
+					/>
+				</View>
 			</View>
 		);
 	}
@@ -216,30 +219,6 @@ export default function Simulacion() {
 					<Text style={{ color: colors.onBackground }}>
 						{indiceActual + " => " + cinta[indiceActual]}{" "}
 					</Text> */}
-
-					<View style={styles(colors).buttonsContainer}>
-						<TouchableOpacity
-							style={styles(colors).button}
-							onPress={moverseIzquierda}
-							accessibilityLabel="Moverse a la izquierda">
-							<FontAwesomeIcon
-								style={{ color: colors.onSecondary }}
-								icon={faArrowLeft}
-								size={24}
-							/>
-						</TouchableOpacity>
-
-						<TouchableOpacity
-							style={styles(colors).button}
-							onPress={moverseDerecha}
-							accessibilityLabel="Moverse a la derecha">
-							<FontAwesomeIcon
-								style={{ color: colors.onSecondary }}
-								icon={faArrowRight}
-								size={24}
-							/>
-						</TouchableOpacity>
-					</View>
 
 					<View style={styles(colors).fieldContainer}>
 						<TextInput
@@ -271,9 +250,12 @@ export default function Simulacion() {
 						moverseDerecha={moverseDerecha}
 						moverseIzquierda={moverseIzquierda}
 						colocarCaracter={setActualCaracter}
+						onShowMessage={ejecutarToast}
 					/>
 				</View>
 			</View>
+
+			{showToast ? <Toast message={messageToast} type="info" /> : null}
 		</View>
 	);
 }
@@ -293,8 +275,7 @@ const styles = (colors: Theme) =>
 		},
 		buttonsContainer: {
 			flexDirection: "row",
-			gap: 10,
-			marginVertical: 10,
+			gap: 25,
 		},
 		container: {
 			flex: 1,
@@ -302,14 +283,13 @@ const styles = (colors: Theme) =>
 			height: "100%",
 			alignItems: "center",
 			justifyContent: "space-between",
-			backgroundColor: colors.background
+			backgroundColor: colors.background,
 		},
 		controlsContainer: {
 			flex: 1,
 			flexDirection: "column",
 			justifyContent: "flex-start",
 			alignItems: "center",
-			marginVertical: 32,
 			width: "100%",
 		},
 		cintaContainer: {
@@ -317,7 +297,7 @@ const styles = (colors: Theme) =>
 			gap: 2,
 			width: "100%",
 			justifyContent: "center",
-			alignItems: "center"
+			alignItems: "center",
 		},
 		input: {
 			height: 40,

@@ -5,7 +5,7 @@ import { ThemeProvider } from "./context/theme";
 
 import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
-import 'react-native-gesture-handler';
+import "react-native-gesture-handler";
 
 import { Header } from "./components/Header";
 
@@ -17,6 +17,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import * as SplashScreen from "expo-splash-screen";
 import { BibliotecaNavigation } from "./navigation/BibliotecaNavigation";
 import Simulacion from "./screens/Simulacion";
+import { Desarrollador } from "./screens/Desarrollador";
+import { BibliotecaProvider } from "./context/biblioteca";
 
 const DrawerNavigatorApp = createDrawerNavigator();
 
@@ -95,25 +97,32 @@ export default function App() {
 		// 	onLayout={onLayoutRootView}
 		// 	style={{ height: "100%", width: "100%" }}>
 		<ThemeProvider>
-			<NavigationContainer>
-				<DrawerNavigatorApp.Navigator
-					screenOptions={{
-						...globalNavigatorOptions,
-						headerRight: SwitchThemeButton,
-						headerRightContainerStyle: {paddingRight: "3%"}
-					}}>
-					<DrawerNavigatorApp.Screen 
-						name="Simulación" 
-						component={Simulacion} 
-						options={{ title: "Simulación"  }}
-					/>
-					<DrawerNavigatorApp.Screen
-						name="BibliotecaNavigation"
-						component={BibliotecaNavigation}
-						options={{ title: "Biblioteca"  }}
-					/>
-				</DrawerNavigatorApp.Navigator>
-			</NavigationContainer>
+			<BibliotecaProvider>
+				<NavigationContainer>
+					<DrawerNavigatorApp.Navigator
+						screenOptions={{
+							...globalNavigatorOptions,
+							headerRight: SwitchThemeButton,
+							headerRightContainerStyle: { paddingRight: "3%" },
+						}}>
+						<DrawerNavigatorApp.Screen
+							name="Simulación"
+							component={Simulacion}
+							options={{ title: "Simulación" }}
+						/>
+						<DrawerNavigatorApp.Screen
+							name="BibliotecaNavigation"
+							component={BibliotecaNavigation}
+							options={{ title: "Biblioteca" }}
+						/>
+						<DrawerNavigatorApp.Screen
+							name="Desarrollador"
+							component={Desarrollador}
+							options={{ title: "Desarrollador" }}
+						/>
+					</DrawerNavigatorApp.Navigator>
+				</NavigationContainer>
+			</BibliotecaProvider>
 		</ThemeProvider>
 		// </SafeAreaView>
 	);

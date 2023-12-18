@@ -1,5 +1,5 @@
 export interface Transicion{
     caracter: string;
-    operacion: string;
-    nuevoEstado: number;
+    operacion?: string;
+    nuevoEstado?: number;
 }

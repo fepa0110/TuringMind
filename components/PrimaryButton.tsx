@@ -1,25 +1,30 @@
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import React from "react";
-import { TouchableOpacity, StyleSheet, ActivityIndicator } from "react-native";
+import {
+	TouchableOpacity,
+	StyleSheet,
+	ActivityIndicator,
+	Text,
+} from "react-native";
 import { useTheme } from "../hooks/useTheme";
 import { Theme } from "../types/Theme";
 
-interface PrimaryIconButtonType {
+interface PrimaryButtonType {
 	onPress: () => void;
-	icon: IconDefinition;
+	text: string;
 	size?: number;
 	loading?: boolean;
 }
 
-export function PrimaryIconButton({
+export function PrimaryButton({
 	onPress,
-	icon,
+	text,
 	size,
 	loading,
-}: PrimaryIconButtonType) {
+}: PrimaryButtonType) {
 	const { getTheme } = useTheme();
-	const styles = stylesPrimaryIconButton(getTheme());
+	const styles = stylesPrimaryButton(getTheme());
 
 	if (loading === undefined) loading = false;
 
@@ -31,17 +36,13 @@ export function PrimaryIconButton({
 			{loading ? (
 				<ActivityIndicator size={28} color={getTheme().onSecondary} />
 			) : (
-				<FontAwesomeIcon
-					style={{ color: getTheme().onSecondary }}
-					icon={icon}
-					size={16}
-				/>
+				<Text style={styles.text}>{text}</Text>
 			)}
 		</TouchableOpacity>
 	);
 }
 
-const stylesPrimaryIconButton = (colors: Theme) =>
+const stylesPrimaryButton = (colors: Theme) =>
 	StyleSheet.create({
 		button: {
 			backgroundColor: colors.secondary,
@@ -49,4 +50,7 @@ const stylesPrimaryIconButton = (colors: Theme) =>
 			justifyContent: "center",
 			borderRadius: 32,
 		},
+		text: {
+            color: colors.onSecondary
+        },
 	});

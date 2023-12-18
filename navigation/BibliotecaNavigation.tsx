@@ -4,6 +4,9 @@ import Biblioteca from "../screens/Biblioteca";
 import VerAutomata from "../screens/VerAutomata";
 import { BibliotecaNavigationStackParamList } from "./types/BibliotecaNavigationType";
 import { ThemeProvider } from "../context/theme";
+import { CrearAutomataNavigation } from "./CrearAutomataNavigation";
+import { DefinirDatos } from "../screens/crear_automata/DefinirDatos";
+import DefinirTransiciones from "../screens/crear_automata/DefinirTransiciones";
 
 const BibliotecaStack =
 	createStackNavigator<BibliotecaNavigationStackParamList>();
@@ -20,6 +23,16 @@ export function BibliotecaNavigation() {
 				name="VerAutomata"
 				component={VerAutomata}
 				options={{ title: "Ver automata" }}
+			/>
+			<BibliotecaStack.Screen
+				name="DatosIniciales"
+				component={DefinirDatos}
+				options={{ title: "Datos iniciales" }}
+			/>
+			<BibliotecaStack.Screen
+				name="DefinirTransiciones"
+				component={DefinirTransiciones}
+				options={{ title: "Definir transiciones" }}
 			/>
 		</BibliotecaStack.Navigator>
 	);

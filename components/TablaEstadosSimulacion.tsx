@@ -1,21 +1,28 @@
 import React, { useState } from "react";
 import { Text, View } from "react-native";
 
-import AutomataJson from "../automata.json";
 import { Automata } from "../types/Automata";
 import { useTheme } from "../hooks/useTheme";
 import { Estado } from "../types/Estado";
 import { Transicion } from "../types/Transicion";
 import { PrimaryIconButton } from "./PrimaryIconButton";
 
-import { faAngleLeft, faAngleRight, faStepForward, faUndo } from "@fortawesome/free-solid-svg-icons";
+import {
+	faAngleLeft,
+	faAngleRight,
+	faStepForward,
+	faUndo,
+} from "@fortawesome/free-solid-svg-icons";
 import { SecondaryIconButton } from "./SecondaryIconButton";
+import { useBiblioteca } from "../hooks/useBiblioteca";
+import { ScrollView } from "react-native-gesture-handler";
 
 interface TablaEstadosSimulacionProps {
 	caracterActualCinta: String;
 	moverseDerecha: () => void;
 	moverseIzquierda: () => void;
 	colocarCaracter: (caracter: string) => void;
+	onShowMessage: () => void;
 }
 
 export function TablaEstadosSimulacion({
@@ -23,20 +30,20 @@ export function TablaEstadosSimulacion({
 	moverseDerecha,
 	moverseIzquierda,
 	colocarCaracter,
+	onShowMessage
 }: TablaEstadosSimulacionProps) {
-	const caracterVacio : string = "$"
-	const finAutomata : number = -1
+	const { automataActual, caracterVacio } = useBiblioteca();
+
+	const finAutomata: number = -1;
 
 	const { getTheme } = useTheme();
 	const colors = getTheme();
 
-	const automata: Automata = AutomataJson;
-
 	const [estadoActual, setEstadoActual] = useState<Estado>(
-		automata.estados[0]
+		automataActual.estados[0]
 	);
 
-	const caracteres: String[] = automata.estados[0].transiciones.map(
+	const caracteres: String[] = automataActual.estados[0].transiciones.map(
 		(transicion) => transicion.caracter
 	);
 
@@ -69,9 +76,12 @@ export function TablaEstadosSimulacion({
 					justifyContent: "center",
 					alignItems: "center",
 				}}>
-				<Text style={{ fontSize: 16, 
-					// fontFamily: "Play_400Regular", 
-					color: colors.onActive }}>
+				<Text
+					style={{
+						fontSize: 16,
+						// fontFamily: "Play_400Regular",
+						color: colors.onActive,
+					}}>
 					{transicion.operacion}/{transicion.nuevoEstado}
 				</Text>
 			</View>
@@ -100,9 +110,12 @@ export function TablaEstadosSimulacion({
 					justifyContent: "center",
 					alignItems: "center",
 				}}>
-				<Text style={{ fontSize: 16, 
-					// fontFamily: "Play_400Regular",
-					color: colors.onBackground }}>
+				<Text
+					style={{
+						fontSize: 16,
+						// fontFamily: "Play_400Regular",
+						color: colors.onBackground,
+					}}>
 					{transicion.operacion}/{transicion.nuevoEstado}
 				</Text>
 			</View>
@@ -163,79 +176,85 @@ export function TablaEstadosSimulacion({
 			console.log(transicionActual?.operacion);
 			if (transicionActual.operacion === "R") moverseDerecha();
 			else if (transicionActual.operacion === "L") moverseIzquierda();
-			else if (transicionActual.operacion !== "-" && transicionActual.operacion !== caracterVacio) colocarCaracter(transicionActual.operacion);
+			else if (
+				transicionActual.operacion !== "-" &&
+				transicionActual.operacion !== caracterVacio
+			)
+				colocarCaracter(transicionActual.operacion || caracterVacio);
 
-			if(transicionActual.nuevoEstado === finAutomata) {
-				reiniciarAutomata()
-				console.log("Automata finalizado")
-			}
-			else{
-				const estadoNuevo = automata.estados.find((estado)=> estado.nombre === transicionActual.nuevoEstado)
-			
-				if(estadoNuevo !== undefined) setEstadoActual(estadoNuevo)
+			if (transicionActual.nuevoEstado === finAutomata) {
+				onShowMessage();
+				reiniciarAutomata();
+				console.log("Automata finalizado");
+			} else {
+				const estadoNuevo = automataActual.estados.find(
+					(estado) => estado.nombre === transicionActual.nuevoEstado
+				);
+
+				if (estadoNuevo !== undefined) setEstadoActual(estadoNuevo);
 				else console.log("No existe el estado");
 			}
-
 		}
 	}
 
 	function reiniciarAutomata() {
-		setEstadoActual(automata.estados[0])
+		setEstadoActual(automataActual.estados[0]);
 		console.log("Automata reiniciado");
 	}
 
 	return (
-		<View
-			style={{
-				flexDirection: "column",
-				justifyContent: "center",
-				alignItems: "center",
-				width: "90%",
-				gap: 5,
-				paddingVertical: 6,
-				marginHorizontal: 6
-			}}>
-			<LabelsCaracteres />
-
-			{automata.estados.map((estado, indexEstado) => {
-				return (
-					<View
-						key={"estado" + estado.nombre}
-						style={{
-							flexDirection: "row",
-							alignItems: "center",
-							gap: 5,
-						}}>
-						<Text
-							style={{
-								fontSize: 18,
-								// fontFamily: "Play_400Regular",
-								color:
-									estado.nombre === estadoActual.nombre
-										? colors.active
-										: colors.onBackground,
-							}}>
-							{estado.nombre}
-						</Text>
-
-						<RowEstado estado={estado} />
-					</View>
-				);
-			})}
-
+		<ScrollView>
 			<View
 				style={{
-					flex: 1,
-					flexDirection: "row",
+					flexDirection: "column",
+					justifyContent: "center",
+					alignItems: "center",
+					width: "90%",
 					gap: 5,
-					marginVertical: 6,
+					paddingVertical: 6,
+					marginHorizontal: 6,
 				}}>
-				<PrimaryIconButton
-					icon={faAngleRight}
-					onPress={ejecutarSiguienteTransicion}
-				/>
-				<SecondaryIconButton icon={faUndo} onPress={reiniciarAutomata} />
+				<LabelsCaracteres />
+
+				{automataActual.estados.map((estado, indexEstado) => {
+					return (
+						<View
+							key={"estado" + estado.nombre}
+							style={{
+								flexDirection: "row",
+								alignItems: "center",
+								gap: 5,
+							}}>
+							<Text
+								style={{
+									fontSize: 18,
+									// fontFamily: "Play_400Regular",
+									color:
+										estado.nombre === estadoActual.nombre
+											? colors.active
+											: colors.onBackground,
+								}}>
+								{estado.nombre}
+							</Text>
+
+							<RowEstado estado={estado} />
+						</View>
+					);
+				})}
+				<View
+					style={{
+						flex: 1,
+						flexDirection: "row",
+						gap: 5,
+						marginVertical: 6,
+					}}>
+					<PrimaryIconButton
+						icon={faAngleRight}
+						onPress={ejecutarSiguienteTransicion}
+					/>
+					<SecondaryIconButton icon={faUndo} onPress={reiniciarAutomata} />
+				</View>
 			</View>
-		</View>
+		</ScrollView>
 	);
 }

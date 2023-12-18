@@ -24,10 +24,6 @@ export function TablaEstadosView({ automata }: TablaEstadosViewProps) {
 	const { getTheme } = useTheme();
 	const colors = getTheme();
 
-	const [estadoActual, setEstadoActual] = useState<Estado>(
-		automata.estados[0]
-	);
-
 	const caracteres: String[] = automata.estados[0].transiciones.map(
 		(transicion) => transicion.caracter
 	);
@@ -39,6 +35,15 @@ export function TablaEstadosView({ automata }: TablaEstadosViewProps) {
 		estado: Estado;
 		transicion: Transicion;
 	}) {
+		let textoCelda = "";
+		if (transicion.operacion !== undefined)
+			textoCelda = textoCelda.concat(transicion.operacion);
+
+		textoCelda = textoCelda.concat("/");
+
+		if (transicion.nuevoEstado !== undefined)
+			textoCelda = textoCelda.concat(transicion.nuevoEstado.toString());
+
 		return (
 			<View
 				key={"transicion" + estado.nombre + transicion.caracter}
@@ -57,8 +62,9 @@ export function TablaEstadosView({ automata }: TablaEstadosViewProps) {
 						fontSize: 16,
 						// fontFamily: "Play_400Regular",
 						color: colors.onBackground,
+						textAlign: "center",
 					}}>
-					{transicion.operacion}/{transicion.nuevoEstado}
+					{textoCelda}
 				</Text>
 			</View>
 		);
@@ -129,10 +135,7 @@ export function TablaEstadosView({ automata }: TablaEstadosViewProps) {
 							style={{
 								fontSize: 18,
 								// fontFamily: "Play_400Regular",
-								color:
-									estado.nombre === estadoActual.nombre
-										? colors.active
-										: colors.onBackground,
+								color: colors.onBackground,
 							}}>
 							{estado.nombre}
 						</Text>
