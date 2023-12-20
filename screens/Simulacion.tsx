@@ -38,7 +38,7 @@ export default function Simulacion() {
 	const [showToast, setShowToast] = useState(false);
 	const [messageToast, setMessageToast] = useState("Automata finalizado");
 
-	const { caracterVacio } = useBiblioteca();
+	const { automataActual, caracterVacio, seleccionarAutomata } = useBiblioteca();
 
 	const [cinta, setCinta] = useState<String[]>([
 		caracterVacio,
@@ -53,6 +53,10 @@ export default function Simulacion() {
 	const [caracterIngresado, onChangeCaracterIngresado] =
 		React.useState<string>("");
 
+	useEffect(() => {
+	  seleccionarAutomata(0)
+	}, [])
+	
 	function ejecutarToast() {
 		setShowToast(true);
 		setTimeout(() => {
@@ -245,13 +249,14 @@ export default function Simulacion() {
 						/>
 					</View>
 
-					<TablaEstadosSimulacion
+					{automataActual ? <TablaEstadosSimulacion
+						automataActual={automataActual}
 						caracterActualCinta={cinta[indiceActual]}
 						moverseDerecha={moverseDerecha}
 						moverseIzquierda={moverseIzquierda}
 						colocarCaracter={setActualCaracter}
 						onShowMessage={ejecutarToast}
-					/>
+					/>: <Text>No se selecciono un automata</Text>}
 				</View>
 			</View>
 
@@ -307,7 +312,7 @@ const styles = (colors: Theme) =>
 			padding: 10,
 			color: colors.onBackground,
 			backgroundColor: colors.background,
-			// fontFamily: "Play_400Regular"
+			fontFamily: "Play-Regular",
 		},
 		fieldContainer: {
 			flexDirection: "row",
@@ -336,6 +341,5 @@ const styles = (colors: Theme) =>
 			borderWidth: 1,
 			borderColor: colors.neutral,
 			width: "90%",
-			// fontFamily: "Play_400Regular"
 		},
 	});

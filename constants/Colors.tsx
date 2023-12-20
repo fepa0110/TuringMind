@@ -11,8 +11,9 @@ const ColorsNames = {
     Tomato: "#FC5130",
     
     // Azules
-    PalatinateBlue: "#473BF0",
+    PalatinateBlue: "#473BF0FF",
     PolynesianBlue: "#1F487E",
+    PersianBlue: "#072AC8",
     SlateBlue: "#6665DD",
     ArgentinianBlue: "#49B6FF",
     CelestialBlue: "#008DD5",
@@ -45,7 +46,7 @@ const ColorsNames = {
 
 // Colores originales
 export const LightColors : Theme = {
-    primary: ColorsNames.Crimson,
+    primary: ColorsNames.PersianBlue,
     onPrimary: ColorsNames.WhiteSmoke,
 
     secondary: ColorsNames.PalatinateBlue,
@@ -70,7 +71,7 @@ export const LightColors : Theme = {
 } 
 
 export const DarkColors : Theme = {
-    primary: ColorsNames.Crimson,
+    primary: ColorsNames.PersianBlue,
     onPrimary: ColorsNames.WhiteSmoke,
 
     secondary: ColorsNames.PalatinateBlue,

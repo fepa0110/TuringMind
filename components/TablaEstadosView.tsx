@@ -17,16 +17,16 @@ import {
 import { SecondaryIconButton } from "./SecondaryIconButton";
 
 interface TablaEstadosViewProps {
-	automata: Automata;
+	automata: Automata | undefined;
 }
 
 export function TablaEstadosView({ automata }: TablaEstadosViewProps) {
 	const { getTheme } = useTheme();
 	const colors = getTheme();
 
-	const caracteres: String[] = automata.estados[0].transiciones.map(
+	const caracteres: String[] = automata ? automata?.estados[0].transiciones.map(
 		(transicion) => transicion.caracter
-	);
+	) : [];
 
 	function CeldaEstadoTransicion({
 		estado,
@@ -60,7 +60,7 @@ export function TablaEstadosView({ automata }: TablaEstadosViewProps) {
 				<Text
 					style={{
 						fontSize: 16,
-						// fontFamily: "Play_400Regular",
+						fontFamily: "Play-Regular",
 						color: colors.onBackground,
 						textAlign: "center",
 					}}>
@@ -99,7 +99,7 @@ export function TablaEstadosView({ automata }: TablaEstadosViewProps) {
 								justifyContent: "center",
 								alignItems: "center",
 							}}>
-							<Text style={{ fontSize: 16, color: colors.onBackground }}>
+							<Text style={{ fontSize: 16, color: colors.onBackground, fontFamily: "Play-Regular", }}>
 								{caracter}
 							</Text>
 						</View>
@@ -122,7 +122,7 @@ export function TablaEstadosView({ automata }: TablaEstadosViewProps) {
 			}}>
 			<LabelsCaracteres />
 
-			{automata.estados.map((estado, indexEstado) => {
+			{automata?.estados.map((estado, indexEstado) => {
 				return (
 					<View
 						key={"estado" + estado.nombre}
@@ -134,7 +134,7 @@ export function TablaEstadosView({ automata }: TablaEstadosViewProps) {
 						<Text
 							style={{
 								fontSize: 18,
-								// fontFamily: "Play_400Regular",
+								fontFamily: "Play-Regular",
 								color: colors.onBackground,
 							}}>
 							{estado.nombre}

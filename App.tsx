@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import { useFonts, Play_400Regular } from "@expo-google-fonts/play";
+import * as SplashScreen from "expo-splash-screen";
+import * as Font from "expo-font";
 
 import { ThemeProvider } from "./context/theme";
 
@@ -7,40 +8,61 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import "react-native-gesture-handler";
 
-import { Header } from "./components/Header";
-
 import { useTheme } from "./hooks/useTheme";
 import { View, Text } from "react-native";
 import SwitchThemeButton from "./components/SwitchThemeButton";
-import { SafeAreaView } from "react-native-safe-area-context";
 
-import * as SplashScreen from "expo-splash-screen";
 import { BibliotecaNavigation } from "./navigation/BibliotecaNavigation";
 import Simulacion from "./screens/Simulacion";
 import { Desarrollador } from "./screens/Desarrollador";
 import { BibliotecaProvider } from "./context/biblioteca";
+import * as AutomatasStorage from "./data/biblioteca/storage";
 
 const DrawerNavigatorApp = createDrawerNavigator();
 
-// SplashScreen.preventAutoHideAsync();
-
 export default function App() {
-	let [fontsLoaded, fontError] = useFonts({
-		Play_400Regular,
-	});
-
-	/* const onLayoutRootView = useCallback(async () => {
-		if (fontsLoaded || fontError) {
-			await SplashScreen.hideAsync();
-		}
-	}, [fontsLoaded, fontError]);
-
-	if (!fontsLoaded && !fontError) {
-		return null;
-	}
- */
+	const [appIsReady, setAppIsReady] = useState(false);
 	const { getTheme } = useTheme();
 	const colors = getTheme();
+
+	useEffect(() => {
+		async function prepare() {
+			try {
+				await SplashScreen.preventAutoHideAsync();
+
+				// Pre-load fonts, make any API calls you need to do here
+				await AutomatasStorage.createStorage()
+
+				Font.loadAsync({
+					"Play-Regular": require("./assets/fonts/Play-Regular.ttf"),
+					"Play-Bold": require("./assets/fonts/Play-Bold.ttf")
+				});
+
+				await new Promise((resolve) => setTimeout(resolve, 1000));
+			} catch (e) {
+				console.warn(e);
+			} finally {
+				setAppIsReady(true);
+			}
+		}
+
+		prepare();
+	}, []);
+
+	const onLayoutRootView = useCallback(async () => {
+		if (appIsReady) {
+			// This tells the splash screen to hide immediately! If we call this after
+			// `setAppIsReady`, then we may see a blank screen while the app is
+			// loading its initial state and rendering its first pixels. So instead,
+			// we hide the splash screen once we know the root view has already
+			// performed layout.
+			await SplashScreen.hideAsync();
+		}
+	}, [appIsReady]);
+
+	if (!appIsReady) {
+		return null;
+	}
 
 	const headerOptions = {
 		headerStyle: {
@@ -48,7 +70,7 @@ export default function App() {
 		},
 		headerTintColor: colors.onPrimary,
 		headerTitleStyle: {
-			// fontFamily: "Play_400Regular",
+			fontFamily: "Play-Regular",
 		},
 		headerTitleAllowFontScaling: true,
 	};
@@ -56,13 +78,13 @@ export default function App() {
 	const drawerStyle = {
 		drawerContentStyle: {
 			backgroundColor: colors.background,
-			// fontFamily: "Play_400Regular",
+			fontFamily: "Play-Regular",
 		},
 		drawerActiveBackgroundColor: colors.primary,
 		drawerActiveTintColor: colors.onPrimary,
 		drawerLabelStyle: {
-			// fontFamily: "Play_400Regular",
-			fontSize: 16,
+			fontFamily: "Play-Regular",
+			fontSize: 18,
 		},
 	};
 
@@ -74,56 +96,39 @@ export default function App() {
 		},
 	};
 
-	const globalScreenOptions = {
-		headerShown: false,
-	};
-
-	function DrawerHeader() {
-		return (
-			<>
-				<View
-					style={{
-						flexDirection: "row",
-						justifyContent: "space-between",
-					}}>
-					<Text>Matur</Text>
-				</View>
-			</>
-		);
-	}
-
 	return (
-		// <SafeAreaView
-		// 	onLayout={onLayoutRootView}
-		// 	style={{ height: "100%", width: "100%" }}>
-		<ThemeProvider>
-			<BibliotecaProvider>
-				<NavigationContainer>
-					<DrawerNavigatorApp.Navigator
-						screenOptions={{
-							...globalNavigatorOptions,
-							headerRight: SwitchThemeButton,
-							headerRightContainerStyle: { paddingRight: "3%" },
-						}}>
-						<DrawerNavigatorApp.Screen
-							name="Simulación"
-							component={Simulacion}
-							options={{ title: "Simulación" }}
-						/>
-						<DrawerNavigatorApp.Screen
-							name="BibliotecaNavigation"
-							component={BibliotecaNavigation}
-							options={{ title: "Biblioteca" }}
-						/>
-						<DrawerNavigatorApp.Screen
+		<View
+			style={{ height: "100%", width: "100%" }}
+			onLayout={onLayoutRootView}>
+			<ThemeProvider>
+				<BibliotecaProvider>
+					<NavigationContainer>
+						<DrawerNavigatorApp.Navigator
+							screenOptions={{
+								...globalNavigatorOptions,
+								drawerType: "slide",
+								headerRight: SwitchThemeButton,
+								headerRightContainerStyle: { paddingRight: "3%" },
+							}}>
+							<DrawerNavigatorApp.Screen
+								name="Simulación"
+								component={Simulacion}
+								options={{ title: "Simulación" }}
+							/>
+							<DrawerNavigatorApp.Screen
+								name="BibliotecaNavigation"
+								component={BibliotecaNavigation}
+								options={{ title: "Biblioteca" }}
+							/>
+							{/* 						<DrawerNavigatorApp.Screen
 							name="Desarrollador"
 							component={Desarrollador}
 							options={{ title: "Desarrollador" }}
-						/>
-					</DrawerNavigatorApp.Navigator>
-				</NavigationContainer>
-			</BibliotecaProvider>
-		</ThemeProvider>
-		// </SafeAreaView>
+						/> */}
+						</DrawerNavigatorApp.Navigator>
+					</NavigationContainer>
+				</BibliotecaProvider>
+			</ThemeProvider>
+		</View>
 	);
 }

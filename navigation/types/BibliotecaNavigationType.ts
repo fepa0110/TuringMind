@@ -3,7 +3,7 @@ import { Automata } from "../../types/Automata";
 
 export type BibliotecaNavigationStackParamList = {
     Biblioteca: undefined;
-    VerAutomata: { automata: Automata, indiceAutomata: number };
+    VerAutomata: { indiceAutomata: number };
     DatosIniciales: undefined;
     DefinirTransiciones: { automata: Automata };
   };

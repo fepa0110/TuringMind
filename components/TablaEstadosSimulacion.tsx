@@ -18,6 +18,7 @@ import { useBiblioteca } from "../hooks/useBiblioteca";
 import { ScrollView } from "react-native-gesture-handler";
 
 interface TablaEstadosSimulacionProps {
+	automataActual: Automata;
 	caracterActualCinta: String;
 	moverseDerecha: () => void;
 	moverseIzquierda: () => void;
@@ -26,13 +27,14 @@ interface TablaEstadosSimulacionProps {
 }
 
 export function TablaEstadosSimulacion({
+	automataActual,
 	caracterActualCinta,
 	moverseDerecha,
 	moverseIzquierda,
 	colocarCaracter,
 	onShowMessage
 }: TablaEstadosSimulacionProps) {
-	const { automataActual, caracterVacio } = useBiblioteca();
+	const { caracterVacio } = useBiblioteca();
 
 	const finAutomata: number = -1;
 
@@ -79,7 +81,7 @@ export function TablaEstadosSimulacion({
 				<Text
 					style={{
 						fontSize: 16,
-						// fontFamily: "Play_400Regular",
+						fontFamily: "Play-Regular",
 						color: colors.onActive,
 					}}>
 					{transicion.operacion}/{transicion.nuevoEstado}
@@ -113,7 +115,7 @@ export function TablaEstadosSimulacion({
 				<Text
 					style={{
 						fontSize: 16,
-						// fontFamily: "Play_400Regular",
+						fontFamily: "Play-Regular",
 						color: colors.onBackground,
 					}}>
 					{transicion.operacion}/{transicion.nuevoEstado}
@@ -157,7 +159,7 @@ export function TablaEstadosSimulacion({
 								justifyContent: "center",
 								alignItems: "center",
 							}}>
-							<Text style={{ fontSize: 16, color: colors.onBackground }}>
+							<Text style={{ fontSize: 16, color: colors.onBackground, fontFamily: "Play-Regular", }}>
 								{caracter}
 							</Text>
 						</View>
@@ -173,7 +175,7 @@ export function TablaEstadosSimulacion({
 		});
 
 		if (transicionActual !== undefined) {
-			console.log(transicionActual?.operacion);
+			console.log(transicionActual.operacion);
 			if (transicionActual.operacion === "R") moverseDerecha();
 			else if (transicionActual.operacion === "L") moverseIzquierda();
 			else if (
@@ -228,7 +230,7 @@ export function TablaEstadosSimulacion({
 							<Text
 								style={{
 									fontSize: 18,
-									// fontFamily: "Play_400Regular",
+									fontFamily: "Play-Regular",
 									color:
 										estado.nombre === estadoActual.nombre
 											? colors.active
