@@ -90,7 +90,7 @@ export function TablaEstadosNueva({
 				<Text
 					style={{
 						fontSize: 16,
-						// fontFamily: "Play_400Regular",
+						fontFamily: "Play-Regular",
 						color: colors.onBackground,
 					}}>
 					{transicion.operacion}/{transicion.nuevoEstado}
@@ -123,7 +123,7 @@ export function TablaEstadosNueva({
 				<Text
 					style={{
 						fontSize: 16,
-						// fontFamily: "Play_400Regular",
+						fontFamily: "Play-Regular",
 						color: colors.onBackground,
 					}}>
 					{transicion.operacion}/{transicion.nuevoEstado}
@@ -212,7 +212,7 @@ export function TablaEstadosNueva({
 	}
 
 	function onChangeCaracterIngresado(caracterColocado: string) {
-		if (caracterColocado !== "") {
+		// if (caracterColocado !== "") {
 			setCaracterIngresado(caracterColocado);
 
 			setTransicionSeleccionada((prevTransicion) => {
@@ -242,7 +242,6 @@ export function TablaEstadosNueva({
 					}),
 				};
 			});
-		}
 	}
 
 	function RowEstado({ estado }: { estado: Estado }) {
@@ -280,7 +279,7 @@ export function TablaEstadosNueva({
 								justifyContent: "center",
 								alignItems: "center",
 							}}>
-							<Text style={{ fontSize: 16, color: colors.onBackground }}>
+							<Text style={{ fontSize: 16, color: colors.onBackground, fontFamily: "Play-Regular", }}>
 								{caracter}
 							</Text>
 						</View>
@@ -316,7 +315,7 @@ export function TablaEstadosNueva({
 								style={{
 									fontSize: 18,
 									marginRight: 6,
-									// fontFamily: "Play_400Regular",
+									fontFamily: "Play-Regular",
 									color:
 										estado.nombre === estadoSeleccionado.nombre
 											? colors.active
@@ -342,7 +341,7 @@ export function TablaEstadosNueva({
 						alignItems: "center",
 					}}>
 					<View style={{ width: "100%", marginVertical: 16 }}>
-						<Text style={{ color: colors.onBackground }}>Operación</Text>
+						<Text style={{ color: colors.onBackground, fontFamily: "Play-Regular", }}>Operación</Text>
 						<RadioButton
 							options={operaciones}
 							onSelectValue={onOperacionTransicionChange}
@@ -367,11 +366,11 @@ export function TablaEstadosNueva({
 								autoCapitalize="none"
 							/>
 
-							<PrimaryButton text={caracterVacio} onPress={()=> onChangeCaracterIngresado(caracterVacio)}/>
+							<PrimaryButton text={caracterVacio} onPress={()=> onChangeCaracterIngresado(caracterVacio)} disabled={!inputCaracterEditable}/>
 						</View>
 					</View>
 					<View style={{ width: "60%", marginVertical: 16 }}>
-						<Text style={{ color: colors.onBackground }}>
+						<Text style={{ color: colors.onBackground, fontFamily: "Play-Regular", }}>
 							Proximo estado
 						</Text>
 						<Select
@@ -418,7 +417,7 @@ const styles = (colors = useTheme().getTheme()) =>
 			padding: 10,
 			color: colors.onBackground,
 			backgroundColor: colors.background,
-			// fontFamily: "Play_400Regular"
+			fontFamily: "Play-Regular"
 		},
 		inputsContainer: {
 			flexDirection: "column",

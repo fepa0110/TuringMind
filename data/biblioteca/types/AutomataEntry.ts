@@ -1,4 +1,4 @@
 export interface AutomataEntry {
-    nombre: string;
+    nombre: String;
     indice: number;
 }

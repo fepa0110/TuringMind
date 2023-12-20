@@ -156,7 +156,7 @@ export function DefinirDatos({ navigation }: BibliotecaNavigationProps) {
 				/>
 			</View>
 			<View style={styles().agregarCaracteresContainer}>
-				<Text style={{ color: colors.onBackground, marginBottom: "1%" }}>
+				<Text style={{ color: colors.onBackground, marginBottom: "1%", fontFamily: "Play-Regular" }}>
 					Caracteres
 				</Text>
 				<FlashList
@@ -213,6 +213,7 @@ const styles = (colors = useTheme().getTheme()) =>
 			height: "100%",
 			color: colors.onSecondary,
 			fontSize: 18,
+			fontFamily: "Play-Regular",
 		},
 		caracteresListContainer: {
 			width: "100%",
@@ -224,7 +225,7 @@ const styles = (colors = useTheme().getTheme()) =>
 			padding: 10,
 			color: colors.onBackground,
 			backgroundColor: colors.background,
-			// fontFamily: "Play_400Regular"
+			fontFamily: "Play-Regular",
 		},
 		inputsContainer: {
 			flexDirection: "column",
@@ -241,6 +242,7 @@ const styles = (colors = useTheme().getTheme()) =>
 		labelError: {
 			color: colors.onError,
 			fontSize: 16,
+			fontFamily: "Play-Regular",
 		},
 		mainContainer: {
 			flexDirection: "column",
@@ -271,6 +273,7 @@ const styles = (colors = useTheme().getTheme()) =>
 			width: "100%",
 			marginVertical: "1%",
 			color: colors.onBackground,
+			fontFamily: "Play-Regular",
 			fontSize: 20,
 			textAlign: "center",
 		},

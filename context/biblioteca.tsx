@@ -15,6 +15,7 @@ interface BibliotecaType {
 	addAutomata: (automata: Automata) => void;
 	seleccionarAutomata: (indiceAutomata: number) => void;
 	seleccionarCaracterVacio: (caracterVacio: string) => void;
+	eliminarAutomata: (indiceAutomata: number) => void;
 }
 
 export const BibliotecaContext = createContext<BibliotecaType>({
@@ -25,6 +26,7 @@ export const BibliotecaContext = createContext<BibliotecaType>({
 	addAutomata: (automata: Automata) => {},
 	seleccionarAutomata: (indiceAutomata: number) => {},
 	seleccionarCaracterVacio: (caracterVacio: string) => {},
+	eliminarAutomata: (indiceAutomata: number) => {}
 });
 
 type BibliotecaProps = {
@@ -40,13 +42,20 @@ export function BibliotecaProvider({ children }: BibliotecaProps) {
 	const [caracterVacio, setCaracterVacio] = useState<string>("▲");
 
 	const addAutomata = (automata: Automata) => {
-		AutomatasStorage.addAutomata(automata, automatas != undefined ? automatas.length : 0);
+		console.log("automatas.length--> ",automatas?.length);
+		const automatasLength = automatas?.length || 0
+		
+		AutomatasStorage.addAutomata(automata, automatasLength);
+		AutomatasStorage.mergeAutomatas([...automatas||[],{ indice: automatasLength, nombre: automata.nombre }])
+
+		getAutomatasFromStorage();
 	};
 
 	const seleccionarAutomata = async (indiceAutomata: number) => {
 		let automataObtenido = await AutomatasStorage.getAutomata(indiceAutomata);
 		setAutomataActual(automataObtenido);
 		setIndiceAutomataActual(indiceAutomata);
+		getAutomatasFromStorage();
 	};
 
 	const seleccionarCaracterVacio = (caracterVacio: string) => {
@@ -81,6 +90,13 @@ export function BibliotecaProvider({ children }: BibliotecaProps) {
 		await setAutomatas(automatasEntries)
 	}
 
+	async function eliminarAutomata(indiceAutomata: number) {
+		await AutomatasStorage.removeAutomata(indiceAutomata);
+		await AutomatasStorage.removeAutomataEntry(automatas||[], indiceAutomata)
+		
+		getAutomatasFromStorage();
+	}
+
 	return (
 		<BibliotecaContext.Provider
 			value={{
@@ -91,6 +107,7 @@ export function BibliotecaProvider({ children }: BibliotecaProps) {
 				addAutomata,
 				seleccionarAutomata,
 				seleccionarCaracterVacio,
+				eliminarAutomata
 			}}>
 			{children}
 		</BibliotecaContext.Provider>

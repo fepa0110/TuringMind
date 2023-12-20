@@ -1,4 +1,10 @@
-import { ActivityIndicator, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+	ActivityIndicator,
+	StyleSheet,
+	Text,
+	TouchableOpacity,
+	View,
+} from "react-native";
 import React, { useEffect, useState } from "react";
 
 import { BibliotecaNavigationStackParamList } from "../navigation/types/BibliotecaNavigationType";
@@ -13,6 +19,7 @@ import { PrimaryButton } from "../components/PrimaryButton";
 import { useBiblioteca } from "../hooks/useBiblioteca";
 import * as AutomatasStorage from "../data/biblioteca/storage";
 import { Automata } from "../types/Automata";
+import { WarningButton } from "../components/WarningButton";
 
 type BibliotecaNavigationProps = StackScreenProps<
 	BibliotecaNavigationStackParamList,
@@ -27,25 +34,29 @@ export default function VerAutomata({
 	const colors = getTheme();
 
 	const [isLoading, setIsLoading] = useState(true);
-	const [automata, setAutomata] = useState<Automata | undefined>();
-	// const automata = route.params.indiceAutomata;
+	const [automata, setAutomata] = useState<Automata>();
 	const indiceAutomata = route.params.indiceAutomata;
 
-	const { seleccionarAutomata, indiceAutomataActual } = useBiblioteca();
+	const { seleccionarAutomata, indiceAutomataActual, eliminarAutomata } =
+		useBiblioteca();
 
 	useEffect(() => {
-		getAutomata()
-	}, [])
-	
+		getAutomata();
+	}, []);
+
+	async function removeAutomata() {
+		await eliminarAutomata(indiceAutomata);
+		navigation.goBack();
+	}
 
 	async function getAutomata() {
 		setIsLoading(true);
-		const automataLeido = await AutomatasStorage.getAutomata(indiceAutomata)
+		await AutomatasStorage.getAutomata(indiceAutomata)
 			.then((automataLeido) => {
+				setAutomata(automataLeido);
 				return automataLeido;
 			})
 			.finally(() => setIsLoading(false));
-		setAutomata(automataLeido)
 	}
 
 	function elegirAutomata() {
@@ -53,26 +64,39 @@ export default function VerAutomata({
 		navigation.goBack();
 	}
 
-	return (
-		isLoading ? 
+	return isLoading ? (
 		<View style={styles().loadingContainer}>
-			<ActivityIndicator color={colors.primary} size={"large"}/>
-		</View>:
+			<ActivityIndicator color={colors.primary} size={"large"} />
+		</View>
+	) : (
 		<View style={styles().mainContainer}>
 			<Text
-				style={{ color: colors.onBackground, fontSize: 26, margin: "3%", fontFamily: "Play-Regular", }}>
+				style={{
+					color: colors.onBackground,
+					fontSize: 26,
+					margin: "3%",
+					fontFamily: "Play-Regular",
+				}}>
 				{automata?.nombre}
 			</Text>
 			<TablaEstadosView automata={automata} />
-			{indiceAutomata !== indiceAutomataActual ? (
+			<View style={styles().buttonsContainer}>
 				<TouchableOpacity
 					style={styles().seleccionarButton}
-					onPress={elegirAutomata}>
-					<Text style={{ color: colors.onPrimary, fontSize: 16 }}>
+					onPress={elegirAutomata}
+					disabled={indiceAutomata === indiceAutomataActual}>
+					<Text
+						style={{
+							color: indiceAutomata === indiceAutomataActual ? colors.outline : colors.onPrimary,
+							fontSize: 16,
+							fontFamily: "Play-Regular",
+						}}>
 						Seleccionar
 					</Text>
 				</TouchableOpacity>
-			) : null}
+
+				<WarningButton text="Eliminar" onPress={removeAutomata} />
+			</View>
 		</View>
 	);
 }
@@ -82,7 +106,6 @@ const styles = (colors = useTheme().getTheme()) =>
 		mainContainer: {
 			height: "100%",
 			width: "100%",
-			flex: 1,
 			flexDirection: "column",
 			justifyContent: "flex-start",
 			backgroundColor: colors.background,
@@ -95,14 +118,19 @@ const styles = (colors = useTheme().getTheme()) =>
 			justifyContent: "center",
 			backgroundColor: colors.background,
 		},
+		buttonsContainer: {
+			flexDirection: "column",
+			width: "100%",
+			justifyContent: "center",
+			alignItems: "center",
+			marginTop: "10%"
+		},
 		seleccionarButton: {
-			alignSelf: "center",
 			flexDirection: "row",
 			justifyContent: "center",
 			alignItems: "center",
 			width: "50%",
 			height: 40,
-			marginVertical: "8%",
 			borderRadius: 25,
 			backgroundColor: colors.primary,
 		},

@@ -35,7 +35,8 @@ const toastStyles = (colors = useTheme().getTheme(), type: string) =>
 	StyleSheet.create({
 		label: {
 			color: colors.onSecondary,
-			fontSize: 16
+			fontSize: 16,
+			fontFamily: "Play-Regular"
 		},
 		mainContainer: {
 			flexDirection: "row",

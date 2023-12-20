@@ -54,16 +54,29 @@ export default function Biblioteca({ navigation }: BibliotecaNavigationProps) {
 			<Pressable
 				style={styles().automataItemContainer}
 				onPress={() => {
-					navigation.navigate("VerAutomata", { indiceAutomata: indiceAutomata });
+					navigation.navigate("VerAutomata", {
+						indiceAutomata: indiceAutomata,
+					});
 				}}>
 				<View style={styles().labelsContainer}>
 					<Text style={styles().itemPrimaryLabel}>{item.nombre}</Text>
 				</View>
 				{indiceAutomata === indiceAutomataActual ? (
-					<FontAwesomeIcon style={{marginHorizontal: "3%"}} icon={faCheckCircle} color={colors.active} size={22}/>
+					<FontAwesomeIcon
+						style={{ marginHorizontal: "3%" }}
+						icon={faCheckCircle}
+						color={colors.active}
+						size={22}
+					/>
 				) : (
-					<TouchableOpacity style={{marginHorizontal: "3%"}} onPress={() => elegirAutomata(indiceAutomata)}>
-						<FontAwesomeIcon icon={faCircle} color={colors.outline} size={22}/>
+					<TouchableOpacity
+						style={{ marginHorizontal: "3%" }}
+						onPress={() => elegirAutomata(indiceAutomata)}>
+						<FontAwesomeIcon
+							icon={faCircle}
+							color={colors.outline}
+							size={22}
+						/>
 					</TouchableOpacity>
 				)}
 			</Pressable>
@@ -77,6 +90,18 @@ export default function Biblioteca({ navigation }: BibliotecaNavigationProps) {
 				renderItem={({ item, index }) => {
 					return <AutomataItem item={item} indiceAutomata={index} />;
 				}}
+				ListEmptyComponent={
+					<Text
+						style={{
+							fontSize: 22,
+							fontFamily: "Play-Regular",
+							color: colors.terciary,
+							alignSelf: "center",
+							marginTop: "3%"
+						}}>
+						No hay automatas guardados
+					</Text>
+				}
 			/>
 			<View
 				style={{

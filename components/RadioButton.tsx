@@ -73,8 +73,10 @@ const styles = (
 		itemInactiveText: {
 			fontSize: fontSize,
 			color: inactiveTextColor,
+			fontFamily: "Play-Regular",
 		},
 		itemActiveText: {
+			fontFamily: "Play-Regular",
 			fontSize: fontSize,
 			color: activeTextColor,
 			// textDecorationLine: "underline",

@@ -256,7 +256,7 @@ export default function Simulacion() {
 						moverseIzquierda={moverseIzquierda}
 						colocarCaracter={setActualCaracter}
 						onShowMessage={ejecutarToast}
-					/>: <Text>No se selecciono un automata</Text>}
+					/>: <Text style={styles(colors).messageAutomataNoSeleccionado}>No se selecciono ningun automata</Text>}
 				</View>
 			</View>
 
@@ -327,6 +327,11 @@ const styles = (colors: Theme) =>
 			width: "100%",
 			justifyContent: "space-between",
 			alignItems: "center",
+		},
+		messageAutomataNoSeleccionado:{
+			fontFamily: "Play-Regular",
+			color: colors.terciary,
+			fontSize: 22
 		},
 		setCharacterButton: {
 			height: 40,

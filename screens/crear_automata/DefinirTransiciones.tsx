@@ -14,6 +14,7 @@ import { PrimaryIconButton } from "../../components/PrimaryIconButton";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { useBiblioteca } from "../../hooks/useBiblioteca";
 import { BibliotecaNavigationStackParamList } from "../../navigation/types/BibliotecaNavigationType";
+import Toast from "../../components/Toast";
 
 type BibliotecaNavigationProps = StackScreenProps<
 	BibliotecaNavigationStackParamList,
@@ -31,16 +32,52 @@ export default function DefinirTransiciones({
 
 	const [automata, setAutomata] = useState<Automata>(route.params.automata);
 
+	const [showToast, setShowToast] = useState(false);
+
+	const [messageToast, setMessageToast] = useState("No puede haber transiciones incompletas");
+
 	const { addAutomata } = useBiblioteca()
 
+	function validarAutomata() : boolean {
+		for (let indexEstado = 0; indexEstado < automata.estados.length; indexEstado++) {
+			for (let indexTransicion = 0; indexTransicion < automata.estados[indexEstado].transiciones.length; indexTransicion++) {
+				let transicion = automata.estados[indexEstado].transiciones[indexTransicion]
+				if(transicion.nuevoEstado === undefined){
+					return false
+				} 
+				if(transicion.operacion === undefined || transicion.operacion === ""){
+					console.log("Operacion nula");
+					return false
+				}
+				
+			}
+			
+		}
+		return true
+	}
+	
 	function crearAutomata() {
-		addAutomata(automata)
-		navigation.navigate("Biblioteca")
+		if(validarAutomata() === false) {
+			console.log("No creado");
+			ejecutarToast()
+			setLoading(false)
+		}
+		else {			
+			addAutomata(automata)
+			navigation.navigate("Biblioteca")
+		}
 	}
 
+	function ejecutarToast() {
+		setShowToast(true);
+		setTimeout(() => {
+			setShowToast(false);
+		}, 3000);
+	}
+	
 	return (
 		<View style={styles().mainContainer}>
-			<View style={{width: "95%", flexDirection: "column", alignItems: "flex-start"}}>
+			<View style={{width: "95%", flexDirection: "column", alignItems: "flex-start", marginTop: "2%"}}>
 				<Text style={styles().title}>Definir transiciones</Text>
 				<Text style={styles().labelData}>
 					{"Automata: " + automata.nombre}
@@ -53,10 +90,14 @@ export default function DefinirTransiciones({
 				<PrimaryIconButton
 					icon={faCheck}
 					size={50}
-					onPress={crearAutomata}
+					onPress={()=> {
+						setLoading(true)
+						crearAutomata()
+					}}
 					loading={loading}
 				/>
 			</View>
+			{showToast ? <Toast message={messageToast} type="warning" /> : null}
 		</View>
 	);
 }
@@ -66,6 +107,7 @@ const styles = (colors = useTheme().getTheme()) =>
 		labelData: {
 			color: colors.terciary,
 			fontSize: 16,
+			fontFamily: "Play-Regular",
 		},
 		labelErrorContainer: {
 			width: "100%",
@@ -77,6 +119,7 @@ const styles = (colors = useTheme().getTheme()) =>
 		labelError: {
 			color: colors.onError,
 			fontSize: 16,
+			fontFamily: "Play-Regular",
 		},
 		siguienteContainer: {
 			flexDirection: "row",
@@ -96,5 +139,6 @@ const styles = (colors = useTheme().getTheme()) =>
 		title: {
 			color: colors.onBackground,
 			fontSize: 20,
+			fontFamily: "Play-Regular",
 		},
 	});

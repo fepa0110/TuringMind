@@ -60,11 +60,11 @@ const styles = (backgroundColor: string, borderColor: string, textColor: string)
 			borderWidth: 1,
 			borderColor: borderColor,
 		},
-		buttonTextStyle: { color: textColor, textAlign: "left" },
+		buttonTextStyle: { color: textColor, textAlign: "left", fontFamily: "Play-Regular", },
 		dropdownStyle: { backgroundColor: backgroundColor },
 		rowStyle: {
 			backgroundColor: backgroundColor,
 			borderColor: borderColor,
 		},
-		rowTextStyle: { color: textColor, textAlign: "left" },
+		rowTextStyle: { color: textColor, textAlign: "left", fontFamily: "Play-Regular", },
 	});

@@ -10,53 +10,48 @@ import {
 import { useTheme } from "../hooks/useTheme";
 import { Theme } from "../types/Theme";
 
-interface PrimaryButtonType {
+interface WarningButtonType {
 	onPress: () => void;
 	text: string;
-	size?: number;
-	loading?: boolean;
 	disabled?: boolean;
 }
 
-export function PrimaryButton({
+export function WarningButton({
 	onPress,
 	text,
-	size,
-	loading,
-	disabled
-}: PrimaryButtonType) {
+	disabled,
+}: WarningButtonType) {
 	const { getTheme } = useTheme();
-	const styles = stylesPrimaryButton(getTheme());
-
-	const [isLoading, setIsLoading] = useState(loading||false)
+	const styles = stylesWarningButton(getTheme());
 
 	return (
 		<TouchableOpacity
-			style={[{ width: size || 40, height: size || 40 }, styles.button]}
 			onPress={onPress}
-			disabled={disabled}>
-			{isLoading ? (
-				<ActivityIndicator size={28} color={getTheme().onSecondary} />
-			) : (
+			disabled={disabled}
+            style={styles.button}>
 				<Text style={styles.text}>{text}</Text>
-			)}
 		</TouchableOpacity>
 	);
 }
 
-const stylesPrimaryButton = (colors: Theme) =>
+const stylesWarningButton = (colors: Theme) =>
 	StyleSheet.create({
 		button: {
+			alignSelf: "center",
 			flexDirection: "row",
-			backgroundColor: colors.secondary,
-			alignItems: "center",
 			justifyContent: "center",
-			borderRadius: 32,
+			alignItems: "center",
+			width: "40%",
+			height: 40,
+			marginVertical: "8%",
+			borderRadius: 25,
+            borderWidth: 2,
+            borderColor: colors.error,
+			backgroundColor: colors.background,
 		},
 		text: {
-            color: colors.onSecondary,
-			fontSize: 22,
+			color: colors.error,
+			fontSize: 16,
 			fontFamily: "Play-Regular",
-			paddingBottom: 6
-        },
+		},
 	});

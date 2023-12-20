@@ -1,6 +1,6 @@
 import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import React from "react";
+import React, { useState } from "react";
 import { TouchableOpacity, StyleSheet, ActivityIndicator } from "react-native";
 import { useTheme } from "../hooks/useTheme";
 import { Theme } from "../types/Theme";
@@ -20,21 +20,21 @@ export function PrimaryIconButton({
 }: PrimaryIconButtonType) {
 	const { getTheme } = useTheme();
 	const styles = stylesPrimaryIconButton(getTheme());
-
-	if (loading === undefined) loading = false;
+	
+	const [isLoading, setIsLoading] = useState(loading||false)
 
 	return (
 		<TouchableOpacity
 			style={[{ width: size || 40, height: size || 40 }, styles.button]}
 			onPress={onPress}
 			accessibilityLabel="Setear caracter">
-			{loading ? (
+			{isLoading ? (
 				<ActivityIndicator size={28} color={getTheme().onSecondary} />
 			) : (
 				<FontAwesomeIcon
 					style={{ color: getTheme().onSecondary }}
 					icon={icon}
-					size={16}
+					size={18}
 				/>
 			)}
 		</TouchableOpacity>
