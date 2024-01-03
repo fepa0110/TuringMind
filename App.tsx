@@ -17,6 +17,7 @@ import Simulacion from "./screens/Simulacion";
 import { Desarrollador } from "./screens/Desarrollador";
 import { BibliotecaProvider } from "./context/biblioteca";
 import * as AutomatasStorage from "./data/biblioteca/storage";
+import { StatusBar } from "expo-status-bar";
 
 const DrawerNavigatorApp = createDrawerNavigator();
 
@@ -30,6 +31,7 @@ export default function App() {
 			try {
 				await SplashScreen.preventAutoHideAsync();
 
+				// await AutomatasStorage.deleteStorage()
 				// Pre-load fonts, make any API calls you need to do here
 				await AutomatasStorage.createStorage()
 
@@ -100,6 +102,7 @@ export default function App() {
 		<View
 			style={{ height: "100%", width: "100%" }}
 			onLayout={onLayoutRootView}>
+			<StatusBar style="auto"/>
 			<ThemeProvider>
 				<BibliotecaProvider>
 					<NavigationContainer>

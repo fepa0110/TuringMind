@@ -1,5 +1,7 @@
 import {
 	ActivityIndicator,
+	Modal,
+	Pressable,
 	StyleSheet,
 	Text,
 	TouchableOpacity,
@@ -30,38 +32,91 @@ export default function VerAutomata({
 	navigation,
 	route,
 }: BibliotecaNavigationProps) {
+	const indiceAutomata = route.params.indiceAutomata;
+
 	const { getTheme } = useTheme();
 	const colors = getTheme();
 
-	const [isLoading, setIsLoading] = useState(true);
-	const [automata, setAutomata] = useState<Automata>();
-	const indiceAutomata = route.params.indiceAutomata;
-
 	const { seleccionarAutomata, indiceAutomataActual, eliminarAutomata } =
 		useBiblioteca();
+
+	const [isLoading, setIsLoading] = useState(true);
+	const [automata, setAutomata] = useState<Automata>();
+	const [showModalRemove, setShowModalRemove] = useState(false);
 
 	useEffect(() => {
 		getAutomata();
 	}, []);
 
+	/* 	async function removeAutomata() {
+		setShowModalRemove(true);
+		// await eliminarAutomata(indiceAutomata);
+		// navigation.goBack();
+	} */
+
 	async function removeAutomata() {
+		setShowModalRemove(false);
 		await eliminarAutomata(indiceAutomata);
 		navigation.goBack();
 	}
 
 	async function getAutomata() {
 		setIsLoading(true);
+
 		await AutomatasStorage.getAutomata(indiceAutomata)
 			.then((automataLeido) => {
 				setAutomata(automataLeido);
 				return automataLeido;
 			})
-			.finally(() => setIsLoading(false));
+			.finally(() => {
+				setIsLoading(false);
+			});
 	}
 
 	function elegirAutomata() {
 		seleccionarAutomata(indiceAutomata);
 		navigation.goBack();
+	}
+
+	function ModalDelete() {
+		return (
+			<Modal
+				animationType="slide"
+				transparent={true}
+				visible={showModalRemove}
+				onRequestClose={() => {
+					setShowModalRemove(false);
+				}}>
+				<View style={styles().centeredView}>
+					<View style={styles().modalView}>
+						<Text style={styles().modalText}>
+							¿Estas seguro que deseas eliminar este automata?
+						</Text>
+						<View
+							style={{
+								flexDirection: "row",
+							}}>
+							<Pressable
+								style={[styles().button, styles().buttonCancel]}
+								onPress={() => {
+									setShowModalRemove(false);
+								}}>
+								<Text style={styles().textModalCancelButton}>
+									Cancelar
+								</Text>
+							</Pressable>
+							<Pressable
+								style={[styles().button, styles().buttonAceptar]}
+								onPress={removeAutomata}>
+								<Text style={styles().textModalAceptarButton}>
+									Aceptar
+								</Text>
+							</Pressable>
+						</View>
+					</View>
+				</View>
+			</Modal>
+		);
 	}
 
 	return isLoading ? (
@@ -70,6 +125,7 @@ export default function VerAutomata({
 		</View>
 	) : (
 		<View style={styles().mainContainer}>
+			<ModalDelete />
 			<Text
 				style={{
 					color: colors.onBackground,
@@ -87,7 +143,10 @@ export default function VerAutomata({
 					disabled={indiceAutomata === indiceAutomataActual}>
 					<Text
 						style={{
-							color: indiceAutomata === indiceAutomataActual ? colors.outline : colors.onPrimary,
+							color:
+								indiceAutomata === indiceAutomataActual
+									? colors.outline
+									: colors.onPrimary,
 							fontSize: 16,
 							fontFamily: "Play-Regular",
 						}}>
@@ -95,7 +154,12 @@ export default function VerAutomata({
 					</Text>
 				</TouchableOpacity>
 
-				<WarningButton text="Eliminar" onPress={removeAutomata} />
+				<WarningButton
+					text="Eliminar"
+					onPress={() => {
+						setShowModalRemove(true);
+					}}
+				/>
 			</View>
 		</View>
 	);
@@ -123,7 +187,7 @@ const styles = (colors = useTheme().getTheme()) =>
 			width: "100%",
 			justifyContent: "center",
 			alignItems: "center",
-			marginTop: "10%"
+			marginTop: "10%",
 		},
 		seleccionarButton: {
 			flexDirection: "row",
@@ -133,5 +197,62 @@ const styles = (colors = useTheme().getTheme()) =>
 			height: 40,
 			borderRadius: 25,
 			backgroundColor: colors.primary,
+		},
+
+		// Modal styles
+		centeredView: {
+			flex: 1,
+			justifyContent: "center",
+			alignItems: "center",
+			backgroundColor: colors.outline
+		},
+		modalView: {
+			margin: 20,
+			backgroundColor: colors.background,
+			// borderWidth: 2,
+			borderColor: colors.onBackground,
+			borderRadius: 20,
+			padding: 35,
+			alignItems: "center",
+			shadowColor: "#000",
+			shadowOffset: {
+				width: 0,
+				height: 2,
+			},
+			shadowOpacity: 0.25,
+			shadowRadius: 4,
+			elevation: 5,
+		},
+		button: {
+			borderRadius: 20,
+			padding: 10,
+			elevation: 2,
+			width: "50%"
+		},
+		buttonAceptar: {
+			backgroundColor: colors.error,
+			marginLeft: "3%"
+		},
+		buttonCancel: {
+			backgroundColor: colors.background,
+			borderWidth: 1,
+			borderColor: colors.secondary,
+			marginRight: "3%"
+		},
+		textModalAceptarButton: {
+			color: colors.onError,
+			textAlign: "center",
+			fontFamily: "Play-Regular",
+		},
+		textModalCancelButton: {
+			color: colors.onBackground,
+			textAlign: "center",
+			fontFamily: "Play-Regular",
+		},
+		modalText: {
+			marginBottom: 15,
+			textAlign: "center",
+			color: colors.onBackground,
+			fontFamily: "Play-Regular",
 		},
 	});

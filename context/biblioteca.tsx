@@ -26,7 +26,7 @@ export const BibliotecaContext = createContext<BibliotecaType>({
 	addAutomata: (automata: Automata) => {},
 	seleccionarAutomata: (indiceAutomata: number) => {},
 	seleccionarCaracterVacio: (caracterVacio: string) => {},
-	eliminarAutomata: (indiceAutomata: number) => {}
+	eliminarAutomata: (indiceAutomata: number) => {},
 });
 
 type BibliotecaProps = {
@@ -34,66 +34,89 @@ type BibliotecaProps = {
 };
 
 export function BibliotecaProvider({ children }: BibliotecaProps) {
-	const [automatas, setAutomatas] = useState<AutomataEntry[]|undefined>([]);
+	const [automatas, setAutomatas] = useState<AutomataEntry[]>([]);
+	console.log(
+		"🚀 ~ file: biblioteca.tsx:38 ~ BibliotecaProvider ~ automatas:",
+		automatas
+	);
 
-	const [automataActual, setAutomataActual] = useState<Automata|undefined>();
-	const [indiceAutomataActual, setIndiceAutomataActual] = useState(0);
+	const [automataActual, setAutomataActual] = useState<Automata | undefined>();
+	const [indiceAutomataActual, setIndiceAutomataActual] = useState(-1);
 
 	const [caracterVacio, setCaracterVacio] = useState<string>("▲");
 
+	useEffect(() => {
+		getAutomatasFromStorage()
+	}, []);
+
 	const addAutomata = (automata: Automata) => {
-		console.log("automatas.length--> ",automatas?.length);
-		const automatasLength = automatas?.length || 0
-		
+		console.log("automatas.length--> ", automatas?.length);
+		const automatasLength = automatas?.length || 0;
+
 		AutomatasStorage.addAutomata(automata, automatasLength);
-		AutomatasStorage.mergeAutomatas([...automatas||[],{ indice: automatasLength, nombre: automata.nombre }])
+		AutomatasStorage.mergeAutomatas([
+			...(automatas || []),
+			{ indice: automatasLength, nombre: automata.nombre },
+		]);
 
 		getAutomatasFromStorage();
 	};
 
 	const seleccionarAutomata = async (indiceAutomata: number) => {
-		let automataObtenido = await AutomatasStorage.getAutomata(indiceAutomata);
-		setAutomataActual(automataObtenido);
-		setIndiceAutomataActual(indiceAutomata);
-		getAutomatasFromStorage();
+		if (automatas !== undefined && automatas.length >= indiceAutomata) {
+			let automataObtenido = await AutomatasStorage.getAutomata(
+				automatas[indiceAutomata].indice
+			);
+			setAutomataActual(automataObtenido);
+			setIndiceAutomataActual(indiceAutomata);
+		} else setAutomataActual(undefined);
+
+		await getAutomatasFromStorage();
 	};
 
 	const seleccionarCaracterVacio = (caracterVacio: string) => {
 		setCaracterVacio(caracterVacio);
 	};
 
-	useEffect(() => {
-		getAutomatasFromStorage();
-	}, []);
-
 	async function getAutomatasStorage() {
 		try {
-		  const automatasJson = await AsyncStorage.getItem('automatas');
-		  let automatasEntries : AutomataEntry[] = []
-	
-		  if(automatasJson != null)
-			automatasEntries = JSON.parse(automatasJson)
-			
+			const automatasJson = await AsyncStorage.getItem("automatas");
+			let automatasEntries: AutomataEntry[] = [];
+
+			if (automatasJson != null) {
+				automatasEntries = JSON.parse(automatasJson);
+				return automatasEntries;
+			}
+
 			console.log("Automatas obtenidos");
-			
-		  return automatasEntries
+
+			return [];
 		} catch (e) {
-		  console.log("Ocurrio un error al obtener los automatas.");
+			console.log("Ocurrio un error al obtener los automatas.");
+			return [];
 		}
-	};
+	}
 
 	async function getAutomatasFromStorage() {
-		let automatasEntries = await getAutomatasStorage().then((automatasLeidos) => {
-			return automatasLeidos;
-		});
+		let automatasEntries = await getAutomatasStorage().then(
+			(automatasLeidos) => {
+				return automatasLeidos;
+			}
+		);
 
-		await setAutomatas(automatasEntries)
+		await setAutomatas(automatasEntries);
+		return automatasEntries;
 	}
 
 	async function eliminarAutomata(indiceAutomata: number) {
+		if (indiceAutomata === indiceAutomataActual) setAutomataActual(undefined);
+
 		await AutomatasStorage.removeAutomata(indiceAutomata);
-		await AutomatasStorage.removeAutomataEntry(automatas||[], indiceAutomata)
-		
+		await AutomatasStorage.removeAutomataEntry(
+			automatas || [],
+			indiceAutomata
+		);
+
 		getAutomatasFromStorage();
 	}
 
@@ -107,7 +130,7 @@ export function BibliotecaProvider({ children }: BibliotecaProps) {
 				addAutomata,
 				seleccionarAutomata,
 				seleccionarCaracterVacio,
-				eliminarAutomata
+				eliminarAutomata,
 			}}>
 			{children}
 		</BibliotecaContext.Provider>

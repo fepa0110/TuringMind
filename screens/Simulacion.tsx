@@ -39,6 +39,8 @@ export default function Simulacion() {
 	const [messageToast, setMessageToast] = useState("Automata finalizado");
 
 	const { automataActual, caracterVacio, seleccionarAutomata } = useBiblioteca();
+	console.log("🚀 ~ file: Simulacion.tsx:42 ~ Simulacion ~ automataActual:", automataActual)
+
 
 	const [cinta, setCinta] = useState<String[]>([
 		caracterVacio,
@@ -52,10 +54,6 @@ export default function Simulacion() {
 
 	const [caracterIngresado, onChangeCaracterIngresado] =
 		React.useState<string>("");
-
-	useEffect(() => {
-	  seleccionarAutomata(0)
-	}, [])
 	
 	function ejecutarToast() {
 		setShowToast(true);
@@ -249,7 +247,7 @@ export default function Simulacion() {
 						/>
 					</View>
 
-					{automataActual ? <TablaEstadosSimulacion
+					{automataActual !== undefined ? <TablaEstadosSimulacion
 						automataActual={automataActual}
 						caracterActualCinta={cinta[indiceActual]}
 						moverseDerecha={moverseDerecha}

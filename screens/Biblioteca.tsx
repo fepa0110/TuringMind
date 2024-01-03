@@ -37,12 +37,14 @@ export default function Biblioteca({ navigation }: BibliotecaNavigationProps) {
 	const colors = getTheme();
 
 	const { automatas, seleccionarAutomata, indiceAutomataActual } =
-		useBiblioteca();
-
+	useBiblioteca();
+	
 	function elegirAutomata(indiceAutomata: number) {
 		seleccionarAutomata(indiceAutomata);
 	}
-
+	
+	console.log("🚀 ~ file: Biblioteca.tsx:40 ~ Biblioteca ~ indiceAutomataActual:", indiceAutomataActual)
+	
 	const AutomataItem = ({
 		item,
 		indiceAutomata,

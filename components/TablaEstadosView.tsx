@@ -1,20 +1,10 @@
 import React, { useState } from "react";
 import { Text, View } from "react-native";
 
-import AutomataJson from "../automata.json";
 import { Automata } from "../types/Automata";
 import { useTheme } from "../hooks/useTheme";
 import { Estado } from "../types/Estado";
 import { Transicion } from "../types/Transicion";
-import { PrimaryIconButton } from "./PrimaryIconButton";
-
-import {
-	faAngleLeft,
-	faAngleRight,
-	faStepForward,
-	faUndo,
-} from "@fortawesome/free-solid-svg-icons";
-import { SecondaryIconButton } from "./SecondaryIconButton";
 
 interface TablaEstadosViewProps {
 	automata: Automata | undefined;

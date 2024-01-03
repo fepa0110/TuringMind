@@ -81,6 +81,16 @@ export async function removeAutomata(indiceAutomata: number) {
 	console.log("Automata eliminado.");
 }
 
+export async function deleteStorage() {
+	try {
+		await AsyncStorage.removeItem("automatas");
+	} catch (e) {
+		console.log("Error al remover");
+	}
+
+	console.log("Automata eliminado.");
+}
+
 export async function removeAutomataEntry(
 	automatasEntries: AutomataEntry[],
 	indiceAutomata: number
@@ -101,13 +111,12 @@ export async function removeAutomataEntry(
 	console.log("Automata eliminado.");
 }
 
-export async function getAutomata(indice: number) {
+export async function getAutomata(claveAutomata: number) {
 	try {
-		const automatasJson = await AsyncStorage.getItem(indice.toString());
+		const automatasJson = await AsyncStorage.getItem(claveAutomata.toString());
 
 		if (automatasJson != null) return JSON.parse(automatasJson);
 
-		return null;
 	} catch (e) {
 		console.log("Ocurrio un error al obtener el automata.");
 	}
