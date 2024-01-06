@@ -10,7 +10,7 @@ import {
 import { useTheme } from "../hooks/useTheme";
 import { Theme } from "../types/Theme";
 
-interface PrimaryButtonType {
+interface SecondaryButtonType {
 	onPress: () => void;
 	text: string;
 	size?: number;
@@ -18,15 +18,15 @@ interface PrimaryButtonType {
 	disabled?: boolean;
 }
 
-export function PrimaryButton({
+export function SecondaryButton({
 	onPress,
 	text,
 	size,
 	loading,
 	disabled
-}: PrimaryButtonType) {
+}: SecondaryButtonType) {
 	const { getTheme } = useTheme();
-	const styles = stylesPrimaryButton(getTheme());
+	const styles = stylesSecondaryButton(getTheme());
 
 	const [isLoading, setIsLoading] = useState(loading||false)
 
@@ -44,17 +44,19 @@ export function PrimaryButton({
 	);
 }
 
-const stylesPrimaryButton = (colors: Theme) =>
+const stylesSecondaryButton = (colors: Theme) =>
 	StyleSheet.create({
 		button: {
 			flexDirection: "row",
-			backgroundColor: colors.primary,
+			backgroundColor: colors.background,
 			alignItems: "center",
 			justifyContent: "center",
+            borderWidth: 2,
 			borderRadius: 32,
+            borderColor: colors.primary
 		},
 		text: {
-            color: colors.onSecondary,
+            color: colors.primary,
 			fontSize: 22,
 			fontFamily: "Play-Regular",
 			paddingBottom: 6

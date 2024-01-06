@@ -17,6 +17,9 @@ import { Transicion } from "../../types/Transicion";
 import { Estado } from "../../types/Estado";
 import { useBiblioteca } from "../../hooks/useBiblioteca";
 import { BibliotecaNavigationStackParamList } from "../../navigation/types/BibliotecaNavigationType";
+import { SecondaryIconButton } from "../../components/SecondaryIconButton";
+import { PrimaryButton } from "../../components/PrimaryButton";
+import { SecondaryButton } from "../../components/SecondaryButton";
 
 type BibliotecaNavigationProps = StackScreenProps<
 	BibliotecaNavigationStackParamList,
@@ -95,6 +98,10 @@ export function DefinirDatos({ navigation }: BibliotecaNavigationProps) {
 		}
 	}
 
+	function ingresarCaracterVacio() {
+		setCaracteres((prevState) => [...prevState, caracterVacio]);
+	}
+
 	function NavegarNuevasTransiciones() {
 		const transiciones: Transicion[] = caracteres.map((caracter) => {
 			return { caracter: caracter };
@@ -157,7 +164,7 @@ export function DefinirDatos({ navigation }: BibliotecaNavigationProps) {
 			</View>
 			<View style={styles().agregarCaracteresContainer}>
 				<Text style={{ color: colors.onBackground, marginBottom: "1%", fontFamily: "Play-Regular" }}>
-					Caracteres
+					Diccionario
 				</Text>
 				<FlashList
 					renderItem={({ item, index }) => {
@@ -184,6 +191,7 @@ export function DefinirDatos({ navigation }: BibliotecaNavigationProps) {
 					/>
 
 					<PrimaryIconButton onPress={ingresarCaracter} icon={faAdd} />
+					<SecondaryButton onPress={ingresarCaracterVacio} text={caracterVacio} />
 				</View>
 			</View>
 			<View style={styles().siguienteContainer}>

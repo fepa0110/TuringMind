@@ -1,96 +1,78 @@
 import { Theme } from "../types/Theme"
 
 const ColorsNames = {
-    // Claros
-    WhiteSmoke: "#F5F5F5",
-
-    // Rojos
-    ImperialRed: "#F93943",
-    Carmine: "#931F1D",
-    Crimson: "#D91E36",
-    Tomato: "#FC5130",
     
-    // Azules
-    PalatinateBlue: "#473BF0FF",
-    PolynesianBlue: "#1F487E",
-    PersianBlue: "#072AC8",
-    SlateBlue: "#6665DD",
-    ArgentinianBlue: "#49B6FF",
-    CelestialBlue: "#008DD5",
-    Verdigris: "#75B9BE",
-    FluorescentCyan: "#7CFEF0",
-    PrincessCyan: "#01BAEF",
-
-    // Verdosos
-    Celadon: "#8FCB9B",
-    Teal: "#087E8B",
-    DarkSlateGray: "#255957",
-    DarkCyan: "#4B8F8C",
-    ShamrockGreen: "#28965A",
-    Aquamarine: "#2CEAA3",
-    KellyGreen: "#38A700",
-    
-    // Grises
-    ToupeGray: "#7F7B82",
-    TimberWolf: "#CDD3CEAA",
-    Silver: "#B0BBBF",
-    
-    // Oscuros
-    Jet: "#2E2F2F",
-    Night: "#0D160B",
-    RaisinBlack: "#232020",
-    Black: "#050401",
-    RichBlack: "#0C1618",
-    EerieBlack: "#1A1D1A"
+    // Primary
+    ByzantineBlue: "hsl(220, 87%, 50%)",
+    // Secondary
+    Veronica: "hsl(282, 87%, 50%)",
+    // Terciary
+    Moonstone: "hsl(188, 87%, 40%)",
+    // Dark
+    RichBlack: "hsl(220, 45%, 8%)",
+    // Light
+    SeaSalt: "hsl(220, 87%, 98%)",
+    // Outline Light
+    SlateGray: "hsl(220, 8%, 50%)",
+    // Outline Dark
+    CoolGray: "hsl(220, 10%, 60%)",
+    // Neutral dark
+    Charcoal: "hsl(219, 12%, 28%)",
+    // Neutral light
+    AntiFlashWhite: "hsl(220, 18%, 90%)",
+    // Error
+    PantoneRed: "hsl(350, 87%, 50%)",
+    // Active
+    SpringGreen: "hsl(150, 87%, 50%)"
 }
 
 // Colores originales
 export const LightColors : Theme = {
-    primary: ColorsNames.PersianBlue,
-    onPrimary: ColorsNames.WhiteSmoke,
+    primary: ColorsNames.ByzantineBlue,
+    onPrimary: ColorsNames.SeaSalt,
 
-    secondary: ColorsNames.PalatinateBlue,
-    onSecondary: ColorsNames.WhiteSmoke,
+    secondary: ColorsNames.Veronica,
+    onSecondary: ColorsNames.SeaSalt,
 
-    terciary: ColorsNames.Teal,
+    terciary: ColorsNames.Moonstone,
 
-    active: ColorsNames.KellyGreen,
-    onActive: ColorsNames.WhiteSmoke,
+    active: ColorsNames.SpringGreen,
+    onActive: ColorsNames.SeaSalt,
 
-    background: ColorsNames.WhiteSmoke,
-    onBackground: ColorsNames.Night,
+    background: ColorsNames.SeaSalt,
+    onBackground: ColorsNames.RichBlack,
 
-    error: ColorsNames.ImperialRed,
-    onError: ColorsNames.WhiteSmoke,
+    error: ColorsNames.PantoneRed,
+    onError: ColorsNames.SeaSalt,
 
-    neutral: ColorsNames.RaisinBlack,
-    neutralVariant: ColorsNames.Jet,
+    neutral: ColorsNames.Charcoal,
+    neutralVariant: ColorsNames.AntiFlashWhite,
 
-    outline: ColorsNames.Silver,
-    onOutline: ColorsNames.RaisinBlack,
+    outline: ColorsNames.SlateGray,
+    onOutline: ColorsNames.CoolGray,
 } 
 
 export const DarkColors : Theme = {
-    primary: ColorsNames.PersianBlue,
-    onPrimary: ColorsNames.WhiteSmoke,
+    primary: ColorsNames.ByzantineBlue,
+    onPrimary: ColorsNames.SeaSalt,
 
-    secondary: ColorsNames.PalatinateBlue,
-    onSecondary: ColorsNames.WhiteSmoke,
+    secondary: ColorsNames.Veronica,
+    onSecondary: ColorsNames.SeaSalt,
 
-    terciary: ColorsNames.Teal,
+    terciary: ColorsNames.Moonstone,
 
-    active: ColorsNames.KellyGreen,
-    onActive: ColorsNames.WhiteSmoke,
+    active: ColorsNames.SpringGreen,
+    onActive: ColorsNames.SeaSalt,
 
-    background: ColorsNames.EerieBlack,
-    onBackground: ColorsNames.WhiteSmoke,
+    background: ColorsNames.RichBlack,
+    onBackground: ColorsNames.SeaSalt,
 
-    error: ColorsNames.ImperialRed,
-    onError: ColorsNames.WhiteSmoke,
+    error: ColorsNames.PantoneRed,
+    onError: ColorsNames.SeaSalt,
 
-    neutral: ColorsNames.DarkSlateGray,
-    neutralVariant: ColorsNames.Jet,
+    neutral: ColorsNames.Charcoal,
+    neutralVariant: ColorsNames.AntiFlashWhite,
 
-    outline: ColorsNames.TimberWolf,
-    onOutline: ColorsNames.RaisinBlack,
+    outline: ColorsNames.CoolGray,
+    onOutline: ColorsNames.SlateGray,
 }

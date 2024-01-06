@@ -44,7 +44,7 @@ export function PrimaryIconButton({
 const stylesPrimaryIconButton = (colors: Theme) =>
 	StyleSheet.create({
 		button: {
-			backgroundColor: colors.secondary,
+			backgroundColor: colors.primary,
 			alignItems: "center",
 			justifyContent: "center",
 			borderRadius: 32,

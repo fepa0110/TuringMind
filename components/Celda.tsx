@@ -32,6 +32,6 @@ const stylesCelda = (colors: Theme)=> StyleSheet.create({
 		alignItems: "center",
 		justifyContent: "center",
         borderWidth: 1,
-        borderColor: colors.secondary,
+        borderColor: colors.primary,
 	}
 });

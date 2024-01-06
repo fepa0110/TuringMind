@@ -23,6 +23,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { Select } from "./Select";
 import { useBiblioteca } from "../hooks/useBiblioteca";
 import { PrimaryButton } from "./PrimaryButton";
+import { SecondaryButton } from "./SecondaryButton";
 
 interface TablaEstadosNuevaProps {
 	automata: Automata;
@@ -349,7 +350,7 @@ export function TablaEstadosNueva({
 							horizontal={true}
 							activeDecorationColor={colors.primary}
 							activeTextColor={colors.primary}
-							inactiveTextColor={colors.terciary}
+							inactiveTextColor={colors.outline}
 						/>
 						<View style={styles().nuevoCaracterContainer}>
 							<TextInput
@@ -366,7 +367,7 @@ export function TablaEstadosNueva({
 								autoCapitalize="none"
 							/>
 
-							<PrimaryButton text={caracterVacio} onPress={()=> onChangeCaracterIngresado(caracterVacio)} disabled={!inputCaracterEditable}/>
+							<SecondaryButton text={caracterVacio} onPress={()=> onChangeCaracterIngresado(caracterVacio)} disabled={!inputCaracterEditable}/>
 						</View>
 					</View>
 					<View style={{ width: "60%", marginVertical: 16 }}>

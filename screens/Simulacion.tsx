@@ -8,6 +8,11 @@ import {
 	faArrowUpLong,
 	faArrowUp,
 	faEraser,
+	faChevronUp,
+	faAngleUp,
+	faAngleDoubleUp,
+	faUpDown,
+	faUpLong,
 } from "@fortawesome/free-solid-svg-icons";
 
 import {
@@ -117,8 +122,8 @@ export default function Simulacion() {
 							alignContent: "center",
 							height: "auto",
 							width: "100%",
-							borderWidth: 1,
-							borderEndColor: colors.error,
+							borderTopWidth: 1,
+							borderBottomWidth: 1,
 							borderColor: colors.outline,
 							borderStyle: "dashed",
 							paddingVertical: 3,
