@@ -131,3 +131,6 @@ dist
 
 # Expo files
 .expo/
+
+# Google Play
+google-play/
