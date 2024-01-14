@@ -1,11 +1,10 @@
-import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import React, { useState } from "react";
 import {
 	TouchableOpacity,
 	StyleSheet,
 	ActivityIndicator,
 	Text,
+	DimensionValue,
 } from "react-native";
 import { useTheme } from "../hooks/useTheme";
 import { Theme } from "../types/Theme";
@@ -13,7 +12,7 @@ import { Theme } from "../types/Theme";
 interface PrimaryButtonType {
 	onPress: () => void;
 	text: string;
-	size?: number;
+	width?: DimensionValue;
 	loading?: boolean;
 	disabled?: boolean;
 }
@@ -21,18 +20,18 @@ interface PrimaryButtonType {
 export function PrimaryButton({
 	onPress,
 	text,
-	size,
+	width,
 	loading,
 	disabled
 }: PrimaryButtonType) {
 	const { getTheme } = useTheme();
-	const styles = stylesPrimaryButton(getTheme());
+	const styles = stylesPrimaryButton(getTheme(), width, disabled);
 
 	const [isLoading, setIsLoading] = useState(loading||false)
 
 	return (
 		<TouchableOpacity
-			style={[{ width: size || 40, height: size || 40 }, styles.button]}
+			style={styles.button}
 			onPress={onPress}
 			disabled={disabled}>
 			{isLoading ? (
@@ -44,18 +43,20 @@ export function PrimaryButton({
 	);
 }
 
-const stylesPrimaryButton = (colors: Theme) =>
+const stylesPrimaryButton = (colors: Theme, width: DimensionValue | undefined, disabled: boolean | undefined) =>
 	StyleSheet.create({
 		button: {
 			flexDirection: "row",
-			backgroundColor: colors.primary,
+			width: width || 40, 
+			height: 40,
+			backgroundColor: disabled ? colors.outline : colors.primary,
 			alignItems: "center",
 			justifyContent: "center",
 			borderRadius: 32,
 		},
 		text: {
-            color: colors.onSecondary,
-			fontSize: 22,
+            color: disabled ? colors.onOutline : colors.onPrimary,
+			fontSize: 16,
 			fontFamily: "Play-Regular",
 			paddingBottom: 6
         },
