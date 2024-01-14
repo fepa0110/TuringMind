@@ -22,6 +22,9 @@ import { useBiblioteca } from "../hooks/useBiblioteca";
 import * as AutomatasStorage from "../data/biblioteca/storage";
 import { Automata } from "../types/Automata";
 import { WarningButton } from "../components/WarningButton";
+import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
+import { faCheckCircle, faPlus } from "@fortawesome/free-solid-svg-icons";
+import Toast from "../components/Toast";
 
 type BibliotecaNavigationProps = StackScreenProps<
 	BibliotecaNavigationStackParamList,
@@ -44,15 +47,18 @@ export default function VerAutomata({
 	const [automata, setAutomata] = useState<Automata>();
 	const [showModalRemove, setShowModalRemove] = useState(false);
 
+	const [showToast, setShowToast] = useState(false);
+	const [messageToast, setMessageToast] = useState("Automata seleccionado correctamente");
 	useEffect(() => {
 		getAutomata();
 	}, []);
 
-	/* 	async function removeAutomata() {
-		setShowModalRemove(true);
-		// await eliminarAutomata(indiceAutomata);
-		// navigation.goBack();
-	} */
+	function ejecutarToast() {
+		setShowToast(true);
+		setTimeout(() => {
+			setShowToast(false);
+		}, 5000);
+	}
 
 	async function removeAutomata() {
 		setShowModalRemove(false);
@@ -74,8 +80,8 @@ export default function VerAutomata({
 	}
 
 	function elegirAutomata() {
+		ejecutarToast();
 		seleccionarAutomata(indiceAutomata);
-		navigation.goBack();
 	}
 
 	function ModalDelete() {
@@ -86,7 +92,8 @@ export default function VerAutomata({
 				visible={showModalRemove}
 				onRequestClose={() => {
 					setShowModalRemove(false);
-				}}>
+				}}
+				>
 				<View style={styles().centeredView}>
 					<View style={styles().modalView}>
 						<Text style={styles().modalText}>
@@ -126,33 +133,30 @@ export default function VerAutomata({
 	) : (
 		<View style={styles().mainContainer}>
 			<ModalDelete />
-			<Text
-				style={{
-					color: colors.onBackground,
-					fontSize: 26,
-					margin: "3%",
-					fontFamily: "Play-Regular",
-				}}>
-				{automata?.nombre}
-			</Text>
+			<View style={{ flexDirection: "row", alignItems: "center", margin: "3%", gap: 10}}>
+				<Text
+					style={{
+						color: colors.onBackground,
+						fontSize: 26,
+						fontFamily: "Play-Regular",
+					}}>
+					{automata?.nombre}
+				</Text>
+
+				{indiceAutomata !== indiceAutomataActual || <FontAwesomeIcon style={{ marginTop: 6 }} icon={faCheckCircle} color={colors.active} size={22} />}
+
+			</View>
+			
 			<TablaEstadosView automata={automata} />
+
 			<View style={styles().buttonsContainer}>
-				<TouchableOpacity
-					style={styles().seleccionarButton}
-					onPress={elegirAutomata}
-					disabled={indiceAutomata === indiceAutomataActual}>
-					<Text
-						style={{
-							color:
-								indiceAutomata === indiceAutomataActual
-									? colors.outline
-									: colors.onPrimary,
-							fontSize: 16,
-							fontFamily: "Play-Regular",
-						}}>
-						Seleccionar
-					</Text>
-				</TouchableOpacity>
+				{indiceAutomata !== indiceAutomataActual ? (
+					<PrimaryButton
+						text="Seleccionar"
+						width={"50%"}
+						onPress={elegirAutomata}
+					/>
+				) : null}
 
 				<WarningButton
 					text="Eliminar"
@@ -161,6 +165,9 @@ export default function VerAutomata({
 					}}
 				/>
 			</View>
+			
+			{showToast ? <Toast message={messageToast} type="info" /> : null}
+
 		</View>
 	);
 }
@@ -187,7 +194,7 @@ const styles = (colors = useTheme().getTheme()) =>
 			width: "100%",
 			justifyContent: "center",
 			alignItems: "center",
-			marginTop: "10%",
+			marginTop: "3%",
 		},
 		seleccionarButton: {
 			flexDirection: "row",
@@ -204,13 +211,11 @@ const styles = (colors = useTheme().getTheme()) =>
 			flex: 1,
 			justifyContent: "center",
 			alignItems: "center",
-			backgroundColor: colors.outline
+			backgroundColor: colors.neutral,
 		},
 		modalView: {
 			margin: 20,
 			backgroundColor: colors.background,
-			// borderWidth: 2,
-			borderColor: colors.onBackground,
 			borderRadius: 20,
 			padding: 35,
 			alignItems: "center",
@@ -227,17 +232,17 @@ const styles = (colors = useTheme().getTheme()) =>
 			borderRadius: 20,
 			padding: 10,
 			elevation: 2,
-			width: "50%"
+			width: "50%",
 		},
 		buttonAceptar: {
 			backgroundColor: colors.error,
-			marginLeft: "3%"
+			marginLeft: "3%",
 		},
 		buttonCancel: {
 			backgroundColor: colors.background,
 			borderWidth: 1,
-			borderColor: colors.secondary,
-			marginRight: "3%"
+			borderColor: colors.primary,
+			marginRight: "3%",
 		},
 		textModalAceptarButton: {
 			color: colors.onError,
