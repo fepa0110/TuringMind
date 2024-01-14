@@ -33,7 +33,7 @@ export function TablaEstadosSimulacion({
 	moverseDerecha,
 	moverseIzquierda,
 	colocarCaracter,
-	onShowMessage
+	onShowMessage,
 }: TablaEstadosSimulacionProps) {
 	const { caracterVacio } = useBiblioteca();
 
@@ -160,7 +160,12 @@ export function TablaEstadosSimulacion({
 								justifyContent: "center",
 								alignItems: "center",
 							}}>
-							<Text style={{ fontSize: 16, color: colors.onBackground, fontFamily: "Play-Regular", }}>
+							<Text
+								style={{
+									fontSize: 16,
+									color: colors.onBackground,
+									fontFamily: "Play-Regular",
+								}}>
 								{caracter}
 							</Text>
 						</View>
@@ -176,7 +181,6 @@ export function TablaEstadosSimulacion({
 		});
 
 		if (transicionActual !== undefined) {
-			console.log(transicionActual.operacion);
 			if (transicionActual.operacion === "R") moverseDerecha();
 			else if (transicionActual.operacion === "L") moverseIzquierda();
 			else if (
@@ -188,21 +192,18 @@ export function TablaEstadosSimulacion({
 			if (transicionActual.nuevoEstado === finAutomata) {
 				onShowMessage();
 				reiniciarAutomata();
-				console.log("Automata finalizado");
 			} else {
 				const estadoNuevo = automataActual.estados.find(
 					(estado) => estado.nombre === transicionActual.nuevoEstado
 				);
 
 				if (estadoNuevo !== undefined) setEstadoActual(estadoNuevo);
-				else console.log("No existe el estado");
 			}
 		}
 	}
 
 	function reiniciarAutomata() {
 		setEstadoActual(automataActual.estados[0]);
-		console.log("Automata reiniciado");
 	}
 
 	return (
@@ -217,6 +218,17 @@ export function TablaEstadosSimulacion({
 					paddingVertical: 6,
 					marginHorizontal: 6,
 				}}>
+				
+				<Text
+					style={{
+						alignSelf: "flex-start",
+						color: colors.terciary,
+						fontSize: 16,
+						fontFamily: "Play-Regular",
+					}}>
+					{automataActual.nombre}
+				</Text>
+
 				<LabelsCaracteres />
 
 				{automataActual.estados.map((estado, indexEstado) => {
@@ -244,6 +256,7 @@ export function TablaEstadosSimulacion({
 						</View>
 					);
 				})}
+
 				<View
 					style={{
 						flex: 1,
