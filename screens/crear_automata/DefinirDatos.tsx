@@ -20,6 +20,7 @@ import { BibliotecaNavigationStackParamList } from "../../navigation/types/Bibli
 import { SecondaryIconButton } from "../../components/SecondaryIconButton";
 import { PrimaryButton } from "../../components/PrimaryButton";
 import { SecondaryButton } from "../../components/SecondaryButton";
+import Toast from "../../components/Toast";
 
 type BibliotecaNavigationProps = StackScreenProps<
 	BibliotecaNavigationStackParamList,
@@ -42,8 +43,8 @@ export function DefinirDatos({ navigation }: BibliotecaNavigationProps) {
 	const [caracterIngresado, onChangeCaracterIngresado] =
 		React.useState<string>("");
 
-	const [mensajeError, setMensajeError] = useState("Esto es un errro");
-	const [mostrarError, setMostrarError] = useState(false);
+	const [showToast, setShowToast] = useState(false);
+	const [messageToast, setMessageToast] = useState("");
 
 	const [loading, setLoading] = useState(false);
 
@@ -102,31 +103,47 @@ export function DefinirDatos({ navigation }: BibliotecaNavigationProps) {
 		setCaracteres((prevState) => [...prevState, caracterVacio]);
 	}
 
-	function NavegarNuevasTransiciones() {
-		const transiciones: Transicion[] = caracteres.map((caracter) => {
-			return { caracter: caracter };
-		});
+	function navegarNuevasTransiciones() {
+		if (caracteres.length === 0) {
+			setMessageToast("Debes ingresar al menos un caracter al diccionario");
+			ejecutarToast();
+			setLoading(false);
+		} 
+		else {
+			const transiciones: Transicion[] = caracteres.map((caracter) => {
+				return { caracter: caracter };
+			});
 
-		let nuevosEstados: Estado[] = [];
-		for (
-			let indexEstado = 0;
-			indexEstado < Number(cantidadEstados);
-			indexEstado++
-		) {
-			nuevosEstados.push({
-				nombre: indexEstado + 1,
-				transiciones: transiciones,
+			let nuevosEstados: Estado[] = [];
+			for (
+				let indexEstado = 0;
+				indexEstado < Number(cantidadEstados);
+				indexEstado++
+			) {
+				nuevosEstados.push({
+					nombre: indexEstado + 1,
+					transiciones: transiciones,
+				});
+			}
+
+			const nuevoAutomata: Automata = {
+				nombre:
+					nombreAutomata.length !== 0 ? nombreAutomata : "Nuevo Automata",
+				estados: nuevosEstados,
+			};
+
+			setLoading(false);
+			navigation.navigate("DefinirTransiciones", {
+				automata: nuevoAutomata,
 			});
 		}
+	}
 
-		const nuevoAutomata: Automata = {
-			nombre:
-				nombreAutomata.length !== 0 ? nombreAutomata : "Nuevo Automata",
-			estados: nuevosEstados,
-		};
-
-		setLoading(false);
-		navigation.navigate("DefinirTransiciones", { automata: nuevoAutomata });
+	function ejecutarToast() {
+		setShowToast(true);
+		setTimeout(() => {
+			setShowToast(false);
+		}, 3000);
 	}
 
 	return (
@@ -163,7 +180,12 @@ export function DefinirDatos({ navigation }: BibliotecaNavigationProps) {
 				/>
 			</View>
 			<View style={styles().agregarCaracteresContainer}>
-				<Text style={{ color: colors.onBackground, marginBottom: "1%", fontFamily: "Play-Regular" }}>
+				<Text
+					style={{
+						color: colors.onBackground,
+						marginBottom: "1%",
+						fontFamily: "Play-Regular",
+					}}>
 					Diccionario
 				</Text>
 				<FlashList
@@ -191,22 +213,24 @@ export function DefinirDatos({ navigation }: BibliotecaNavigationProps) {
 					/>
 
 					<PrimaryIconButton onPress={ingresarCaracter} icon={faAdd} />
-					<SecondaryButton onPress={ingresarCaracterVacio} text={caracterVacio} />
+					<SecondaryButton
+						onPress={ingresarCaracterVacio}
+						text={caracterVacio}
+					/>
 				</View>
 			</View>
 			<View style={styles().siguienteContainer}>
 				<PrimaryIconButton
 					icon={faChevronRight}
 					size={50}
-					onPress={NavegarNuevasTransiciones}
+					onPress={() => {
+						setLoading(true);
+						navegarNuevasTransiciones();
+					}}
 					loading={loading}
 				/>
-				{mostrarError && (
-					<View style={styles().labelErrorContainer}>
-						<Text style={styles().labelError}>{mensajeError}</Text>
-					</View>
-				)}
 			</View>
+			{showToast ? <Toast message={messageToast} type="warning" /> : null}
 		</View>
 	);
 }
