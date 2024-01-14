@@ -48,8 +48,8 @@ export const LightColors : Theme = {
     neutral: ColorsNames.Charcoal,
     neutralVariant: ColorsNames.AntiFlashWhite,
 
-    outline: ColorsNames.SlateGray,
-    onOutline: ColorsNames.CoolGray,
+    outline: ColorsNames.CoolGray,
+    onOutline: ColorsNames.SlateGray,
 } 
 
 export const DarkColors : Theme = {
