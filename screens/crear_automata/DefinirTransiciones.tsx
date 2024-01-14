@@ -46,7 +46,7 @@ export default function DefinirTransiciones({
 					return false
 				} 
 				if(transicion.operacion === undefined || transicion.operacion === ""){
-					console.log("Operacion nula");
+					// console.log("Operacion nula");
 					return false
 				}
 				
@@ -58,7 +58,6 @@ export default function DefinirTransiciones({
 	
 	function crearAutomata() {
 		if(validarAutomata() === false) {
-			console.log("No creado");
 			ejecutarToast()
 			setLoading(false)
 		}

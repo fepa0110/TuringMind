@@ -37,7 +37,7 @@ export function TablaEstadosNueva({
 	const { getTheme } = useTheme();
 	const colors = getTheme();
 
-	const { caracterVacio } = useBiblioteca()
+	const { caracterVacio } = useBiblioteca();
 
 	const operaciones = [
 		"Izquierda (L)",
@@ -136,7 +136,7 @@ export function TablaEstadosNueva({
 	function seleccionarTransicion(estado: Estado, transicion: Transicion) {
 		setEstadoSeleccionado(estado);
 		setTransicionSeleccionada(transicion);
-		setCaracterIngresado("")
+		setCaracterIngresado("");
 	}
 
 	function onOperacionTransicionChange(operacionSeleccionada: string) {
@@ -185,7 +185,7 @@ export function TablaEstadosNueva({
 	}
 
 	function onNuevoEstadoTransicionChange(selectedItem: string) {
-		if(selectedItem === "Aceptador") selectedItem = "-1"
+		if (selectedItem === "Aceptador") selectedItem = "-1";
 		setTransicionSeleccionada((prevTransicion) => {
 			return { ...prevTransicion, nuevoEstado: Number(selectedItem) };
 		});
@@ -202,7 +202,10 @@ export function TablaEstadosNueva({
 									transicion.caracter ===
 									transicionSeleccionada.caracter
 								) {
-									return { ...transicion, nuevoEstado: Number(selectedItem) };
+									return {
+										...transicion,
+										nuevoEstado: Number(selectedItem),
+									};
 								} else return transicion;
 							}),
 						};
@@ -214,35 +217,35 @@ export function TablaEstadosNueva({
 
 	function onChangeCaracterIngresado(caracterColocado: string) {
 		// if (caracterColocado !== "") {
-			setCaracterIngresado(caracterColocado);
+		setCaracterIngresado(caracterColocado);
 
-			setTransicionSeleccionada((prevTransicion) => {
-				return { ...prevTransicion, operacion: caracterColocado };
-			});
+		setTransicionSeleccionada((prevTransicion) => {
+			return { ...prevTransicion, operacion: caracterColocado };
+		});
 
-			setAutomata((prevAutomata) => {
-				return {
-					...prevAutomata,
-					estados: prevAutomata.estados.map((estado) => {
-						if (estado.nombre === estadoSeleccionado.nombre) {
-							return {
-								...estado,
-								transiciones: estado.transiciones.map((transicion) => {
-									if (
-										transicion.caracter ===
-										transicionSeleccionada.caracter
-									) {
-										return {
-											...transicion,
-											operacion: caracterColocado,
-										};
-									} else return transicion;
-								}),
-							};
-						} else return estado;
-					}),
-				};
-			});
+		setAutomata((prevAutomata) => {
+			return {
+				...prevAutomata,
+				estados: prevAutomata.estados.map((estado) => {
+					if (estado.nombre === estadoSeleccionado.nombre) {
+						return {
+							...estado,
+							transiciones: estado.transiciones.map((transicion) => {
+								if (
+									transicion.caracter ===
+									transicionSeleccionada.caracter
+								) {
+									return {
+										...transicion,
+										operacion: caracterColocado,
+									};
+								} else return transicion;
+							}),
+						};
+					} else return estado;
+				}),
+			};
+		});
 	}
 
 	function RowEstado({ estado }: { estado: Estado }) {
@@ -280,7 +283,12 @@ export function TablaEstadosNueva({
 								justifyContent: "center",
 								alignItems: "center",
 							}}>
-							<Text style={{ fontSize: 16, color: colors.onBackground, fontFamily: "Play-Regular", }}>
+							<Text
+								style={{
+									fontSize: 16,
+									color: colors.onBackground,
+									fontFamily: "Play-Regular",
+								}}>
 								{caracter}
 							</Text>
 						</View>
@@ -291,7 +299,9 @@ export function TablaEstadosNueva({
 	}
 
 	return (
-		<ScrollView style={{width: "100%", height: "100%"}} centerContent={true}>
+		<ScrollView
+			style={{ width: "100%", height: "100%" }}
+			centerContent={true}>
 			<View
 				style={{
 					flexDirection: "column",
@@ -342,14 +352,20 @@ export function TablaEstadosNueva({
 						alignItems: "center",
 					}}>
 					<View style={{ width: "100%", marginVertical: 16 }}>
-						<Text style={{ color: colors.onBackground, fontFamily: "Play-Regular", }}>Operación</Text>
+						<Text
+							style={{
+								color: colors.onBackground,
+								fontFamily: "Play-Regular",
+							}}>
+							Operación
+						</Text>
 						<RadioButton
 							options={operaciones}
 							onSelectValue={onOperacionTransicionChange}
 							fontSize={16}
 							horizontal={true}
-							activeDecorationColor={colors.primary}
-							activeTextColor={colors.primary}
+							activeDecorationColor={colors.secondary}
+							activeTextColor={colors.secondary}
 							inactiveTextColor={colors.outline}
 						/>
 						<View style={styles().nuevoCaracterContainer}>
@@ -359,23 +375,42 @@ export function TablaEstadosNueva({
 								value={caracterIngresado}
 								editable={inputCaracterEditable}
 								placeholder="Colocar caracter"
-								placeholderTextColor={inputCaracterEditable ? colors.onBackground : colors.outline}
+								placeholderTextColor={
+									inputCaracterEditable
+										? colors.onBackground
+										: colors.outline
+								}
 								cursorColor={colors.primary}
-								underlineColorAndroid={inputCaracterEditable ? colors.onBackground: colors.outline}
+								underlineColorAndroid={
+									inputCaracterEditable
+										? colors.onBackground
+										: colors.outline
+								}
 								autoComplete="off"
 								maxLength={1}
 								autoCapitalize="none"
 							/>
 
-							<SecondaryButton text={caracterVacio} onPress={()=> onChangeCaracterIngresado(caracterVacio)} disabled={!inputCaracterEditable}/>
+							<SecondaryButton
+								text={caracterVacio}
+								onPress={() => onChangeCaracterIngresado(caracterVacio)}
+								disabled={!inputCaracterEditable}
+							/>
 						</View>
 					</View>
 					<View style={{ width: "60%", marginVertical: 16 }}>
-						<Text style={{ color: colors.onBackground, fontFamily: "Play-Regular", }}>
+						<Text
+							style={{
+								color: colors.onBackground,
+								fontFamily: "Play-Regular",
+							}}>
 							Proximo estado
 						</Text>
 						<Select
-							data={[...automata.estados.map((estado) => estado.nombre), "Aceptador"]}
+							data={[
+								...automata.estados.map((estado) => estado.nombre),
+								"Aceptador",
+							]}
 							onSelect={(selectedItem) => {
 								onNuevoEstadoTransicionChange(selectedItem);
 							}}
@@ -418,7 +453,7 @@ const styles = (colors = useTheme().getTheme()) =>
 			padding: 10,
 			color: colors.onBackground,
 			backgroundColor: colors.background,
-			fontFamily: "Play-Regular"
+			fontFamily: "Play-Regular",
 		},
 		inputsContainer: {
 			flexDirection: "column",
