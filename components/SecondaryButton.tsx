@@ -6,6 +6,7 @@ import {
 	StyleSheet,
 	ActivityIndicator,
 	Text,
+	DimensionValue,
 } from "react-native";
 import { useTheme } from "../hooks/useTheme";
 import { Theme } from "../types/Theme";
@@ -13,7 +14,7 @@ import { Theme } from "../types/Theme";
 interface SecondaryButtonType {
 	onPress: () => void;
 	text: string;
-	size?: number;
+	width?: DimensionValue;
 	loading?: boolean;
 	disabled?: boolean;
 }
@@ -21,18 +22,18 @@ interface SecondaryButtonType {
 export function SecondaryButton({
 	onPress,
 	text,
-	size,
+	width,
 	loading,
 	disabled
 }: SecondaryButtonType) {
 	const { getTheme } = useTheme();
-	const styles = stylesSecondaryButton(getTheme());
+	const styles = stylesSecondaryButton(getTheme(), width, disabled);
 
 	const [isLoading, setIsLoading] = useState(loading||false)
 
 	return (
 		<TouchableOpacity
-			style={[{ width: size || 40, height: size || 40 }, styles.button]}
+			style={styles.button}
 			onPress={onPress}
 			disabled={disabled}>
 			{isLoading ? (
@@ -44,19 +45,21 @@ export function SecondaryButton({
 	);
 }
 
-const stylesSecondaryButton = (colors: Theme) =>
+const stylesSecondaryButton = (colors: Theme, width: DimensionValue | undefined, disabled: boolean | undefined) =>
 	StyleSheet.create({
 		button: {
 			flexDirection: "row",
+			width: width || 40, 
+			height: 40,
 			backgroundColor: colors.background,
 			alignItems: "center",
 			justifyContent: "center",
+            borderColor: disabled ? colors.outline : colors.primary,
             borderWidth: 2,
 			borderRadius: 32,
-            borderColor: colors.primary
 		},
 		text: {
-            color: colors.primary,
+            color: disabled ? colors.onOutline : colors.primary,
 			fontSize: 22,
 			fontFamily: "Play-Regular",
 			paddingBottom: 6
