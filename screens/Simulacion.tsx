@@ -44,7 +44,6 @@ export default function Simulacion() {
 	const [messageToast, setMessageToast] = useState("Automata finalizado");
 
 	const { automataActual, caracterVacio, seleccionarAutomata } = useBiblioteca();
-	console.log("🚀 ~ file: Simulacion.tsx:42 ~ Simulacion ~ automataActual:", automataActual)
 
 
 	const [cinta, setCinta] = useState<String[]>([
@@ -216,23 +215,17 @@ export default function Simulacion() {
 
 	return (
 		<View style={styles(colors).container}>
-			{/* <Header /> */}
-
 			<View style={styles(colors).mainContentContainer}>
 				<Cinta />
 
 				<View style={styles(colors).controlsContainer}>
-					{/* <Text style={{ color: colors.onBackground }}>{cinta}</Text>
-					<Text style={{ color: colors.onBackground }}>
-						{indiceActual + " => " + cinta[indiceActual]}{" "}
-					</Text> */}
 
 					<View style={styles(colors).fieldContainer}>
 						<TextInput
 							style={styles(colors).input}
 							onChangeText={onChangeCaracterIngresado}
 							value={caracterIngresado}
-							placeholder="Caracter actual"
+							placeholder="Carácter actual"
 							placeholderTextColor={colors.onBackground}
 							cursorColor={colors.primary}
 							underlineColorAndroid={colors.onBackground}
@@ -259,7 +252,7 @@ export default function Simulacion() {
 						moverseIzquierda={moverseIzquierda}
 						colocarCaracter={setActualCaracter}
 						onShowMessage={ejecutarToast}
-					/>: <Text style={styles(colors).messageAutomataNoSeleccionado}>No se selecciono ningun automata</Text>}
+					/>: <Text style={styles(colors).messageAutomataNoSeleccionado}>No se seleccionó ningún autómata</Text>}
 				</View>
 			</View>
 

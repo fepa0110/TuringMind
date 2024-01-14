@@ -97,7 +97,7 @@ export default function VerAutomata({
 				<View style={styles().centeredView}>
 					<View style={styles().modalView}>
 						<Text style={styles().modalText}>
-							¿Estas seguro que deseas eliminar este automata?
+							¿Estás seguro que deseas eliminar este autómata?
 						</Text>
 						<View
 							style={{

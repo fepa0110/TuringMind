@@ -17,6 +17,7 @@ import { FlashList } from "@shopify/flash-list";
 import { Automata } from "../types/Automata";
 
 import { faCheckCircle, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faCheckCircle as faCheckCircleRegular } from "@fortawesome/free-regular-svg-icons";
 
 import { faCircle } from "@fortawesome/free-regular-svg-icons";
 
@@ -111,7 +112,7 @@ export default function Biblioteca({ navigation }: BibliotecaNavigationProps) {
 							alignSelf: "center",
 							marginTop: "3%"
 						}}>
-						No hay automatas guardados
+						No hay autómatas guardados
 					</Text>
 				}
 			/>

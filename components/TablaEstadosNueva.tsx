@@ -43,7 +43,7 @@ export function TablaEstadosNueva({
 		"Izquierda (L)",
 		"Derecha (R)",
 		"No hacer nada",
-		"Caracter",
+		"Carácter"
 	];
 
 	const [caracterIngresado, setCaracterIngresado] = React.useState<string>("");
@@ -374,7 +374,7 @@ export function TablaEstadosNueva({
 								onChangeText={onChangeCaracterIngresado}
 								value={caracterIngresado}
 								editable={inputCaracterEditable}
-								placeholder="Colocar caracter"
+								placeholder="Colocar carácter"
 								placeholderTextColor={
 									inputCaracterEditable
 										? colors.onBackground
@@ -404,7 +404,7 @@ export function TablaEstadosNueva({
 								color: colors.onBackground,
 								fontFamily: "Play-Regular",
 							}}>
-							Proximo estado
+							Próximo estado
 						</Text>
 						<Select
 							data={[
@@ -420,7 +420,7 @@ export function TablaEstadosNueva({
 							rowTextForSelection={(item) => {
 								return item;
 							}}
-							defaultButtonText={"Proximo estado"}
+							defaultButtonText={"Próximo estado"}
 							backgroundColor={colors.background}
 							borderColor={colors.onBackground}
 							textColor={colors.onBackground}

@@ -79,7 +79,7 @@ export default function DefinirTransiciones({
 			<View style={{width: "95%", flexDirection: "column", alignItems: "flex-start", marginTop: "2%"}}>
 				<Text style={styles().title}>Definir transiciones</Text>
 				<Text style={styles().labelData}>
-					{"Automata: " + automata.nombre}
+					{"Autómata: " + automata.nombre}
 				</Text>
 			</View>
 
