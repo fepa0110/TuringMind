@@ -34,7 +34,7 @@ export default function Toast({ message, type }: ToastType) {
 const toastStyles = (colors = useTheme().getTheme(), type: string) =>
 	StyleSheet.create({
 		label: {
-			color: colors.onSecondary,
+			color: type === "info" ? colors.onActive : colors.onError,
 			fontSize: 16,
 			fontFamily: "Play-Regular"
 		},
@@ -43,11 +43,10 @@ const toastStyles = (colors = useTheme().getTheme(), type: string) =>
 			justifyContent: "center",
 			alignItems: "center",
 			width: "100%",
-			// height: "8%",
 			position: "absolute",
 			bottom: 0,
 			right: 0,
 			left: 0,
-            backgroundColor: type === "info" ? colors.secondary : colors.error
+            backgroundColor: type === "info" ? colors.active : colors.error
 		},
 	});
