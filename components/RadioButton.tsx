@@ -1,7 +1,5 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
-import React, { useState } from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faArrowRight, faChevronRight } from "@fortawesome/free-solid-svg-icons";
+import React, { useEffect, useState } from "react";
 
 interface RadioButtonProps {
 	options: string[];
@@ -44,7 +42,7 @@ const RadioButton = ({
 					<Pressable
 						key={item}
 						style={stylesRadio.optionContainer}
-						onPress={() => selectItem(indexItem)}>
+						onPress={() => {selectItem(indexItem)}}>
 						<Text
 							style={
 								indexItem === indexItemSelected
@@ -78,9 +76,6 @@ const styles = (
 		itemActiveText: {
 			fontFamily: "Play-Regular",
 			fontSize: fontSize,
-			color: activeTextColor,
-			// textDecorationLine: "underline",
-			// textDecorationColor: activeDecorationColor,
 			borderBottomWidth: 2,
 			borderBottomColor: activeDecorationColor,
 			paddingBottom: 1,

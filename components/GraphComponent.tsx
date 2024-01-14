@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { View } from "react-native";
 import { Svg, Circle, Line, Defs, Marker, Path, Text } from "react-native-svg";
-import * as d3 from "d3";
 
 const GraphComponent = () => {
 	const estados = [

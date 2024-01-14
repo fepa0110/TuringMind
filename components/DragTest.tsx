@@ -26,7 +26,6 @@ export function DragTest() {
                 position.value = e.translationX
 			}
             // setCirclePosition({...circlePosition, x: e.x})
-			console.log("position -->", onLeft.value);
 		})
 		.onEnd((e) => {
 			if (position.value > END_POSITION) {
@@ -37,7 +36,6 @@ export function DragTest() {
 				position.value = withTiming(0, { duration: 100 });
 				onLeft.value = true;
 			}
-			console.log("position -->", onLeft.value);
 		});
 
 	const animatedStyle = useAnimatedStyle(() => ({

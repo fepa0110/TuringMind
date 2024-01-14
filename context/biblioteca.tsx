@@ -35,10 +35,6 @@ type BibliotecaProps = {
 
 export function BibliotecaProvider({ children }: BibliotecaProps) {
 	const [automatas, setAutomatas] = useState<AutomataEntry[]>([]);
-	console.log(
-		"🚀 ~ file: biblioteca.tsx:38 ~ BibliotecaProvider ~ automatas:",
-		automatas
-	);
 
 	const [automataActual, setAutomataActual] = useState<Automata | undefined>();
 	const [indiceAutomataActual, setIndiceAutomataActual] = useState(-1);
@@ -50,7 +46,6 @@ export function BibliotecaProvider({ children }: BibliotecaProps) {
 	}, []);
 
 	const addAutomata = (automata: Automata) => {
-		console.log("automatas.length--> ", automatas?.length);
 		const automatasLength = automatas?.length || 0;
 
 		AutomatasStorage.addAutomata(automata, automatasLength);
@@ -88,11 +83,9 @@ export function BibliotecaProvider({ children }: BibliotecaProps) {
 				return automatasEntries;
 			}
 
-			console.log("Automatas obtenidos");
 
 			return [];
 		} catch (e) {
-			console.log("Ocurrio un error al obtener los automatas.");
 			return [];
 		}
 	}
