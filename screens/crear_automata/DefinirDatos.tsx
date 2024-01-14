@@ -90,7 +90,17 @@ export function DefinirDatos({ navigation }: BibliotecaNavigationProps) {
 	};
 
 	function ingresarCaracter() {
-		if (
+		if(caracterIngresado === "-"){			
+			setMessageToast("Carácter reservado, por favor ingresá uno diferente");
+			ejecutarToast();
+			setLoading(false);
+		}
+		else if(caracteres.indexOf(caracterIngresado) >= 0){
+			setMessageToast("Carácter ya agregado");
+			ejecutarToast();
+			setLoading(false);
+		}
+		else if (
 			caracteres.indexOf(caracterIngresado) < 0 &&
 			caracterIngresado.length != 0
 		) {
@@ -100,17 +110,22 @@ export function DefinirDatos({ navigation }: BibliotecaNavigationProps) {
 	}
 
 	function ingresarCaracterVacio() {
-		setCaracteres((prevState) => [...prevState, caracterVacio]);
+		if(caracteres.indexOf(caracterVacio) >= 0){
+			setMessageToast("Carácter nulo ya agregado");
+			ejecutarToast();
+			setLoading(false);
+		}
+		else setCaracteres((prevState) => [...prevState, caracterVacio]);
 	}
 
 	function navegarNuevasTransiciones() {
-		if(cantidadEstados.length <= 0){			
-			setMessageToast("Debes ingresar una cantidad de estados");
+		if(cantidadEstados.length <= 0 || Number(cantidadEstados) <= 0){			
+			setMessageToast("Debes ingresar una cantidad de estados mayor a cero");
 			ejecutarToast();
 			setLoading(false);
 		}
 		else if (caracteres.length === 0) {
-			setMessageToast("Debes ingresar al menos un caracter al diccionario");
+			setMessageToast("Debes ingresar al menos un carácter al diccionario");
 			ejecutarToast();
 			setLoading(false);
 		} 
@@ -161,7 +176,7 @@ export function DefinirDatos({ navigation }: BibliotecaNavigationProps) {
 					style={styles().input}
 					onChangeText={onChangeNombreAutomata}
 					value={nombreAutomata}
-					placeholder="Nombre de automata"
+					placeholder="Nombre de autómata"
 					placeholderTextColor={colors.onBackground}
 					cursorColor={colors.primary}
 					underlineColorAndroid={colors.onBackground}
@@ -208,7 +223,7 @@ export function DefinirDatos({ navigation }: BibliotecaNavigationProps) {
 						onChangeText={onChangeCaracterIngresado}
 						value={caracterIngresado}
 						defaultValue=""
-						placeholder="Agregar caracter"
+						placeholder="Agregar carácter"
 						placeholderTextColor={colors.onBackground}
 						cursorColor={colors.primary}
 						underlineColorAndroid={colors.onBackground}
