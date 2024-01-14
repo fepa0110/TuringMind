@@ -104,7 +104,12 @@ export function DefinirDatos({ navigation }: BibliotecaNavigationProps) {
 	}
 
 	function navegarNuevasTransiciones() {
-		if (caracteres.length === 0) {
+		if(cantidadEstados.length <= 0){			
+			setMessageToast("Debes ingresar una cantidad de estados");
+			ejecutarToast();
+			setLoading(false);
+		}
+		else if (caracteres.length === 0) {
 			setMessageToast("Debes ingresar al menos un caracter al diccionario");
 			ejecutarToast();
 			setLoading(false);
