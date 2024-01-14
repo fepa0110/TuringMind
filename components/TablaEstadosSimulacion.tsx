@@ -10,6 +10,7 @@ import { PrimaryIconButton } from "./PrimaryIconButton";
 import {
 	faAngleLeft,
 	faAngleRight,
+	faForwardStep,
 	faStepForward,
 	faUndo,
 } from "@fortawesome/free-solid-svg-icons";
@@ -68,7 +69,7 @@ export function TablaEstadosSimulacion({
 				key={"transicion" + estado.nombre + transicion.caracter}
 				style={{
 					borderWidth: 1,
-					borderColor: colors.secondary,
+					borderColor: colors.onBackground,
 					backgroundColor: isTransicionActual(estado, transicion)
 						? colors.active
 						: colors.background,
@@ -102,7 +103,7 @@ export function TablaEstadosSimulacion({
 				key={"transicion" + estado.nombre + transicion.caracter}
 				style={{
 					borderWidth: 1,
-					borderColor: colors.secondary,
+					borderColor: colors.onBackground,
 					backgroundColor: isTransicionActual(estado, transicion)
 						? colors.active
 						: colors.background,
@@ -251,7 +252,7 @@ export function TablaEstadosSimulacion({
 						marginVertical: 6,
 					}}>
 					<PrimaryIconButton
-						icon={faAngleRight}
+						icon={faForwardStep}
 						onPress={ejecutarSiguienteTransicion}
 					/>
 					<SecondaryIconButton icon={faUndo} onPress={reiniciarAutomata} />

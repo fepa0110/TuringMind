@@ -23,7 +23,7 @@ const ColorsNames = {
     // Error
     PantoneRed: "hsl(350, 87%, 50%)",
     // Active
-    SpringGreen: "hsl(150, 87%, 50%)"
+    SpringGreen: "hsl(150, 87%, 45%)"
 }
 
 // Colores originales
@@ -37,7 +37,7 @@ export const LightColors : Theme = {
     terciary: ColorsNames.Moonstone,
 
     active: ColorsNames.SpringGreen,
-    onActive: ColorsNames.SeaSalt,
+    onActive: ColorsNames.RichBlack,
 
     background: ColorsNames.SeaSalt,
     onBackground: ColorsNames.RichBlack,
@@ -62,7 +62,7 @@ export const DarkColors : Theme = {
     terciary: ColorsNames.Moonstone,
 
     active: ColorsNames.SpringGreen,
-    onActive: ColorsNames.SeaSalt,
+    onActive: ColorsNames.RichBlack,
 
     background: ColorsNames.RichBlack,
     onBackground: ColorsNames.SeaSalt,

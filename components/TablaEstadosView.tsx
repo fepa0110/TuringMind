@@ -39,7 +39,7 @@ export function TablaEstadosView({ automata }: TablaEstadosViewProps) {
 				key={"transicion" + estado.nombre + transicion.caracter}
 				style={{
 					borderWidth: 1,
-					borderColor: colors.secondary,
+					borderColor: colors.onBackground,
 					backgroundColor: colors.background,
 					width: 50,
 					height: 32,
