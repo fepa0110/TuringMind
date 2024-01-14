@@ -26,6 +26,7 @@ import { PrimaryIconButton } from "../components/PrimaryIconButton";
 import { useBiblioteca } from "../hooks/useBiblioteca";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { AutomataEntry } from "../data/biblioteca/types/AutomataEntry";
+import Toast from "../components/Toast";
 
 type BibliotecaNavigationProps = StackScreenProps<
 	BibliotecaNavigationStackParamList,
@@ -38,13 +39,22 @@ export default function Biblioteca({ navigation }: BibliotecaNavigationProps) {
 
 	const { automatas, seleccionarAutomata, indiceAutomataActual } =
 	useBiblioteca();
-	
+
+	const [showToast, setShowToast] = useState(false);
+	const [messageToast, setMessageToast] = useState("Automata seleccionado correctamente");
+
 	function elegirAutomata(indiceAutomata: number) {
 		seleccionarAutomata(indiceAutomata);
+		ejecutarToast();
 	}
-	
-	console.log("🚀 ~ file: Biblioteca.tsx:40 ~ Biblioteca ~ indiceAutomataActual:", indiceAutomataActual)
-	
+
+	function ejecutarToast() {
+		setShowToast(true);
+		setTimeout(() => {
+			setShowToast(false);
+		}, 5000);
+	}
+
 	const AutomataItem = ({
 		item,
 		indiceAutomata,
@@ -121,6 +131,9 @@ export default function Biblioteca({ navigation }: BibliotecaNavigationProps) {
 					}}
 				/>
 			</View>
+
+			{showToast ? <Toast message={messageToast} type="info" /> : null}
+
 		</View>
 	);
 }
