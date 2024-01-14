@@ -1,41 +1,37 @@
 {
   "expo": {
-    "name": "TuringMachine",
-    "slug": "turingmachineapp",
-    "version": "1.0.2",
+    "name": "TuringMind",
+    "slug": "turingmind",
+    "version": "1.0.3",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#F5F8FE"
     },
     "assetBundlePatterns": [
       "**/*"
     ],
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.fepa0110.turingmachineapp"
-    },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#F5F8FE"
       },
-      "package": "com.fepa0110.turingmachineapp"
+      "package": "com.fepa.turingmind"
     },
-    "extra": {
-      "eas": {
-        "projectId": "b3d68762-54e5-4f24-92d8-e42fdc6e4b5d"
-      }
-    },
-    "owner": "fepa0110",
+    "owner": "fepa",
     "runtimeVersion": {
       "policy": "appVersion"
     },
     "updates": {
       "url": "https://u.expo.dev/b3d68762-54e5-4f24-92d8-e42fdc6e4b5d"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "c4010d78-ae8c-43d8-a041-9fd627994a0d"
+      }
     }
   }
 }
