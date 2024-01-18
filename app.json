@@ -19,7 +19,8 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#F5F8FE"
       },
-      "package": "com.fepa.turingmind"
+      "package": "com.fepa.turingmind",
+      "versionCode": 2
     },
     "owner": "fepa",
     "runtimeVersion": {
