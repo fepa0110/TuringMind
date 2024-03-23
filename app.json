@@ -20,7 +20,7 @@
         "backgroundColor": "#F5F8FE"
       },
       "package": "com.fepa.turingmind",
-      "versionCode": 2
+      "versionCode": 3
     },
     "owner": "fepa",
     "runtimeVersion": {
@@ -33,6 +33,9 @@
       "eas": {
         "projectId": "c4010d78-ae8c-43d8-a041-9fd627994a0d"
       }
-    }
+    },
+    "plugins": [
+      "expo-font"
+    ]
   }
 }
