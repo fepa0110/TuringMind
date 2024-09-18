@@ -1,4 +1,6 @@
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
+import React from "react"
+// import React = require("react");
 
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 
@@ -57,7 +59,7 @@ export default function Simulacion() {
 	const [indiceActual, setIndiceActual] = useState<number>(0);
 
 	const [caracterIngresado, onChangeCaracterIngresado] =
-		React.useState<string>("");
+		useState<string>("");
 	
 	function ejecutarToast() {
 		setShowToast(true);

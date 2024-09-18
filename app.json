@@ -27,7 +27,7 @@
       "policy": "appVersion"
     },
     "updates": {
-      "url": "https://u.expo.dev/b3d68762-54e5-4f24-92d8-e42fdc6e4b5d"
+      "url": "https://u.expo.dev/c4010d78-ae8c-43d8-a041-9fd627994a0d"
     },
     "extra": {
       "eas": {
@@ -36,6 +36,7 @@
     },
     "plugins": [
       "expo-font"
-    ]
+    ],
+    "ios": {}
   }
 }
