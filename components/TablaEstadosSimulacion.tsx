@@ -201,7 +201,6 @@ export function TablaEstadosSimulacion({
 
 				if (estadoNuevo !== undefined) setEstadoActual(estadoNuevo);
 				else console.log("Estado indefinido");
-				
 			}
 		}
 	}
@@ -264,25 +263,35 @@ export function TablaEstadosSimulacion({
 					style={{
 						flex: 1,
 						flexDirection: "row",
-						gap: 5,
-						marginVertical: 6,
+						gap: 22,
+						marginTop: 10,
 					}}>
-					{/* <CopilotStep
+					<CopilotStep
 						text="Ejecutar la transición resaltada en la tabla"
-						order={6}
+						order={5}
 						name="ejecutarTransicion">
-						<WalkthroughableView> */}
-					<PrimaryIconButton
-						icon={faForwardStep}
-						onPress={() => {
-							ejecutarSiguienteTransicion();
-							console.log(estadoActual);
-						}}
-					/>
-					{/* </WalkthroughableView>
-					</CopilotStep> */}
+						<WalkthroughableView>
+							<PrimaryIconButton
+								icon={faForwardStep}
+								onPress={() => {
+									ejecutarSiguienteTransicion();
+									console.log(estadoActual);
+								}}
+							/>
+						</WalkthroughableView>
+					</CopilotStep>
 
-					<SecondaryIconButton icon={faUndo} onPress={reiniciarAutomata} />
+					<CopilotStep
+						text="Volver al estado inicial. NO resetea la cinta."
+						order={6}
+						name="reiniciarAutomata">
+						<WalkthroughableView>
+							<SecondaryIconButton
+								icon={faUndo}
+								onPress={reiniciarAutomata}
+							/>
+						</WalkthroughableView>
+					</CopilotStep>
 				</View>
 			</View>
 		</ScrollView>
