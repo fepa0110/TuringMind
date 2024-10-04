@@ -36,8 +36,8 @@ export const LightColors : Theme = {
 
     terciary: ColorsNames.Moonstone,
 
-    active: ColorsNames.SpringGreen,
-    onActive: ColorsNames.RichBlack,
+    active: ColorsNames.Moonstone,
+    onActive: ColorsNames.SeaSalt,
 
     background: ColorsNames.SeaSalt,
     onBackground: ColorsNames.RichBlack,
@@ -61,8 +61,8 @@ export const DarkColors : Theme = {
 
     terciary: ColorsNames.Moonstone,
 
-    active: ColorsNames.SpringGreen,
-    onActive: ColorsNames.RichBlack,
+    active: ColorsNames.Moonstone,
+    onActive: ColorsNames.SeaSalt,
 
     background: ColorsNames.RichBlack,
     onBackground: ColorsNames.SeaSalt,
