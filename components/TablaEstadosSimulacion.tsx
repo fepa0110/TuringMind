@@ -231,7 +231,6 @@ export function TablaEstadosSimulacion({
 					}}>
 					{automataActual.nombre}
 				</Text>
-				<Text>{"estado:" + estadoActual.nombre}</Text>
 
 				<LabelsCaracteres />
 

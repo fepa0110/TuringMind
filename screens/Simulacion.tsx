@@ -128,7 +128,7 @@ export default function Simulacion({ navigation }: any) {
 	}
 
 	function setActualCaracter(caracterNuevo: string) {
-		if(caracterNuevo.length > 0){
+		if (caracterNuevo.length > 0) {
 			setCinta(
 				cinta.map((caracterCinta, indexCaractetCinta) => {
 					return indexCaractetCinta === indiceActual
@@ -192,11 +192,6 @@ export default function Simulacion({ navigation }: any) {
 					</ScrollView>
 				</View>
 
-				{/* 				<CopilotStep
-					text="Esta es la cinta, puedes tocar sobre una celda para posicionarte en ella."
-					order={1}
-					name="descripcionCinta">
-					<WalkthroughableView style={styles(colors).cintaContainer}> */}
 				<View style={styles(colors).cintaContainer}>
 					<ScrollView
 						style={{ alignSelf: "center", height: "auto" }}
@@ -239,16 +234,8 @@ export default function Simulacion({ navigation }: any) {
 						})}
 					</ScrollView>
 				</View>
-				{/* </WalkthroughableView>
-				</CopilotStep> */}
 
-				{/* <CopilotStep
-					text="Tambien puedes usar los controles para moverte a traves de ella"
-					order={2}
-					name="controlesCinta"> */}
 				<View style={styles(colors).buttonsContainer}>
-					{/* <WalkthroughableView
-							style={{ flexDirection: "row", padding: 3 }}> */}
 					<PrimaryIconButton
 						icon={faArrowLeft}
 						onPress={moverseIzquierda}
@@ -259,123 +246,6 @@ export default function Simulacion({ navigation }: any) {
 						onPress={moverseDerecha}
 						size={48}
 					/>
-					{/* </WalkthroughableView> */}
-				</View>
-				{/* </CopilotStep> */}
-			</View>
-		);
-	}
-
-	function SimulacionComp() {
-		// const { start } = useCopilot();
-		const { automataActual } = useBiblioteca();
-
-		return (
-			<View style={styles(colors).mainContentContainer}>
-				<Cinta />
-
-				{/* <PrimaryIconButton onPress={() => start()} icon={faQuestion} /> */}
-
-				<View style={styles(colors).controlsContainer}>
-					<View style={styles(colors).fieldContainer}>
-						{/* <CopilotStep
-							text="Colocar un caracter en la posición actual en la cinta"
-							order={3}
-							name="colocarCaracter">
-							<WalkthroughableView
-								style={{
-									flexDirection: "row",
-									alignItems: "center",
-								}}> */}
-						<TextInput
-							style={styles(colors).input}
-							onChangeText={onChangeCaracterIngresado}
-							value={caracterIngresado}
-							placeholder="Carácter actual"
-							placeholderTextColor={colors.onBackground}
-							cursorColor={colors.primary}
-							underlineColorAndroid={colors.onBackground}
-							autoComplete="off"
-							maxLength={1}
-							autoCapitalize="none"
-						/>
-
-						<PrimaryIconButton
-							onPress={() => setActualCaracter(caracterIngresado)}
-							icon={faArrowUp}
-						/>
-						{/* </WalkthroughableView>
-						</CopilotStep> */}
-
-						{/* <CopilotStep
-							text='Borrar el caracter en la posición actual de la cinta (reemplaza por el "caracter nulo")'
-							order={4}
-							name="borrarCaracter">
-							<WalkthroughableView> */}
-						<SecondaryIconButton
-							onPress={limpiarCaracterActual}
-							icon={faEraser}
-						/>
-						{/* </WalkthroughableView>
-						</CopilotStep> */}
-					</View>
-				</View>
-
-				<View style={styles(colors).controlsContainer}>
-					{automataActual !== undefined ? (
-						<TablaEstadosSimulacion
-							automataActual={automataActual}
-							caracterActualCinta={cinta[indiceActual]}
-							moverseDerecha={moverseDerecha}
-							moverseIzquierda={moverseIzquierda}
-							colocarCaracter={setActualCaracter}
-							onShowMessage={ejecutarToast}
-						/>
-					) : (
-						// <CopilotStep
-						// 	text="Aqui se visualiza el automata seleccionado actualmente para simular."
-						// 	order={5}
-						// 	name="automataSeleccionado">
-						// 	<WalkthroughableView>
-
-						// 	</WalkthroughableView>
-						// </CopilotStep>
-						// <CopilotStep
-						// 	text="Puedes seleccionar un automata de la biblioteca para simular. Tambien se puede acceder desde el menú lateral."
-						// 	order={5}
-						// 	name="seleccionarAutomata">
-						// 	<WalkthroughableView
-						// 		style={{
-						// 			flexDirection: "column",
-						// 			width: "100%",
-						// 			justifyContent: "center",
-						// 			alignItems: "center",
-						// 			gap: 42,
-						// 			marginTop: 22,
-						// 		}}>
-						<View
-							style={{
-								flexDirection: "column",
-								width: "100%",
-								justifyContent: "center",
-								alignItems: "center",
-								gap: 42,
-								marginTop: 22,
-							}}>
-							<Text style={styles(colors).messageAutomataNoSeleccionado}>
-								No se seleccionó ningún autómata
-							</Text>
-
-							<SecondaryButton
-								text="Abrir biblioteca"
-								onPress={() => {
-									navigation.jumpTo("BibliotecaNavigation");
-								}}
-								width={240}
-							/>
-						</View>
-						// </CopilotStep>
-					)}
 				</View>
 			</View>
 		);
@@ -385,15 +255,22 @@ export default function Simulacion({ navigation }: any) {
 		// <WithCopilot>
 		<View style={styles(colors).container}>
 			<View style={styles(colors).mainContentContainer}>
-				<Cinta />
+				<CopilotStep
+					text='Para moverte por la Cinta puedes presionar sobre una celda para posicionarte sobre ella o bien moverte con los controles en la parte inferior. La celda actual se encuentra señalada por una flecha.'
+					order={1}
+					name="cinta">
+					<WalkthroughableView>
+						<Cinta />
+					</WalkthroughableView>
+				</CopilotStep>
 
 				<PrimaryIconButton onPress={() => start()} icon={faQuestion} />
 
 				<View style={styles(colors).controlsContainer}>
 					<View style={styles(colors).fieldContainer}>
 						<CopilotStep
-							text="Colocar un caracter en la posición actual en la cinta"
-							order={3}
+							text="Colocar un caracter en la posición actual de la cinta"
+							order={2}
 							name="colocarCaracter">
 							<WalkthroughableView
 								style={{
@@ -420,25 +297,27 @@ export default function Simulacion({ navigation }: any) {
 							</WalkthroughableView>
 						</CopilotStep>
 
-						<CopilotStep
-							text='Borrar el caracter en la posición actual de la cinta (reemplaza por el "caracter nulo")'
-							order={4}
-							name="borrarCaracter">
-							<WalkthroughableView>
-								<SecondaryIconButton
-									onPress={limpiarCaracterActual}
-									icon={faEraser}
-								/>
-							</WalkthroughableView>
-						</CopilotStep>
+						<View>
+							<CopilotStep
+								text='Borrar el caracter en la posición actual de la cinta (reemplaza por el "caracter nulo")'
+								order={3}
+								name="borrarCaracter">
+								<WalkthroughableView>
+									<SecondaryIconButton
+										onPress={limpiarCaracterActual}
+										icon={faEraser}
+									/>
+								</WalkthroughableView>
+							</CopilotStep>
+						</View>	
 					</View>
 				</View>
 
 				<View style={styles(colors).controlsContainer}>
 					{automataActual !== undefined ? (
 						<CopilotStep
-							text="Aqui se visualiza el automata seleccionado actualmente para simular."
-							order={5}
+							text="Aqui se visualiza el automata seleccionado actualmente para simular"
+							order={4}
 							name="automataSeleccionado">
 							<WalkthroughableView>
 								<TablaEstadosSimulacion
@@ -453,8 +332,8 @@ export default function Simulacion({ navigation }: any) {
 						</CopilotStep>
 					) : (
 						<CopilotStep
-							text="Puedes seleccionar un automata de la biblioteca para simular. Tambien se puede acceder desde el menú lateral."
-							order={5}
+							text="Aun no haz seleccionado un automata, puedes hacerlo desde la biblioteca tocando sobre el boton o bien desde el menú lateral"
+							order={4}
 							name="seleccionarAutomata">
 							<WalkthroughableView
 								style={{
