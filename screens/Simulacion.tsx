@@ -1,7 +1,5 @@
 import { useState, useRef, useEffect, ReactNode } from "react";
 import React from "react";
-import RNMaskedView from "@react-native-masked-view/masked-view";
-// import React = require("react");
 
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 
@@ -19,6 +17,8 @@ import {
 	faRocket,
 	faCircleQuestion,
 	faQuestion,
+	faChevronLeft,
+	faChevronRight,
 } from "@fortawesome/free-solid-svg-icons";
 
 import {
@@ -43,15 +43,10 @@ import { useBiblioteca } from "../hooks/useBiblioteca";
 import Toast from "../components/Toast";
 
 import {
-	CopilotProvider,
 	CopilotStep,
-	useCopilot,
 	walkthroughable,
 } from "react-native-copilot";
-import { StepNumberComponent } from "../components/tutorial/StepNumberComponent";
-import { useNavigation } from "@react-navigation/native";
 import { SecondaryButton } from "../components/SecondaryButton";
-import { WithCopilot } from "../components/tutorial/WithCopilot";
 
 const WalkthroughableView = walkthroughable(View);
 
@@ -228,12 +223,12 @@ export default function Simulacion({ navigation }: any) {
 
 				<View style={styles(colors).buttonsContainer}>
 					<PrimaryIconButton
-						icon={faArrowLeft}
+						icon={faChevronLeft}
 						onPress={moverseIzquierda}
 						size={48}
 					/>
 					<PrimaryIconButton
-						icon={faArrowRight}
+						icon={faChevronRight}
 						onPress={moverseDerecha}
 						size={48}
 					/>
