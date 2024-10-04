@@ -57,7 +57,7 @@ export function BibliotecaProvider({ children }: BibliotecaProps) {
 		getAutomatasFromStorage();
 	};
 
-	const seleccionarAutomata = async (indiceAutomata: number) => {
+	const seleccionarAutomata = async (indiceAutomata: number) => {		
 		if (automatas !== undefined && automatas.length >= indiceAutomata) {
 			let automataObtenido = await AutomatasStorage.getAutomata(
 				automatas[indiceAutomata].indice

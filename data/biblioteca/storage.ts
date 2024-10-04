@@ -4,6 +4,7 @@ import { AutomataEntry } from "./types/AutomataEntry";
 import { AutomataData } from "./types/AutomataData";
 
 import sumaBinariaAutomata from "./suma-binaria-automata.json";
+import { useBiblioteca } from "../../hooks/useBiblioteca";
 
 /* Agregar automata
     1 - Obtener lista de automatas
@@ -13,8 +14,9 @@ import sumaBinariaAutomata from "./suma-binaria-automata.json";
 */
 export async function createStorage() {
 	try {
-		const automatasJson = await AsyncStorage.getItem("automatas");
-		if (automatasJson == null) {
+		const automatasGuardadosJson = await AsyncStorage.getItem("automatas");
+
+		if (automatasGuardadosJson == null) {
 			const sumaBinariaEntry: AutomataEntry = {
 				indice: 0,
 				nombre: "Suma binaria",
@@ -25,7 +27,7 @@ export async function createStorage() {
 			);
 
 			addAutomata(sumaBinariaAutomata, 0);
-			////console.log("Storage creado");
+			//console.log("Storage creado");
 		} else {
 			//console.log("Storage no creado");
 			//console.log(automatasJson);

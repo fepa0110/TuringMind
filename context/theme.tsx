@@ -2,6 +2,7 @@ import React, { useState, createContext } from "react";
 
 import { LightColors, DarkColors } from "../constants/Colors";
 import { Theme } from "../types/Theme";
+import { Appearance } from "react-native";
 
 interface ThemeType {
 	darkTheme: boolean;
@@ -20,7 +21,7 @@ type ThemeProps = {
 };
 
 export function ThemeProvider({ children }: ThemeProps){
-	const [ darkTheme, setDarkTheme ] = useState(false);
+	const [ darkTheme, setDarkTheme ] = useState(Appearance.getColorScheme() === 'dark');
 
 	const toggleTheme = () => {
 		setDarkTheme(!darkTheme)

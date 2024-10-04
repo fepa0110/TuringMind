@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 
 import { Automata } from "../types/Automata";
@@ -17,6 +17,7 @@ import {
 import { SecondaryIconButton } from "./SecondaryIconButton";
 import { useBiblioteca } from "../hooks/useBiblioteca";
 import { ScrollView } from "react-native-gesture-handler";
+import { CopilotStep, walkthroughable } from "react-native-copilot";
 
 interface TablaEstadosSimulacionProps {
 	automataActual: Automata;
@@ -26,6 +27,8 @@ interface TablaEstadosSimulacionProps {
 	colocarCaracter: (caracter: string) => void;
 	onShowMessage: () => void;
 }
+
+const WalkthroughableView = walkthroughable(View);
 
 export function TablaEstadosSimulacion({
 	automataActual,
@@ -70,9 +73,7 @@ export function TablaEstadosSimulacion({
 				style={{
 					borderWidth: 1,
 					borderColor: colors.onBackground,
-					backgroundColor: isTransicionActual(estado, transicion)
-						? colors.active
-						: colors.background,
+					backgroundColor: colors.active,
 					width: 50,
 					height: 32,
 					padding: 4,
@@ -104,9 +105,7 @@ export function TablaEstadosSimulacion({
 				style={{
 					borderWidth: 1,
 					borderColor: colors.onBackground,
-					backgroundColor: isTransicionActual(estado, transicion)
-						? colors.active
-						: colors.background,
+					backgroundColor: colors.background,
 					width: 50,
 					height: 32,
 					padding: 4,
@@ -129,19 +128,22 @@ export function TablaEstadosSimulacion({
 		return (
 			<View style={{ flexDirection: "row", gap: 5 }}>
 				{estado.transiciones.map((transicion) => {
-					return isTransicionActual(estado, transicion) ? (
-						<CeldaEstadoTransicionActiva
-							key={"celda" + estado.nombre + transicion.caracter}
-							estado={estado}
-							transicion={transicion}
-						/>
-					) : (
-						<CeldaEstadoTransicionInactiva
-							key={"celda" + estado.nombre + transicion.caracter}
-							estado={estado}
-							transicion={transicion}
-						/>
-					);
+					if (isTransicionActual(estado, transicion))
+						return (
+							<CeldaEstadoTransicionActiva
+								key={"celda" + estado.nombre + transicion.caracter}
+								estado={estado}
+								transicion={transicion}
+							/>
+						);
+					else
+						return (
+							<CeldaEstadoTransicionInactiva
+								key={"celda" + estado.nombre + transicion.caracter}
+								estado={estado}
+								transicion={transicion}
+							/>
+						);
 				})}
 			</View>
 		);
@@ -189,7 +191,7 @@ export function TablaEstadosSimulacion({
 			)
 				colocarCaracter(transicionActual.operacion || caracterVacio);
 
-			if (transicionActual.nuevoEstado === finAutomata) {
+			if (transicionActual.nuevoEstado == finAutomata) {
 				onShowMessage();
 				reiniciarAutomata();
 			} else {
@@ -198,6 +200,8 @@ export function TablaEstadosSimulacion({
 				);
 
 				if (estadoNuevo !== undefined) setEstadoActual(estadoNuevo);
+				else console.log("Estado indefinido");
+				
 			}
 		}
 	}
@@ -218,7 +222,6 @@ export function TablaEstadosSimulacion({
 					paddingVertical: 6,
 					marginHorizontal: 6,
 				}}>
-				
 				<Text
 					style={{
 						alignSelf: "flex-start",
@@ -228,6 +231,7 @@ export function TablaEstadosSimulacion({
 					}}>
 					{automataActual.nombre}
 				</Text>
+				<Text>{"estado:" + estadoActual.nombre}</Text>
 
 				<LabelsCaracteres />
 
@@ -264,10 +268,21 @@ export function TablaEstadosSimulacion({
 						gap: 5,
 						marginVertical: 6,
 					}}>
+					{/* <CopilotStep
+						text="Ejecutar la transición resaltada en la tabla"
+						order={6}
+						name="ejecutarTransicion">
+						<WalkthroughableView> */}
 					<PrimaryIconButton
 						icon={faForwardStep}
-						onPress={ejecutarSiguienteTransicion}
+						onPress={() => {
+							ejecutarSiguienteTransicion();
+							console.log(estadoActual);
+						}}
 					/>
+					{/* </WalkthroughableView>
+					</CopilotStep> */}
+
 					<SecondaryIconButton icon={faUndo} onPress={reiniciarAutomata} />
 				</View>
 			</View>

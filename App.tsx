@@ -18,38 +18,43 @@ import { Desarrollador } from "./screens/Desarrollador";
 import { BibliotecaProvider } from "./context/biblioteca";
 import * as AutomatasStorage from "./data/biblioteca/storage";
 import { StatusBar } from "expo-status-bar";
+import { CopilotProvider, useCopilot } from "react-native-copilot";
+import { useBiblioteca } from "./hooks/useBiblioteca";
+import { StepNumberComponent } from "./components/tutorial/StepNumberComponent";
+import { WithCopilot } from "./components/tutorial/WithCopilot";
 
 const DrawerNavigatorApp = createDrawerNavigator();
 
+SplashScreen.preventAutoHideAsync();
+
 export default function App() {
 	const [appIsReady, setAppIsReady] = useState(false);
+
 	const { getTheme } = useTheme();
 	const colors = getTheme();
 
 	useEffect(() => {
-		async function prepare() {
-			try {
-				await SplashScreen.preventAutoHideAsync();
-
-				// await AutomatasStorage.deleteStorage()
-				// Pre-load fonts, make any API calls you need to do here
-				await AutomatasStorage.createStorage()
-
-				Font.loadAsync({
-					"Play-Regular": require("./assets/fonts/Play-Regular.ttf"),
-					"Play-Bold": require("./assets/fonts/Play-Bold.ttf")
-				});
-
-				await new Promise((resolve) => setTimeout(resolve, 1000));
-			} catch (e) {
-				console.warn(e);
-			} finally {
-				setAppIsReady(true);
-			}
-		}
-
 		prepare();
 	}, []);
+
+	async function prepare() {
+		try {
+			// await AutomatasStorage.deleteStorage()
+			// Pre-load fonts, make any API calls you need to do here
+			await AutomatasStorage.createStorage();
+
+			Font.loadAsync({
+				"Play-Regular": require("./assets/fonts/Play-Regular.ttf"),
+				"Play-Bold": require("./assets/fonts/Play-Bold.ttf"),
+			});
+
+			await new Promise((resolve) => setTimeout(resolve, 1000));
+		} catch (e) {
+			console.warn(e);
+		} finally {
+			setAppIsReady(true);
+		}
+	}
 
 	const onLayoutRootView = useCallback(async () => {
 		if (appIsReady) {
@@ -97,36 +102,38 @@ export default function App() {
 		<View
 			style={{ height: "100%", width: "100%" }}
 			onLayout={onLayoutRootView}>
-			<StatusBar style="auto"/>
-			<ThemeProvider>
-				<BibliotecaProvider>
-					<NavigationContainer>
-						<DrawerNavigatorApp.Navigator
-							screenOptions={{
-								...globalNavigatorOptions,
-								drawerType: "slide",
-								headerRight: SwitchThemeButton,
-								headerRightContainerStyle: { paddingRight: "3%" },
-							}}>
-							<DrawerNavigatorApp.Screen
-								name="Simulación"
-								component={Simulacion}
-								options={{ title: "Simulación" }}
-							/>
-							<DrawerNavigatorApp.Screen
-								name="BibliotecaNavigation"
-								component={BibliotecaNavigation}
-								options={{ title: "Biblioteca" }}
-							/>
-							{/* 						<DrawerNavigatorApp.Screen
+			<StatusBar style="auto" />
+			<WithCopilot>
+				<ThemeProvider>
+					<BibliotecaProvider>
+						<NavigationContainer>
+							<DrawerNavigatorApp.Navigator
+								screenOptions={{
+									...globalNavigatorOptions,
+									drawerType: "slide",
+									headerRight: SwitchThemeButton,
+									headerRightContainerStyle: { paddingRight: "3%" },
+								}}>
+								<DrawerNavigatorApp.Screen
+									name="Simulación"
+									component={Simulacion}
+									options={{ title: "Simulación" }}
+								/>
+								<DrawerNavigatorApp.Screen
+									name="BibliotecaNavigation"
+									component={BibliotecaNavigation}
+									options={{ title: "Biblioteca" }}
+								/>
+								{/* 						<DrawerNavigatorApp.Screen
 							name="Desarrollador"
 							component={Desarrollador}
 							options={{ title: "Desarrollador" }}
 						/> */}
-						</DrawerNavigatorApp.Navigator>
-					</NavigationContainer>
-				</BibliotecaProvider>
-			</ThemeProvider>
+							</DrawerNavigatorApp.Navigator>
+						</NavigationContainer>
+					</BibliotecaProvider>
+				</ThemeProvider>
+			</WithCopilot>
 		</View>
 	);
 }
