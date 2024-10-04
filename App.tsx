@@ -22,6 +22,7 @@ import { CopilotProvider, useCopilot } from "react-native-copilot";
 import { useBiblioteca } from "./hooks/useBiblioteca";
 import { StepNumberComponent } from "./components/tutorial/StepNumberComponent";
 import { WithCopilot } from "./components/tutorial/WithCopilot";
+import HeaderRightButtons from "./components/HeaderRightButtons";
 
 const DrawerNavigatorApp = createDrawerNavigator();
 
@@ -117,7 +118,7 @@ export default function App() {
 								<DrawerNavigatorApp.Screen
 									name="Simulación"
 									component={Simulacion}
-									options={{ title: "Simulación" }}
+									options={{ title: "Simulación", headerRight: HeaderRightButtons }}
 								/>
 								<DrawerNavigatorApp.Screen
 									name="BibliotecaNavigation"

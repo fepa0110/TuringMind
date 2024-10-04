@@ -56,9 +56,9 @@ import { WithCopilot } from "../components/tutorial/WithCopilot";
 const WalkthroughableView = walkthroughable(View);
 
 export default function Simulacion({ navigation }: any) {
-	const [secondStepActive, setSecondStepActive] = useState(true);
-	const [lastEvent, setLastEvent] = useState(null);
-	const { start } = useCopilot();
+	// const [secondStepActive, setSecondStepActive] = useState(true);
+	// const [lastEvent, setLastEvent] = useState(null);
+	// const { start } = useCopilot();
 
 	const { getTheme } = useTheme();
 	const colors = getTheme();
@@ -69,10 +69,6 @@ export default function Simulacion({ navigation }: any) {
 	const [indiceActual, setIndiceActual] = useState<number>(0);
 
 	const [caracterIngresado, onChangeCaracterIngresado] = useState<string>("");
-
-	const [indexMask, setIndexMask] = useState<number>(0);
-
-	const [iniciarTutorial, setIniciarTutorial] = useState<Boolean>(true);
 
 	const { automataActual, caracterVacio, seleccionarAutomata } =
 		useBiblioteca();
@@ -106,14 +102,6 @@ export default function Simulacion({ navigation }: any) {
 					: caracterCinta;
 			})
 		);
-	}
-
-	function handleNext() {
-		setIndexMask(indexMask + 1);
-	}
-
-	function onBackgroundPress() {
-		console.log("Background pressed!");
 	}
 
 	function ejecutarToast() {
@@ -174,6 +162,7 @@ export default function Simulacion({ navigation }: any) {
 									style={{
 										flexDirection: "row",
 										justifyContent: "center",
+										paddingHorizontal: 1
 									}}>
 									<Text
 										key={"caracter" + index}
@@ -181,8 +170,10 @@ export default function Simulacion({ navigation }: any) {
 											color:
 												index != indiceActual
 													? colors.onBackground
-													: colors.active,
+													: colors.secondary,
 											textAlign: "center",
+											fontSize: 14,
+											fontFamily: "Play-Regular",
 										}}>
 										{caracter}
 									</Text>
@@ -264,7 +255,7 @@ export default function Simulacion({ navigation }: any) {
 					</WalkthroughableView>
 				</CopilotStep>
 
-				<PrimaryIconButton onPress={() => start()} icon={faQuestion} />
+				{/* <PrimaryIconButton onPress={() => start()} icon={faQuestion} /> */}
 
 				<View style={styles(colors).controlsContainer}>
 					<View style={styles(colors).fieldContainer}>

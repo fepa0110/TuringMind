@@ -27,11 +27,10 @@ export default function SwitchThemeButton() {
 const stylesHeader = (colors: Theme) =>
 	StyleSheet.create({
 		buttonTheme: {
-			flexDirection: "row",
 			alignItems: "center",
 			justifyContent: "center",
-			height: 28,
-			width: 28,
+			height: "auto",
+			width: 32,
 			borderRadius: 64,
             paddingHorizontal: 10
 		},

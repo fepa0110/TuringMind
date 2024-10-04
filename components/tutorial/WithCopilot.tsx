@@ -16,7 +16,6 @@ export const WithCopilot = ({
 			stopOnOutsideClick={true}
 			stepNumberComponent={StepNumberComponent}
 			tooltipStyle={{ backgroundColor: getTheme().background }}
-			verticalOffset={-5}
 			labels={{
 				previous: "Atras",
 				next: "Siguiente",
