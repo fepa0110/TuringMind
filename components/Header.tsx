@@ -10,8 +10,8 @@ import { faSun, faMoon } from '@fortawesome/free-regular-svg-icons'
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-import { useTheme } from "../hooks/useTheme";
-import { Theme } from "../types/Theme";
+import { useTheme } from "?hooks/useTheme";
+import { Theme } from "#types/Theme";
 
 export function Header() {
 	const { darkTheme, getTheme, toggleTheme } = useTheme();

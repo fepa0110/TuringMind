@@ -1,10 +1,10 @@
 import React, { useState, Dispatch, SetStateAction } from "react";
 import { Text, View, StyleSheet, TextInput, ScrollView } from "react-native";
 
-import { Automata } from "../types/Automata";
-import { useTheme } from "../hooks/useTheme";
-import { Estado } from "../types/Estado";
-import { Transicion } from "../types/Transicion";
+import { Automata } from "#types/Automata";
+import { useTheme } from "?hooks/useTheme";
+import { Estado } from "#types/Estado";
+import { Transicion } from "#types/Transicion";
 import { PrimaryIconButton } from "./PrimaryIconButton";
 
 import {
@@ -15,15 +15,15 @@ import {
 	faStepForward,
 	faUndo,
 } from "@fortawesome/free-solid-svg-icons";
-import { SecondaryIconButton } from "./SecondaryIconButton";
+import { SecondaryIconButton } from "@components/SecondaryIconButton";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import RadioButton from "./RadioButton";
 import SelectDropdown from "react-native-select-dropdown";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { Select } from "./Select";
-import { useBiblioteca } from "../hooks/useBiblioteca";
-import { PrimaryButton } from "./PrimaryButton";
-import { SecondaryButton } from "./SecondaryButton";
+import { Select } from "@components/Select";
+import { useBiblioteca } from "?hooks/useBiblioteca";
+import { PrimaryButton } from "@components/PrimaryButton";
+import { SecondaryButton } from "@components/SecondaryButton";
 
 interface TablaEstadosNuevaProps {
 	automata: Automata;

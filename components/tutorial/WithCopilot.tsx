@@ -2,7 +2,7 @@ import React from "react";
 
 import { CopilotProvider, useCopilot } from "react-native-copilot"
 import { StepNumberComponent } from "./StepNumberComponent"
-import { useTheme } from "../../hooks/useTheme";
+import { useTheme } from "?hooks/useTheme";
 
 export const WithCopilot = ({
 	children

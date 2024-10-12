@@ -3,8 +3,8 @@ import { Text, View, StyleSheet, } from "react-native";
 
 import { useCopilot } from "react-native-copilot";
 
-import { useTheme } from "../../hooks/useTheme";
-import { Theme } from "../../types/Theme";
+import { useTheme } from "?hooks/useTheme";
+import { Theme } from "#types/Theme";
 
 export const StepNumberComponent = () => {
     const {

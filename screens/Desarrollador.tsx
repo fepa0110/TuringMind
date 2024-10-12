@@ -1,7 +1,7 @@
 import { Button, StyleSheet, Text, View } from "react-native";
 import React, { useState } from "react";
-import RadioButton from "../components/RadioButton";
-import Toast from "../components/Toast";
+import RadioButton from "@components/RadioButton";
+import Toast from "@components/Toast";
 
 export function Desarrollador() {
 	const opciones = ["Derecha", "Izquierda", "Sin operacion"];

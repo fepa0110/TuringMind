@@ -1,7 +1,7 @@
 import React, { useState, createContext, useEffect } from "react";
 
 import { LightColors, DarkColors } from "../constants/Colors";
-import { Automata } from "../types/Automata";
+import { Automata } from "#types/Automata";
 
 import * as AutomatasStorage from "../data/biblioteca/storage";
 import { AutomataEntry } from "../data/biblioteca/types/AutomataEntry";

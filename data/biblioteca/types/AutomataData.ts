@@ -1,4 +1,4 @@
-import { Automata } from "../../../types/Automata";
+import { Automata } from "#types/Automata";
 
 export interface AutomataData {
     indice: number;

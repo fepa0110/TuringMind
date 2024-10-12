@@ -2,8 +2,8 @@ import { IconDefinition } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import React, { useState } from "react";
 import { TouchableOpacity, StyleSheet, ActivityIndicator } from "react-native";
-import { useTheme } from "../hooks/useTheme";
-import { Theme } from "../types/Theme";
+import { useTheme } from "?hooks/useTheme";
+import { Theme } from "#types/Theme";
 
 interface PrimaryIconButtonType {
 	onPress: () => void;

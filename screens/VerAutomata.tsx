@@ -12,19 +12,19 @@ import React, { useEffect, useState } from "react";
 import { BibliotecaNavigationStackParamList } from "../navigation/types/BibliotecaNavigationType";
 import { StackScreenProps } from "@react-navigation/stack";
 
-import { TablaEstadosView } from "../components/TablaEstadosView";
+import { TablaEstadosView } from "@components/TablaEstadosView";
 
-import { useTheme } from "../hooks/useTheme";
-import GraphComponent from "../components/GraphComponent";
-import { DragTest } from "../components/DragTest";
-import { PrimaryButton } from "../components/PrimaryButton";
-import { useBiblioteca } from "../hooks/useBiblioteca";
+import { useTheme } from "?hooks/useTheme";
+import GraphComponent from "@components/GraphComponent";
+import { DragTest } from "@components/DragTest";
+import { PrimaryButton } from "@components/PrimaryButton";
+import { useBiblioteca } from "?hooks/useBiblioteca";
 import * as AutomatasStorage from "../data/biblioteca/storage";
-import { Automata } from "../types/Automata";
-import { WarningButton } from "../components/WarningButton";
+import { Automata } from "#types/Automata";
+import { WarningButton } from "@components/WarningButton";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCheckCircle, faPlus } from "@fortawesome/free-solid-svg-icons";
-import Toast from "../components/Toast";
+import Toast from "@components/Toast";
 
 type BibliotecaNavigationProps = StackScreenProps<
 	BibliotecaNavigationStackParamList,
@@ -49,6 +49,7 @@ export default function VerAutomata({
 
 	const [showToast, setShowToast] = useState(false);
 	const [messageToast, setMessageToast] = useState("Automata seleccionado correctamente");
+
 	useEffect(() => {
 		getAutomata();
 	}, []);

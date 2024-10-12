@@ -1,7 +1,7 @@
 import React, { useState, createContext } from "react";
 
 import { LightColors, DarkColors } from "../constants/Colors";
-import { Theme } from "../types/Theme";
+import { Theme } from "#types/Theme";
 import { Appearance } from "react-native";
 
 interface ThemeType {

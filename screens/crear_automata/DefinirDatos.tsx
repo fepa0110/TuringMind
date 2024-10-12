@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
-import { useTheme } from "../../hooks/useTheme";
-import { PrimaryIconButton } from "../../components/PrimaryIconButton";
+import { useTheme } from "?hooks/useTheme";
+import { PrimaryIconButton } from "@components/PrimaryIconButton";
 import {
 	faAdd,
 	faChevronRight,
@@ -11,16 +11,13 @@ import { FlashList } from "@shopify/flash-list";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { StackScreenProps } from "@react-navigation/stack";
-import { CrearAutomataNavigationStackParamList } from "../../navigation/types/CrearAutomataNavigationType";
-import { Automata } from "../../types/Automata";
-import { Transicion } from "../../types/Transicion";
-import { Estado } from "../../types/Estado";
-import { useBiblioteca } from "../../hooks/useBiblioteca";
+import { Automata } from "#types/Automata";
+import { Transicion } from "#types/Transicion";
+import { Estado } from "#types/Estado";
+import { useBiblioteca } from "?hooks/useBiblioteca";
 import { BibliotecaNavigationStackParamList } from "../../navigation/types/BibliotecaNavigationType";
-import { SecondaryIconButton } from "../../components/SecondaryIconButton";
-import { PrimaryButton } from "../../components/PrimaryButton";
-import { SecondaryButton } from "../../components/SecondaryButton";
-import Toast from "../../components/Toast";
+import { SecondaryButton } from "@components/SecondaryButton";
+import Toast from "@components/Toast";
 
 type BibliotecaNavigationProps = StackScreenProps<
 	BibliotecaNavigationStackParamList,

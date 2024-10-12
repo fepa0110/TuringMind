@@ -1,7 +1,7 @@
 import React from "react";
 import { View, StyleSheet, Text } from "react-native";
-import { useTheme } from "../hooks/useTheme";
-import { Theme } from "../types/Theme";
+import { useTheme } from "?hooks/useTheme";
+import { Theme } from "#types/Theme";
 
 interface CeldaProps{
     caracter: String

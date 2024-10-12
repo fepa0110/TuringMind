@@ -31,22 +31,22 @@ import {
 	View,
 } from "react-native";
 
-import { Theme } from "../types/Theme";
-import { useTheme } from "../hooks/useTheme";
+import { Theme } from "#types/Theme";
+import { useTheme } from "?hooks/useTheme";
 
-import { Celda } from "../components/Celda";
-import { Header } from "../components/Header";
-import { PrimaryIconButton } from "../components/PrimaryIconButton";
-import { SecondaryIconButton } from "../components/SecondaryIconButton";
-import { TablaEstadosSimulacion } from "../components/TablaEstadosSimulacion";
-import { useBiblioteca } from "../hooks/useBiblioteca";
-import Toast from "../components/Toast";
+import { Celda } from "@components/Celda";
+import { Header } from "@components/Header";
+import { PrimaryIconButton } from "@components/PrimaryIconButton";
+import { SecondaryIconButton } from "@components/SecondaryIconButton";
+import { TablaEstadosSimulacion } from "@components/TablaEstadosSimulacion";
+import { useBiblioteca } from "?hooks/useBiblioteca";
+import Toast from "@components/Toast";
 
 import {
 	CopilotStep,
 	walkthroughable,
 } from "react-native-copilot";
-import { SecondaryButton } from "../components/SecondaryButton";
+import { SecondaryButton } from "@components/SecondaryButton";
 
 const WalkthroughableView = walkthroughable(View);
 

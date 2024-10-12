@@ -2,9 +2,9 @@ import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 
 import { ThemeProvider } from "../context/theme";
-import { DefinirDatos } from "../screens/crear_automata/DefinirDatos";
+import { DefinirDatos } from "$screens/crear_automata/DefinirDatos";
 import { CrearAutomataNavigationStackParamList } from "./types/CrearAutomataNavigationType";
-import DefinirTransiciones from "../screens/crear_automata/DefinirTransiciones";
+import DefinirTransiciones from "$screens/crear_automata/DefinirTransiciones";
 
 const CrearAutomataStack =
 	createStackNavigator<CrearAutomataNavigationStackParamList>();

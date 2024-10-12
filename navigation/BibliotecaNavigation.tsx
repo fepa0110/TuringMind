@@ -1,12 +1,12 @@
 import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
-import Biblioteca from "../screens/Biblioteca";
-import VerAutomata from "../screens/VerAutomata";
+import Biblioteca from "$screens/Biblioteca";
+import VerAutomata from "$screens/VerAutomata";
 import { BibliotecaNavigationStackParamList } from "./types/BibliotecaNavigationType";
 import { ThemeProvider } from "../context/theme";
 import { CrearAutomataNavigation } from "./CrearAutomataNavigation";
-import { DefinirDatos } from "../screens/crear_automata/DefinirDatos";
-import DefinirTransiciones from "../screens/crear_automata/DefinirTransiciones";
+import { DefinirDatos } from "$screens/crear_automata/DefinirDatos";
+import DefinirTransiciones from "$screens/crear_automata/DefinirTransiciones";
 
 const BibliotecaStack =
 	createStackNavigator<BibliotecaNavigationStackParamList>();

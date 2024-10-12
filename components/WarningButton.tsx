@@ -7,8 +7,8 @@ import {
 	ActivityIndicator,
 	Text,
 } from "react-native";
-import { useTheme } from "../hooks/useTheme";
-import { Theme } from "../types/Theme";
+import { useTheme } from "?hooks/useTheme";
+import { Theme } from "#types/Theme";
 
 interface WarningButtonType {
 	onPress: () => void;

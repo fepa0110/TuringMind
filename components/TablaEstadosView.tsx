@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import { Text, View } from "react-native";
 
-import { Automata } from "../types/Automata";
-import { useTheme } from "../hooks/useTheme";
-import { Estado } from "../types/Estado";
-import { Transicion } from "../types/Transicion";
+import { Automata } from "#types/Automata";
+import { useTheme } from "?hooks/useTheme";
+import { Estado } from "#types/Estado";
+import { Transicion } from "#types/Transicion";
 
 interface TablaEstadosViewProps {
 	automata: Automata | undefined;

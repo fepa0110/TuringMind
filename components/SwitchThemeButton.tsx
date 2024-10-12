@@ -3,10 +3,10 @@ import React from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { TouchableOpacity, StyleSheet } from "react-native";
 
-import { Theme } from "../types/Theme";
+import { Theme } from "#types/Theme";
 import { faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
 
-import { useTheme } from "../hooks/useTheme";
+import { useTheme } from "?hooks/useTheme";
 
 export default function SwitchThemeButton() {
 	const { darkTheme, getTheme, toggleTheme } = useTheme();

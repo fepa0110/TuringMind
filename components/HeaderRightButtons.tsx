@@ -4,8 +4,8 @@ import { TouchableOpacity, View, StyleSheet } from "react-native";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 
 import SwitchThemeButton from "./SwitchThemeButton";
-import { useTheme } from "../hooks/useTheme";
-import { Theme } from "../types/Theme";
+import { useTheme } from "?hooks/useTheme";
+import { Theme } from "#types/Theme";
 import { faCircleInfo, faCircleQuestion, faInfo, faQuestion } from "@fortawesome/free-solid-svg-icons";
 import { useCopilot } from "react-native-copilot";
 

@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Text, View } from "react-native";
 
-import { Automata } from "../types/Automata";
-import { useTheme } from "../hooks/useTheme";
-import { Estado } from "../types/Estado";
-import { Transicion } from "../types/Transicion";
-import { PrimaryIconButton } from "./PrimaryIconButton";
+import { Automata } from "#types/Automata";
+import { useTheme } from "?hooks/useTheme";
+import { Estado } from "#types/Estado";
+import { Transicion } from "#types/Transicion";
+import { PrimaryIconButton } from "@components/PrimaryIconButton";
 
 import {
 	faAngleLeft,
@@ -14,8 +14,8 @@ import {
 	faStepForward,
 	faUndo,
 } from "@fortawesome/free-solid-svg-icons";
-import { SecondaryIconButton } from "./SecondaryIconButton";
-import { useBiblioteca } from "../hooks/useBiblioteca";
+import { SecondaryIconButton } from "@components/SecondaryIconButton";
+import { useBiblioteca } from "?hooks/useBiblioteca";
 import { ScrollView } from "react-native-gesture-handler";
 import { CopilotStep, walkthroughable } from "react-native-copilot";
 

@@ -1,10 +1,10 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Automata } from "../../types/Automata";
+import { Automata } from "#types/Automata";
 import { AutomataEntry } from "./types/AutomataEntry";
 import { AutomataData } from "./types/AutomataData";
 
 import sumaBinariaAutomata from "./suma-binaria-automata.json";
-import { useBiblioteca } from "../../hooks/useBiblioteca";
+import { useBiblioteca } from "?hooks/useBiblioteca";
 
 /* Agregar automata
     1 - Obtener lista de automatas

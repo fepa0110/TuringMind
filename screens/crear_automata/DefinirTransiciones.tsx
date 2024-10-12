@@ -1,20 +1,20 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 
-import { useTheme } from "../../hooks/useTheme";
+import { useTheme } from "?hooks/useTheme";
 
 import { StackScreenProps } from "@react-navigation/stack";
 import { CrearAutomataNavigationStackParamList } from "../../navigation/types/CrearAutomataNavigationType";
 
-import { Estado } from "../../types/Estado";
+import { Estado } from "#types/Estado";
 
-import { TablaEstadosNueva } from "../../components/TablaEstadosNueva";
-import { Automata } from "../../types/Automata";
-import { PrimaryIconButton } from "../../components/PrimaryIconButton";
+import { TablaEstadosNueva } from "@components/TablaEstadosNueva";
+import { Automata } from "#types/Automata";
+import { PrimaryIconButton } from "@components/PrimaryIconButton";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
-import { useBiblioteca } from "../../hooks/useBiblioteca";
+import { useBiblioteca } from "?hooks/useBiblioteca";
 import { BibliotecaNavigationStackParamList } from "../../navigation/types/BibliotecaNavigationType";
-import Toast from "../../components/Toast";
+import Toast from "@components/Toast";
 
 type BibliotecaNavigationProps = StackScreenProps<
 	BibliotecaNavigationStackParamList,
