@@ -25,6 +25,8 @@ import { useBiblioteca } from "?hooks/useBiblioteca";
 import { PrimaryButton } from "@components/PrimaryButton";
 import { SecondaryButton } from "@components/SecondaryButton";
 
+import { Picker } from "@react-native-picker/picker";
+
 interface TablaEstadosNuevaProps {
 	automata: Automata;
 	setAutomata: Dispatch<SetStateAction<Automata>>;
@@ -37,14 +39,17 @@ export function TablaEstadosNueva({
 	const { getTheme } = useTheme();
 	const colors = getTheme();
 
-	const { caracterVacio } = useBiblioteca();
-
 	const operaciones = [
 		"Izquierda (L)",
 		"Derecha (R)",
 		"No hacer nada",
-		"Carácter"
+		"Carácter",
 	];
+
+	const { caracterVacio } = useBiblioteca();
+
+	const [selectedProximoEstado, setSelectedProximoEstado] =
+		useState<string>("");
 
 	const [caracterIngresado, setCaracterIngresado] = React.useState<string>("");
 	const [inputCaracterEditable, setInputCaracterEditable] = useState(false);
@@ -135,6 +140,7 @@ export function TablaEstadosNueva({
 
 	function seleccionarTransicion(estado: Estado, transicion: Transicion) {
 		setEstadoSeleccionado(estado);
+		setSelectedProximoEstado(transicion.nuevoEstado ? transicion.nuevoEstado.toString() : "");
 		setTransicionSeleccionada(transicion);
 		setCaracterIngresado("");
 	}
@@ -185,7 +191,7 @@ export function TablaEstadosNueva({
 	}
 
 	function onNuevoEstadoTransicionChange(selectedItem: string) {
-		if (selectedItem === "Aceptador") selectedItem = "-1";
+		// if (selectedItem === "Aceptador") selectedItem = "-1";
 		setTransicionSeleccionada((prevTransicion) => {
 			return { ...prevTransicion, nuevoEstado: Number(selectedItem) };
 		});
@@ -213,6 +219,8 @@ export function TablaEstadosNueva({
 				}),
 			};
 		});
+
+		setSelectedProximoEstado(selectedItem);
 	}
 
 	function onChangeCaracterIngresado(caracterColocado: string) {
@@ -398,7 +406,16 @@ export function TablaEstadosNueva({
 							/>
 						</View>
 					</View>
-					<View style={{ width: "60%", marginVertical: 16 }}>
+					<View
+						style={{
+							width: "45%",
+							marginVertical: 16,
+							borderWidth: 1,
+							borderColor: colors.outline,
+							borderRadius: 6,
+							paddingTop: 6,
+							paddingHorizontal: 10,
+						}}>
 						<Text
 							style={{
 								color: colors.onBackground,
@@ -406,25 +423,50 @@ export function TablaEstadosNueva({
 							}}>
 							Próximo estado
 						</Text>
-						<Select
-							data={[
-								...automata.estados.map((estado) => estado.nombre),
-								"Aceptador",
-							]}
-							onSelect={(selectedItem) => {
-								onNuevoEstadoTransicionChange(selectedItem);
+						<Picker
+							mode="dropdown"
+							style={{
+								borderWidth: 1,
+								borderStyle: "dotted",
+								borderColor: colors.onBackground,
+								borderBlockColor: colors.onBackground,
+								backgroundColor: colors.background,
+								color: colors.onBackground,
+								fontFamily: "Play-Regular",
 							}}
-							buttonTextAfterSelection={(selectedItem) => {
-								return selectedItem;
-							}}
-							rowTextForSelection={(item) => {
-								return item;
-							}}
-							defaultButtonText={"Próximo estado"}
-							backgroundColor={colors.background}
-							borderColor={colors.onBackground}
-							textColor={colors.onBackground}
-						/>
+							dropdownIconColor={colors.onBackground}
+							dropdownIconRippleColor={colors.onBackground}
+							selectedValue={selectedProximoEstado}
+							onValueChange={(itemValue) =>
+								onNuevoEstadoTransicionChange(itemValue)
+							}>
+							{automata.estados.map((estado) => (
+								<Picker.Item
+									key={"estado" + estado.nombre.toString()}
+									label={estado.nombre.toString()}
+									value={estado.nombre.toString()}
+									style={{
+										backgroundColor: colors.background,
+										color: colors.onBackground,
+										borderWidth: 1,
+										borderColor: colors.outline,
+									}}
+									fontFamily="Play-Regular"
+								/>
+							))}
+
+							<Picker.Item
+								label="Aceptador"
+								value="-1"
+								fontFamily="Play-Regular"
+								style={{
+									backgroundColor: colors.background,
+									color: colors.onBackground,
+									borderWidth: 1,
+									borderColor: colors.outline,
+								}}
+							/>
+						</Picker>
 					</View>
 				</View>
 			</View>

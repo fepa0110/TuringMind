@@ -33,7 +33,7 @@ type BibliotecaNavigationProps = StackScreenProps<
 >;
 
 export function EditarDatos({ navigation, route }: BibliotecaNavigationProps) {
-	// const automata = route.params.automata;
+	const automataParametro = route.params.automata;
 	const indiceAutomata = route.params.indiceAutomata;
 
 	const {
@@ -46,35 +46,29 @@ export function EditarDatos({ navigation, route }: BibliotecaNavigationProps) {
 	const { getTheme } = useTheme();
 	const colors = getTheme();
 
-	const [caracteres, setCaracteres] = useState<string[]>([caracterVacio]);
+	const [caracteres, setCaracteres] = useState<string[]>(
+		automataParametro.estados[0].transiciones.map(
+			(transicion) => transicion.caracter
+		)
+	);
 
-	const [nombreAutomata, onChangeNombreAutomata] = React.useState<string>("");
+	const [nombreAutomata, onChangeNombreAutomata] = React.useState<string>(
+		automataParametro.nombre.toString()
+	);
 
-	const [cantidadEstados, onChangeCantidadEstados] =
-		React.useState<string>("");
+	const [cantidadEstados, onChangeCantidadEstados] = React.useState<string>(
+		automataParametro.estados.length.toString()
+	);
 
 	const [caracterIngresado, onChangeCaracterIngresado] =
 		React.useState<string>("");
 
-	const [automata, setAutomata] = useState<Automata>();
+	const [automata, setAutomata] = useState<Automata>(automataParametro);
 
 	const [showToast, setShowToast] = useState(false);
 	const [messageToast, setMessageToast] = useState("");
 
 	const [loading, setLoading] = useState(false);
-
-    async function getAutomata() {
-		setLoading(true);
-
-		await AutomatasStorage.getAutomata(indiceAutomata)
-			.then((automataLeido) => {
-				setAutomata(automataLeido);
-				return automataLeido;
-			})
-			.finally(() => {
-				setLoading(false);
-			});
-	}
 
 	function quitarCaracter(indiceSeleccionado: number) {
 		setCaracteres((prevLista) => {
@@ -176,7 +170,8 @@ export function EditarDatos({ navigation, route }: BibliotecaNavigationProps) {
 			};
 
 			setLoading(false);
-			navigation.navigate("DefinirTransiciones", {
+			navigation.navigate("EditarTransiciones", {
+				indiceAutomata: indiceAutomata,
 				automata: nuevoAutomata,
 			});
 		}
@@ -193,7 +188,7 @@ export function EditarDatos({ navigation, route }: BibliotecaNavigationProps) {
 		<View style={styles().mainContainer}>
 			<View style={styles().inputsContainer}>
 				<View>
-					<Text style={styles().title}>Datos iniciales</Text>
+					<Text style={styles().title}>Editar datos iniciales</Text>
 				</View>
 				<TextInput
 					style={styles().input}

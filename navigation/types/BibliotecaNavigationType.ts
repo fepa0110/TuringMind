@@ -6,6 +6,6 @@ export type BibliotecaNavigationStackParamList = {
 	VerAutomata: { indiceAutomata: number };
 	DatosIniciales: undefined;
 	DefinirTransiciones: { automata: Automata };
-	EditarDatosIniciales: { indiceAutomata: number };
+	EditarDatosIniciales: { indiceAutomata: number, automata: Automata };
 	EditarTransiciones: { indiceAutomata: number, automata: Automata };
 };

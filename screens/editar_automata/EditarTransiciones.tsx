@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { StyleSheet, Text, TextInput, View } from "react-native";
 
 import { useTheme } from "?hooks/useTheme";
 
@@ -14,6 +14,8 @@ import { PrimaryIconButton } from "@components/PrimaryIconButton";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { useBiblioteca } from "?hooks/useBiblioteca";
 import { BibliotecaNavigationStackParamList } from "../../navigation/types/BibliotecaNavigationType";
+
+import { Picker } from "@react-native-picker/picker";
 import Toast from "@components/Toast";
 
 type BibliotecaNavigationProps = StackScreenProps<
@@ -25,47 +27,66 @@ export default function EditarTransiciones({
 	navigation,
 	route,
 }: BibliotecaNavigationProps) {
-	const indiceAutomata = route.params.indiceAutomata
+	const automataParametro = route.params.automata;
+	const indiceAutomata = route.params.indiceAutomata;
 
 	const { getTheme } = useTheme();
 	const colors = getTheme();
 
 	const [loading, setLoading] = useState(false);
 
-	const [automata, setAutomata] = useState<Automata>(route.params.automata);
+	const [automata, setAutomata] = useState<Automata>(automataParametro);
+
+	const [nombreAutomata, onChangeNombreAutomata] = React.useState<string>(
+		automataParametro.nombre.toString()
+	);
 
 	const [showToast, setShowToast] = useState(false);
 
-	const [messageToast, setMessageToast] = useState("No puede haber transiciones incompletas");
+	const [messageToast, setMessageToast] = useState(
+		"No puede haber transiciones incompletas"
+	);
 
-	const { editarAutomata } = useBiblioteca()
+	const { editarAutomata } = useBiblioteca();
 
-	function validarAutomata() : boolean {
-		for (let indexEstado = 0; indexEstado < automata.estados.length; indexEstado++) {
-			for (let indexTransicion = 0; indexTransicion < automata.estados[indexEstado].transiciones.length; indexTransicion++) {
-				let transicion = automata.estados[indexEstado].transiciones[indexTransicion]
-				if(transicion.nuevoEstado === undefined){
-					return false
-				} 
-				if(transicion.operacion === undefined || transicion.operacion === ""){
-					// console.log("Operacion nula");
-					return false
+	function validarAutomata(): boolean {
+		for (
+			let indexEstado = 0;
+			indexEstado < automata.estados.length;
+			indexEstado++
+		) {
+			for (
+				let indexTransicion = 0;
+				indexTransicion < automata.estados[indexEstado].transiciones.length;
+				indexTransicion++
+			) {
+				let transicion =
+					automata.estados[indexEstado].transiciones[indexTransicion];
+				if (transicion.nuevoEstado === undefined) {
+					return false;
 				}
-				
+				if (
+					transicion.operacion === undefined ||
+					transicion.operacion === ""
+				) {
+					// console.log("Operacion nula");
+					return false;
+				}
 			}
-			
 		}
-		return true
+
+		if (nombreAutomata.length > 0) automataParametro.nombre = nombreAutomata;
+
+		return true;
 	}
-	
+
 	function editAutomata() {
-		if(validarAutomata() === false) {
-			ejecutarToast()
-			setLoading(false)
-		}
-		else {			
-			editarAutomata(indiceAutomata, automata)
-			navigation.navigate("Biblioteca")
+		if (validarAutomata() === false) {
+			ejecutarToast();
+			setLoading(false);
+		} else {
+			editarAutomata(indiceAutomata, automata);
+			navigation.navigate("Biblioteca");
 		}
 	}
 
@@ -75,14 +96,30 @@ export default function EditarTransiciones({
 			setShowToast(false);
 		}, 3000);
 	}
-	
+
 	return (
 		<View style={styles().mainContainer}>
-			<View style={{width: "95%", flexDirection: "column", alignItems: "flex-start", marginTop: "2%"}}>
-				<Text style={styles().title}>Editar transiciones</Text>
-				<Text style={styles().labelData}>
-					{"Autómata: " + automata.nombre}
-				</Text>
+			<View
+				style={{
+					width: "95%",
+					flexDirection: "column",
+					alignItems: "flex-start",
+					marginTop: "2%",
+				}}>
+				<Text style={styles().title}>Editar automata</Text>
+				<TextInput
+					style={styles().input}
+					onChangeText={onChangeNombreAutomata}
+					value={nombreAutomata}
+					placeholder="Nombre de autómata"
+					placeholderTextColor={colors.onBackground}
+					cursorColor={colors.primary}
+					underlineColorAndroid={colors.onBackground}
+					autoComplete="off"
+					maxLength={15}
+					autoCapitalize="sentences"
+					keyboardType="default"
+				/>
 			</View>
 
 			<TablaEstadosNueva automata={automata} setAutomata={setAutomata} />
@@ -91,9 +128,9 @@ export default function EditarTransiciones({
 				<PrimaryIconButton
 					icon={faCheck}
 					size={50}
-					onPress={()=> {
-						setLoading(true)
-						editAutomata()
+					onPress={() => {
+						setLoading(true);
+						editAutomata();
 					}}
 					loading={loading}
 				/>
@@ -105,6 +142,14 @@ export default function EditarTransiciones({
 
 const styles = (colors = useTheme().getTheme()) =>
 	StyleSheet.create({
+		input: {
+			height: 40,
+			width: 200,
+			padding: 10,
+			color: colors.onBackground,
+			backgroundColor: colors.background,
+			fontFamily: "Play-Regular",
+		},
 		labelData: {
 			color: colors.terciary,
 			fontSize: 16,

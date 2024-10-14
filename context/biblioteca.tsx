@@ -62,8 +62,12 @@ export function BibliotecaProvider({ children }: BibliotecaProps) {
 	const editarAutomata = (indiceAutomata: number, automata: Automata) => {
 		AutomatasStorage.editAutomata(indiceAutomata, automata);
 
+		// Editar nombre de la lista de automatas
+		automatas.forEach((automataEntry) => { if(automataEntry.indice == indiceAutomata) automataEntry.nombre = automata.nombre})
+		AutomatasStorage.mergeAutomatas(automatas)
+
 		if(indiceAutomata == indiceAutomataActual) seleccionarAutomata(indiceAutomata)
-		// getAutomatasFromStorage();
+		getAutomatasFromStorage();
 	};
 
 	const seleccionarAutomata = async (indiceAutomata: number) => {		
