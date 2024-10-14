@@ -17,6 +17,7 @@ import { BibliotecaNavigationStackParamList } from "../../navigation/types/Bibli
 
 import { Picker } from "@react-native-picker/picker";
 import Toast from "@components/Toast";
+import { Chip } from "@components/Chip";
 
 type BibliotecaNavigationProps = StackScreenProps<
 	BibliotecaNavigationStackParamList,
@@ -106,7 +107,12 @@ export default function EditarTransiciones({
 					alignItems: "flex-start",
 					marginTop: "2%",
 				}}>
-				<Text style={styles().title}>Editar automata</Text>
+				<View style={{ width: "100%", flexDirection: "row", gap: 6 }}>
+					<Text style={styles().title}>Editar automata</Text>
+
+					<Chip text="Beta" />
+				</View>
+
 				<TextInput
 					style={styles().input}
 					onChangeText={onChangeNombreAutomata}
