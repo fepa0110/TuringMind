@@ -7,6 +7,7 @@ import { ThemeProvider } from "../context/theme";
 import { CrearAutomataNavigation } from "./CrearAutomataNavigation";
 import { DefinirDatos } from "$screens/crear_automata/DefinirDatos";
 import DefinirTransiciones from "$screens/crear_automata/DefinirTransiciones";
+import EditarTransiciones from "$screens/editar_automata/EditarTransiciones";
 
 const BibliotecaStack =
 	createStackNavigator<BibliotecaNavigationStackParamList>();
@@ -33,6 +34,11 @@ export function BibliotecaNavigation() {
 				name="DefinirTransiciones"
 				component={DefinirTransiciones}
 				options={{ title: "Definir transiciones" }}
+			/>
+			<BibliotecaStack.Screen
+				name="EditarTransiciones"
+				component={EditarTransiciones}
+				options={{ title: "Editar automata" }}
 			/>
 		</BibliotecaStack.Navigator>
 	);

@@ -43,7 +43,6 @@ const stylesWarningButton = (colors: Theme) =>
 			alignItems: "center",
 			width: "40%",
 			height: 40,
-			marginVertical: "8%",
 			borderRadius: 25,
             borderWidth: 2,
             borderColor: colors.error,

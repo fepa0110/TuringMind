@@ -77,7 +77,8 @@ const styles = (
 			fontFamily: "Play-Regular",
 			fontSize: fontSize,
 			borderBottomWidth: 2,
-			borderBottomColor: activeDecorationColor,
+			color: activeTextColor,
+			borderBottomColor: activeTextColor,
 			paddingBottom: 1,
 		},
 		optionContainer: {

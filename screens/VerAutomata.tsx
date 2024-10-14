@@ -25,6 +25,7 @@ import { WarningButton } from "@components/WarningButton";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { faCheckCircle, faPlus } from "@fortawesome/free-solid-svg-icons";
 import Toast from "@components/Toast";
+import { SecondaryButton } from "@components/SecondaryButton";
 
 type BibliotecaNavigationProps = StackScreenProps<
 	BibliotecaNavigationStackParamList,
@@ -48,7 +49,9 @@ export default function VerAutomata({
 	const [showModalRemove, setShowModalRemove] = useState(false);
 
 	const [showToast, setShowToast] = useState(false);
-	const [messageToast, setMessageToast] = useState("Automata seleccionado correctamente");
+	const [messageToast, setMessageToast] = useState(
+		"Automata seleccionado correctamente"
+	);
 
 	useEffect(() => {
 		getAutomata();
@@ -93,8 +96,7 @@ export default function VerAutomata({
 				visible={showModalRemove}
 				onRequestClose={() => {
 					setShowModalRemove(false);
-				}}
-				>
+				}}>
 				<View style={styles().centeredView}>
 					<View style={styles().modalView}>
 						<Text style={styles().modalText}>
@@ -134,7 +136,13 @@ export default function VerAutomata({
 	) : (
 		<View style={styles().mainContainer}>
 			<ModalDelete />
-			<View style={{ flexDirection: "row", alignItems: "center", margin: "3%", gap: 10}}>
+			<View
+				style={{
+					flexDirection: "row",
+					alignItems: "center",
+					margin: "3%",
+					gap: 10,
+				}}>
 				<Text
 					style={{
 						color: colors.onBackground,
@@ -144,10 +152,16 @@ export default function VerAutomata({
 					{automata?.nombre}
 				</Text>
 
-				{indiceAutomata !== indiceAutomataActual || <FontAwesomeIcon style={{ marginTop: 6 }} icon={faCheckCircle} color={colors.active} size={22} />}
-
+				{indiceAutomata !== indiceAutomataActual || (
+					<FontAwesomeIcon
+						style={{ marginTop: 6 }}
+						icon={faCheckCircle}
+						color={colors.active}
+						size={22}
+					/>
+				)}
 			</View>
-			
+
 			<TablaEstadosView automata={automata} />
 
 			<View style={styles().buttonsContainer}>
@@ -159,6 +173,19 @@ export default function VerAutomata({
 					/>
 				) : null}
 
+				{automata !== undefined ? (
+					<SecondaryButton
+						text="Editar"
+						width={"50%"}
+						onPress={() => {
+							navigation.navigate("EditarTransiciones", {
+								indiceAutomata: indiceAutomata,
+								automata: automata
+							});
+						}}
+					/>
+				) : null}
+
 				<WarningButton
 					text="Eliminar"
 					onPress={() => {
@@ -166,9 +193,8 @@ export default function VerAutomata({
 					}}
 				/>
 			</View>
-			
-			{showToast ? <Toast message={messageToast} type="info" /> : null}
 
+			{showToast ? <Toast message={messageToast} type="info" /> : null}
 		</View>
 	);
 }
@@ -193,7 +219,8 @@ const styles = (colors = useTheme().getTheme()) =>
 		buttonsContainer: {
 			flexDirection: "column",
 			width: "100%",
-			justifyContent: "center",
+			height: "20%",
+			justifyContent: "space-between",
 			alignItems: "center",
 			marginTop: "3%",
 		},

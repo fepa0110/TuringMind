@@ -12,14 +12,7 @@ import React, { useEffect, useState } from "react";
 import { useTheme } from "?hooks/useTheme";
 import { useBiblioteca } from "?hooks/useBiblioteca";
 
-import { Theme } from "#types/Theme";
-
-import { FlashList } from "@shopify/flash-list";
-
-import { Automata } from "#types/Automata";
-
 import { faCheckCircle, faPlus } from "@fortawesome/free-solid-svg-icons";
-import { faCheckCircle as faCheckCircleRegular } from "@fortawesome/free-regular-svg-icons";
 
 import { faCircle } from "@fortawesome/free-regular-svg-icons";
 
@@ -40,10 +33,12 @@ export default function Biblioteca({ navigation }: BibliotecaNavigationProps) {
 	const colors = getTheme();
 
 	const { automatas, seleccionarAutomata, indiceAutomataActual } =
-	useBiblioteca();
+		useBiblioteca();
 
 	const [showToast, setShowToast] = useState(false);
-	const [messageToast, setMessageToast] = useState("Automata seleccionado correctamente");
+	const [messageToast, setMessageToast] = useState(
+		"Automata seleccionado correctamente"
+	);
 
 	function elegirAutomata(indiceAutomata: number) {
 		seleccionarAutomata(indiceAutomata);
@@ -111,7 +106,7 @@ export default function Biblioteca({ navigation }: BibliotecaNavigationProps) {
 							fontFamily: "Play-Regular",
 							color: colors.terciary,
 							alignSelf: "center",
-							marginTop: "3%"
+							marginTop: "3%",
 						}}>
 						No hay autómatas guardados
 					</Text>
@@ -135,7 +130,6 @@ export default function Biblioteca({ navigation }: BibliotecaNavigationProps) {
 			</View>
 
 			{showToast ? <Toast message={messageToast} type="info" /> : null}
-
 		</View>
 	);
 }

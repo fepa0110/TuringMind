@@ -13,6 +13,7 @@ interface BibliotecaType {
 	caracterVacio: string;
 	indiceAutomataActual: number;
 	addAutomata: (automata: Automata) => void;
+	editarAutomata: (indiceAutomata: number, automata: Automata) => void;
 	seleccionarAutomata: (indiceAutomata: number) => void;
 	seleccionarCaracterVacio: (caracterVacio: string) => void;
 	eliminarAutomata: (indiceAutomata: number) => void;
@@ -24,6 +25,7 @@ export const BibliotecaContext = createContext<BibliotecaType>({
 	caracterVacio: "▲",
 	indiceAutomataActual: 0,
 	addAutomata: (automata: Automata) => {},
+	editarAutomata: (indiceAutomata: number, automata: Automata) => {},
 	seleccionarAutomata: (indiceAutomata: number) => {},
 	seleccionarCaracterVacio: (caracterVacio: string) => {},
 	eliminarAutomata: (indiceAutomata: number) => {},
@@ -55,6 +57,13 @@ export function BibliotecaProvider({ children }: BibliotecaProps) {
 		]);
 
 		getAutomatasFromStorage();
+	};
+
+	const editarAutomata = (indiceAutomata: number, automata: Automata) => {
+		AutomatasStorage.editAutomata(indiceAutomata, automata);
+
+		if(indiceAutomata == indiceAutomataActual) seleccionarAutomata(indiceAutomata)
+		// getAutomatasFromStorage();
 	};
 
 	const seleccionarAutomata = async (indiceAutomata: number) => {		
@@ -121,6 +130,7 @@ export function BibliotecaProvider({ children }: BibliotecaProps) {
 				caracterVacio,
 				indiceAutomataActual,
 				addAutomata,
+				editarAutomata,
 				seleccionarAutomata,
 				seleccionarCaracterVacio,
 				eliminarAutomata,

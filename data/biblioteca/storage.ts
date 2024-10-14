@@ -73,6 +73,20 @@ export async function mergeAutomatas(automatasEntries: AutomataEntry[]) {
 	}
 }
 
+export async function editAutomata(indiceAutomata: number, automata: Automata) {
+	try {
+		const automataJson = JSON.stringify(automata)
+
+		return await AsyncStorage.setItem(indiceAutomata.toString(), automataJson).then(
+			(automataEditado) => {
+				return automataEditado;
+			}
+		);
+	} catch (e) {
+		//console.log("Ocurrio un error al guardar el automata");
+	}
+}
+
 export async function removeAutomata(indiceAutomata: number) {
 	try {
 		await AsyncStorage.removeItem(indiceAutomata.toString());

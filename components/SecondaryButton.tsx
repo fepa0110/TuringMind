@@ -60,7 +60,7 @@ const stylesSecondaryButton = (colors: Theme, width: DimensionValue | undefined,
 		},
 		text: {
             color: disabled ? colors.onOutline : colors.primary,
-			fontSize: 22,
+			fontSize: 16,
 			fontFamily: "Play-Regular",
 			paddingBottom: 6
         },
