@@ -18,7 +18,6 @@ import {
 import { SecondaryIconButton } from "@components/SecondaryIconButton";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import RadioButton from "./RadioButton";
-import SelectDropdown from "react-native-select-dropdown";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import { Select } from "@components/Select";
 import { useBiblioteca } from "?hooks/useBiblioteca";
