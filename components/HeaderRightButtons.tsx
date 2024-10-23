@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
 import SwitchThemeButton from "./SwitchThemeButton";
 import { useTheme } from "?hooks/useTheme";
 import { Theme } from "#types/Theme";
-import { faCircleInfo, faCircleQuestion, faInfo, faQuestion } from "@fortawesome/free-solid-svg-icons";
+import { faCircleQuestion } from "@fortawesome/free-regular-svg-icons";
 import { useCopilot } from "react-native-copilot";
 
 export default function HeaderRightButtons() {
@@ -21,7 +21,7 @@ export default function HeaderRightButtons() {
 			<TouchableOpacity style={[styles.button]} onPress={() => start()}>
 				<FontAwesomeIcon
 					style={{ color: colors.onPrimary }}
-					icon={faInfo}
+					icon={faCircleQuestion}
 					size={22}
 				/>
 			</TouchableOpacity>
