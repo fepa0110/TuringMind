@@ -178,7 +178,7 @@ export function DefinirDatos({ navigation }: BibliotecaNavigationProps) {
 					cursorColor={colors.primary}
 					underlineColorAndroid={colors.onBackground}
 					autoComplete="off"
-					maxLength={15}
+					maxLength={25}
 					autoCapitalize="sentences"
 					keyboardType="default"
 				/>

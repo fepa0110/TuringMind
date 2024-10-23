@@ -1,5 +1,5 @@
 {
-    "nombre": "Suma binaria",
+    "nombre": "Incremento binario",
     "estados": [
         {
             "nombre": 1,
@@ -86,17 +86,17 @@
             "transiciones":[
                 {
                     "caracter": "0",
-                    "operacion": "▲",
+                    "operacion": "-",
                     "nuevoEstado": -1
                 },
                 {
                     "caracter": "1",
-                    "operacion": "▲",
+                    "operacion": "-",
                     "nuevoEstado": -1
                 },
                 {
                     "caracter": "▲",
-                    "operacion": "▲",
+                    "operacion": "-",
                     "nuevoEstado": -1
                 }
             ] 

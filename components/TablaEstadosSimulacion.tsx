@@ -186,8 +186,7 @@ export function TablaEstadosSimulacion({
 			if (transicionActual.operacion === "R") moverseDerecha();
 			else if (transicionActual.operacion === "L") moverseIzquierda();
 			else if (
-				transicionActual.operacion !== "-" &&
-				transicionActual.operacion !== caracterVacio
+				transicionActual.operacion !== "-" 
 			)
 				colocarCaracter(transicionActual.operacion || caracterVacio);
 
