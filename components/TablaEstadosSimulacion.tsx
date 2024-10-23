@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Text, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
 
 import { Automata } from "#types/Automata";
 import { useTheme } from "?hooks/useTheme";
@@ -18,10 +18,12 @@ import { SecondaryIconButton } from "@components/SecondaryIconButton";
 import { useBiblioteca } from "?hooks/useBiblioteca";
 import { ScrollView } from "react-native-gesture-handler";
 import { CopilotStep, walkthroughable } from "react-native-copilot";
+import { FlashList } from "@shopify/flash-list";
 
 interface TablaEstadosSimulacionProps {
 	automataActual: Automata;
 	caracterActualCinta: String;
+	caracteres: string[];
 	moverseDerecha: () => void;
 	moverseIzquierda: () => void;
 	colocarCaracter: (caracter: string) => void;
@@ -33,6 +35,7 @@ const WalkthroughableView = walkthroughable(View);
 export function TablaEstadosSimulacion({
 	automataActual,
 	caracterActualCinta,
+	caracteres,
 	moverseDerecha,
 	moverseIzquierda,
 	colocarCaracter,
@@ -47,10 +50,6 @@ export function TablaEstadosSimulacion({
 
 	const [estadoActual, setEstadoActual] = useState<Estado>(
 		automataActual.estados[0]
-	);
-
-	const caracteres: String[] = automataActual.estados[0].transiciones.map(
-		(transicion) => transicion.caracter
 	);
 
 	function isTransicionActual(estado: Estado, transicion: Transicion) {
@@ -185,9 +184,7 @@ export function TablaEstadosSimulacion({
 		if (transicionActual !== undefined) {
 			if (transicionActual.operacion === "R") moverseDerecha();
 			else if (transicionActual.operacion === "L") moverseIzquierda();
-			else if (
-				transicionActual.operacion !== "-" 
-			)
+			else if (transicionActual.operacion !== "-")
 				colocarCaracter(transicionActual.operacion || caracterVacio);
 
 			if (transicionActual.nuevoEstado == finAutomata) {
@@ -267,7 +264,7 @@ export function TablaEstadosSimulacion({
 					}}>
 					<CopilotStep
 						text="Ejecutar la transición resaltada en la tabla"
-						order={5}
+						order={6}
 						name="ejecutarTransicion">
 						<WalkthroughableView>
 							<PrimaryIconButton
@@ -282,7 +279,7 @@ export function TablaEstadosSimulacion({
 
 					<CopilotStep
 						text="Volver al estado inicial. NO resetea la cinta."
-						order={6}
+						order={7}
 						name="reiniciarAutomata">
 						<WalkthroughableView>
 							<SecondaryIconButton

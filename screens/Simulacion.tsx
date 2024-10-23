@@ -42,11 +42,9 @@ import { TablaEstadosSimulacion } from "@components/TablaEstadosSimulacion";
 import { useBiblioteca } from "?hooks/useBiblioteca";
 import Toast from "@components/Toast";
 
-import {
-	CopilotStep,
-	walkthroughable,
-} from "react-native-copilot";
+import { CopilotStep, walkthroughable } from "react-native-copilot";
 import { SecondaryButton } from "@components/SecondaryButton";
+import { FlashList } from "@shopify/flash-list";
 
 const WalkthroughableView = walkthroughable(View);
 
@@ -75,6 +73,13 @@ export default function Simulacion({ navigation }: any) {
 		caracterVacio,
 		caracterVacio,
 	]);
+
+	const caracteresAutomata: string[] =
+		automataActual !== undefined
+			? automataActual.estados[0].transiciones.map(
+					(transicion) => transicion.caracter
+			  )
+			: [];
 
 	function moverseDerecha() {
 		if (cinta.length - 1 === indiceActual) {
@@ -157,7 +162,7 @@ export default function Simulacion({ navigation }: any) {
 									style={{
 										flexDirection: "row",
 										justifyContent: "center",
-										paddingHorizontal: 1
+										paddingHorizontal: 1,
 									}}>
 									<Text
 										key={"caracter" + index}
@@ -237,12 +242,41 @@ export default function Simulacion({ navigation }: any) {
 		);
 	}
 
+	const CaracterItem = ({ item }: { item: string }) => {
+		return (
+			<TouchableOpacity
+				style={{
+					flexDirection: "row",
+					justifyContent: "space-around",
+					alignItems: "center",
+					width: 55,
+					height: 32,
+					backgroundColor: colors.secondary,
+					borderWidth: 1,
+					borderColor: colors.secondary,
+					borderRadius: 8,
+					marginHorizontal: 6,
+				}}
+				onPress={() => setActualCaracter(item)}>
+				<Text
+					style={{
+						height: "100%",
+						color: colors.onSecondary,
+						fontSize: 18,
+						fontFamily: "Play-Regular",
+					}}>
+					{item}
+				</Text>
+			</TouchableOpacity>
+		);
+	};
+
 	return (
 		// <WithCopilot>
 		<View style={styles(colors).container}>
 			<View style={styles(colors).mainContentContainer}>
 				<CopilotStep
-					text='Para moverte por la Cinta puedes presionar sobre una celda para posicionarte sobre ella o bien moverte con los controles en la parte inferior. La celda actual se encuentra señalada por una flecha.'
+					text="Para moverte por la Cinta puedes presionar sobre una celda para posicionarte sobre ella o bien moverte con los controles en la parte inferior. La celda actual se encuentra señalada por una flecha."
 					order={1}
 					name="cinta">
 					<WalkthroughableView>
@@ -252,7 +286,17 @@ export default function Simulacion({ navigation }: any) {
 
 				{/* <PrimaryIconButton onPress={() => start()} icon={faQuestion} /> */}
 
-				<View style={styles(colors).controlsContainer}>
+				<View
+					style={[
+						styles(colors).controlsContainer,
+						{
+							// borderTopWidth: 1,
+							borderBottomWidth: 1,
+							borderColor: colors.neutral,
+							borderStyle: "dotted",
+							paddingBottom: "1%"
+						},
+					]}>
 					<View style={styles(colors).fieldContainer}>
 						<CopilotStep
 							text="Colocar un caracter en la posición actual de la cinta"
@@ -295,20 +339,40 @@ export default function Simulacion({ navigation }: any) {
 									/>
 								</WalkthroughableView>
 							</CopilotStep>
-						</View>	
+						</View>
 					</View>
+					{caracteresAutomata.length > 0 ? (
+						<CopilotStep
+							text="Accesos directos de caracteres para colocar. Basados en el diccionario del automata seleccionado."
+							order={4}
+							name="accesosDirectosCaracteres">
+							<WalkthroughableView style={{ height: 36 }}>
+								<FlashList
+									renderItem={({ item, index }) => {
+										return <CaracterItem item={item} />;
+									}}
+									ListEmptyComponent={null}
+									centerContent={true}
+									horizontal={true}
+									estimatedItemSize={3}
+									data={caracteresAutomata}
+								/>
+							</WalkthroughableView>
+						</CopilotStep>
+					) : null}
 				</View>
 
 				<View style={styles(colors).controlsContainer}>
 					{automataActual !== undefined ? (
 						<CopilotStep
 							text="Aqui se visualiza el automata seleccionado actualmente para simular"
-							order={4}
+							order={5}
 							name="automataSeleccionado">
 							<WalkthroughableView>
 								<TablaEstadosSimulacion
 									automataActual={automataActual}
 									caracterActualCinta={cinta[indiceActual]}
+									caracteres={caracteresAutomata}
 									moverseDerecha={moverseDerecha}
 									moverseIzquierda={moverseIzquierda}
 									colocarCaracter={setActualCaracter}
@@ -319,7 +383,7 @@ export default function Simulacion({ navigation }: any) {
 					) : (
 						<CopilotStep
 							text="Aun no haz seleccionado un automata, puedes hacerlo desde la biblioteca tocando sobre el boton o bien desde el menú lateral"
-							order={4}
+							order={5}
 							name="seleccionarAutomata">
 							<WalkthroughableView
 								style={{
