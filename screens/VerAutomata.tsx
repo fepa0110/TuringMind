@@ -4,7 +4,6 @@ import {
 	Pressable,
 	StyleSheet,
 	Text,
-	TouchableOpacity,
 	View,
 } from "react-native";
 import React, { useEffect, useState } from "react";
@@ -15,17 +14,22 @@ import { StackScreenProps } from "@react-navigation/stack";
 import { TablaEstadosView } from "@components/TablaEstadosView";
 
 import { useTheme } from "?hooks/useTheme";
-import GraphComponent from "@components/GraphComponent";
-import { DragTest } from "@components/DragTest";
-import { PrimaryButton } from "@components/PrimaryButton";
 import { useBiblioteca } from "?hooks/useBiblioteca";
 import * as AutomatasStorage from "../data/biblioteca/storage";
 import { Automata } from "#types/Automata";
-import { WarningButton } from "@components/WarningButton";
 import { FontAwesomeIcon } from "@fortawesome/react-native-fontawesome";
-import { faCheckCircle, faPlus } from "@fortawesome/free-solid-svg-icons";
+import {
+	faCheck,
+	faCheckCircle,
+	faPen,
+	faTimes,
+	faTrash,
+	faTrashCan,
+} from "@fortawesome/free-solid-svg-icons";
 import Toast from "@components/Toast";
-import { SecondaryButton } from "@components/SecondaryButton";
+import { PrimaryIconButton } from "@components/PrimaryIconButton";
+import { SecondaryIconButton } from "@components/SecondaryIconButton";
+import { WarningIconButton } from "@components/WarningIconButton";
 
 type BibliotecaNavigationProps = StackScreenProps<
 	BibliotecaNavigationStackParamList,
@@ -139,60 +143,75 @@ export default function VerAutomata({
 			<View
 				style={{
 					flexDirection: "row",
+					justifyContent: "space-between",
 					alignItems: "center",
 					margin: "3%",
-					gap: 10,
 				}}>
-				<Text
-					style={{
-						color: colors.onBackground,
-						fontSize: 26,
-						fontFamily: "Play-Regular",
-					}}>
-					{automata?.nombre}
-				</Text>
+				<View
+					style={{ flexDirection: "row", alignItems: "center", gap: 16 }}>
+					<Text
+						style={{
+							color: colors.onBackground,
+							fontSize: 26,
+							fontFamily: "Play-Regular",
+						}}>
+						{automata?.nombre}
+					</Text>
+					{indiceAutomata !== indiceAutomataActual || (
+						<FontAwesomeIcon
+							style={{ marginTop: 3 }}
+							icon={faCheckCircle}
+							color={colors.active}
+							size={22}
+						/>
+					)}
 
-				{indiceAutomata !== indiceAutomataActual || (
-					<FontAwesomeIcon
-						style={{ marginTop: 6 }}
-						icon={faCheckCircle}
-						color={colors.active}
-						size={22}
+					{automata?.borrador == true && (
+						<Text
+							style={{
+								color: colors.terciary,
+								fontSize: 16,
+								fontFamily: "Play-Regular",
+							}}>
+							{"Borrador"}
+						</Text>
+					)}
+				</View>
+
+				<View style={styles().buttonsContainer}>
+					<WarningIconButton
+						icon={faTrashCan}
+						size={50}
+						onPress={() => {
+							setShowModalRemove(true);
+						}}
 					/>
-				)}
+
+					{automata !== undefined ? (
+						<SecondaryIconButton
+							icon={faPen}
+							size={50}
+							onPress={() => {
+								navigation.navigate("EditarTransiciones", {
+									indiceAutomata: indiceAutomata,
+									automata: automata,
+								});
+							}}
+						/>
+					) : null}
+
+					{indiceAutomata !== indiceAutomataActual &&
+					automata?.borrador == false || automata?.borrador === undefined ? (
+						<PrimaryIconButton
+							icon={faCheck}
+							size={50}
+							onPress={elegirAutomata}
+						/>
+					) : null}
+				</View>
 			</View>
 
 			<TablaEstadosView automata={automata} />
-
-			<View style={styles().buttonsContainer}>
-				{indiceAutomata !== indiceAutomataActual ? (
-					<PrimaryButton
-						text="Seleccionar"
-						width={"50%"}
-						onPress={elegirAutomata}
-					/>
-				) : null}
-
-				{automata !== undefined ? (
-					<SecondaryButton
-						text="Editar"
-						width={"50%"}
-						onPress={() => {
-							navigation.navigate("EditarTransiciones", {
-								indiceAutomata: indiceAutomata,
-								automata: automata
-							});
-						}}
-					/>
-				) : null}
-
-				<WarningButton
-					text="Eliminar"
-					onPress={() => {
-						setShowModalRemove(true);
-					}}
-				/>
-			</View>
 
 			{showToast ? <Toast message={messageToast} type="info" /> : null}
 		</View>
@@ -205,7 +224,7 @@ const styles = (colors = useTheme().getTheme()) =>
 			height: "100%",
 			width: "100%",
 			flexDirection: "column",
-			justifyContent: "flex-start",
+			justifyContent: "center",
 			backgroundColor: colors.background,
 		},
 		loadingContainer: {
@@ -217,12 +236,9 @@ const styles = (colors = useTheme().getTheme()) =>
 			backgroundColor: colors.background,
 		},
 		buttonsContainer: {
-			flexDirection: "column",
-			width: "100%",
-			height: "20%",
-			justifyContent: "space-between",
+			flexDirection: "row",
 			alignItems: "center",
-			marginTop: "3%",
+			gap: 16,
 		},
 		seleccionarButton: {
 			flexDirection: "row",

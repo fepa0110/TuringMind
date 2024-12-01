@@ -139,7 +139,9 @@ export function TablaEstadosNueva({
 
 	function seleccionarTransicion(estado: Estado, transicion: Transicion) {
 		setEstadoSeleccionado(estado);
-		setSelectedProximoEstado(transicion.nuevoEstado ? transicion.nuevoEstado.toString() : "");
+		setSelectedProximoEstado(
+			transicion.nuevoEstado ? transicion.nuevoEstado.toString() : ""
+		);
 		setTransicionSeleccionada(transicion);
 		setCaracterIngresado("");
 	}
@@ -306,170 +308,171 @@ export function TablaEstadosNueva({
 	}
 
 	return (
-		<ScrollView
-			style={{ width: "100%", height: "100%" }}
-			centerContent={true}>
-			<View
-				style={{
-					flexDirection: "column",
-					justifyContent: "center",
-					alignItems: "center",
-					width: "100%",
-					gap: 5,
-					paddingVertical: 6,
-				}}>
-				<LabelsCaracteres />
-
-				{automata.estados.map((estado) => {
-					return (
-						<View
-							key={"estado" + estado.nombre}
-							style={{
-								flexDirection: "row",
-								alignItems: "center",
-								gap: 5,
-							}}>
-							<Text
-								style={{
-									fontSize: 18,
-									marginRight: 6,
-									fontFamily: "Play-Regular",
-									color:
-										estado.nombre === estadoSeleccionado.nombre
-											? colors.active
-											: colors.onBackground,
-								}}>
-								{estado.nombre}
-							</Text>
-
-							<RowEstado estado={estado} />
-						</View>
-					);
-				})}
-
+		<>
+			<ScrollView
+				style={{ width: "100%", height: "100%" }}
+				centerContent={true}>
 				<View
 					style={{
+						flexDirection: "column",
+						justifyContent: "center",
+						alignItems: "center",
 						width: "100%",
+						gap: 5,
+						paddingVertical: 6,
+					}}>
+					<LabelsCaracteres />
+
+					{automata.estados.map((estado) => {
+						return (
+							<View
+								key={"estado" + estado.nombre}
+								style={{
+									flexDirection: "row",
+									alignItems: "center",
+									gap: 5,
+								}}>
+								<Text
+									style={{
+										fontSize: 18,
+										marginRight: 6,
+										fontFamily: "Play-Regular",
+										color:
+											estado.nombre === estadoSeleccionado.nombre
+												? colors.active
+												: colors.onBackground,
+									}}>
+									{estado.nombre}
+								</Text>
+
+								<RowEstado estado={estado} />
+							</View>
+						);
+					})}
+				</View>
+			</ScrollView>
+			<View
+				style={{
+					width: "100%",
+					borderWidth: 1,
+					borderColor: colors.outline,
+					borderRadius: 6,
+					paddingHorizontal: 32,
+					marginTop: 16,
+					justifyContent: "center",
+					alignItems: "center",
+				}}>
+				<View style={{ width: "100%", marginVertical: 16 }}>
+					<Text
+						style={{
+							color: colors.onBackground,
+							fontFamily: "Play-Regular",
+						}}>
+						Operación
+					</Text>
+					<RadioButton
+						options={operaciones}
+						onSelectValue={onOperacionTransicionChange}
+						fontSize={16}
+						horizontal={true}
+						activeDecorationColor={colors.secondary}
+						activeTextColor={colors.secondary}
+						inactiveTextColor={colors.outline}
+					/>
+					<View style={styles().nuevoCaracterContainer}>
+						<TextInput
+							style={styles().input}
+							onChangeText={onChangeCaracterIngresado}
+							value={caracterIngresado}
+							editable={inputCaracterEditable}
+							placeholder="Colocar carácter"
+							placeholderTextColor={
+								inputCaracterEditable
+									? colors.onBackground
+									: colors.outline
+							}
+							cursorColor={colors.primary}
+							underlineColorAndroid={
+								inputCaracterEditable
+									? colors.onBackground
+									: colors.outline
+							}
+							autoComplete="off"
+							maxLength={1}
+							autoCapitalize="none"
+						/>
+
+						<SecondaryButton
+							text={caracterVacio}
+							onPress={() => onChangeCaracterIngresado(caracterVacio)}
+							disabled={!inputCaracterEditable}
+						/>
+					</View>
+				</View>
+				<View
+					style={{
+						width: "45%",
+						marginVertical: 16,
 						borderWidth: 1,
 						borderColor: colors.outline,
 						borderRadius: 6,
-						paddingHorizontal: 32,
-						marginTop: 16,
-						justifyContent: "center",
-						alignItems: "center",
+						paddingTop: 6,
+						paddingHorizontal: 10,
 					}}>
-					<View style={{ width: "100%", marginVertical: 16 }}>
-						<Text
-							style={{
-								color: colors.onBackground,
-								fontFamily: "Play-Regular",
-							}}>
-							Operación
-						</Text>
-						<RadioButton
-							options={operaciones}
-							onSelectValue={onOperacionTransicionChange}
-							fontSize={16}
-							horizontal={true}
-							activeDecorationColor={colors.secondary}
-							activeTextColor={colors.secondary}
-							inactiveTextColor={colors.outline}
-						/>
-						<View style={styles().nuevoCaracterContainer}>
-							<TextInput
-								style={styles().input}
-								onChangeText={onChangeCaracterIngresado}
-								value={caracterIngresado}
-								editable={inputCaracterEditable}
-								placeholder="Colocar carácter"
-								placeholderTextColor={
-									inputCaracterEditable
-										? colors.onBackground
-										: colors.outline
-								}
-								cursorColor={colors.primary}
-								underlineColorAndroid={
-									inputCaracterEditable
-										? colors.onBackground
-										: colors.outline
-								}
-								autoComplete="off"
-								maxLength={1}
-								autoCapitalize="none"
-							/>
-
-							<SecondaryButton
-								text={caracterVacio}
-								onPress={() => onChangeCaracterIngresado(caracterVacio)}
-								disabled={!inputCaracterEditable}
-							/>
-						</View>
-					</View>
-					<View
+					<Text
 						style={{
-							width: "45%",
-							marginVertical: 16,
-							borderWidth: 1,
-							borderColor: colors.outline,
-							borderRadius: 6,
-							paddingTop: 6,
-							paddingHorizontal: 10,
+							color: colors.onBackground,
+							fontFamily: "Play-Regular",
 						}}>
-						<Text
-							style={{
-								color: colors.onBackground,
-								fontFamily: "Play-Regular",
-							}}>
-							Próximo estado
-						</Text>
-						<Picker
-							mode="dropdown"
-							style={{
-								borderWidth: 1,
-								borderStyle: "dotted",
-								borderColor: colors.onBackground,
-								borderBlockColor: colors.onBackground,
-								backgroundColor: colors.background,
-								color: colors.onBackground,
-								fontFamily: "Play-Regular",
-							}}
-							dropdownIconColor={colors.onBackground}
-							dropdownIconRippleColor={colors.onBackground}
-							selectedValue={selectedProximoEstado}
-							onValueChange={(itemValue) =>
-								onNuevoEstadoTransicionChange(itemValue)
-							}>
-							{automata.estados.map((estado) => (
-								<Picker.Item
-									key={"estado" + estado.nombre.toString()}
-									label={estado.nombre.toString()}
-									value={estado.nombre.toString()}
-									style={{
-										backgroundColor: colors.background,
-										color: colors.onBackground,
-										borderWidth: 1,
-										borderColor: colors.outline,
-									}}
-									fontFamily="Play-Regular"
-								/>
-							))}
-
+						Próximo estado
+					</Text>
+					<Picker
+						mode="dropdown"
+						style={{
+							borderWidth: 1,
+							borderStyle: "dotted",
+							borderColor: colors.onBackground,
+							borderBlockColor: colors.onBackground,
+							backgroundColor: colors.background,
+							color: colors.onBackground,
+							fontFamily: "Play-Regular",
+						}}
+						dropdownIconColor={colors.onBackground}
+						dropdownIconRippleColor={colors.onBackground}
+						selectedValue={selectedProximoEstado}
+						onValueChange={(itemValue) =>
+							onNuevoEstadoTransicionChange(itemValue)
+						}>
+						{automata.estados.map((estado) => (
 							<Picker.Item
-								label="Aceptador"
-								value="-1"
-								fontFamily="Play-Regular"
+								key={"estado" + estado.nombre.toString()}
+								label={estado.nombre.toString()}
+								value={estado.nombre.toString()}
 								style={{
 									backgroundColor: colors.background,
 									color: colors.onBackground,
 									borderWidth: 1,
 									borderColor: colors.outline,
 								}}
+								fontFamily="Play-Regular"
 							/>
-						</Picker>
-					</View>
+						))}
+
+						<Picker.Item
+							label="Aceptador"
+							value="-1"
+							fontFamily="Play-Regular"
+							style={{
+								backgroundColor: colors.background,
+								color: colors.onBackground,
+								borderWidth: 1,
+								borderColor: colors.outline,
+							}}
+						/>
+					</Picker>
 				</View>
 			</View>
-		</ScrollView>
+		</>
 	);
 }
 

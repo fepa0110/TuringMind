@@ -5,7 +5,7 @@ import { TouchableOpacity, StyleSheet, ActivityIndicator } from "react-native";
 import { useTheme } from "?hooks/useTheme";
 import { Theme } from "#types/Theme";
 
-interface SecondaryIconButtonType {
+interface WarningIconButtonType {
 	onPress: () => void;
 	icon: IconDefinition;
 	accessibilityLabel?: string,
@@ -13,13 +13,13 @@ interface SecondaryIconButtonType {
 	loading?: boolean;
 }
 
-export function SecondaryIconButton({
+export function WarningIconButton({
 	onPress,
 	icon,
 	size,
 	loading,
 	accessibilityLabel
-}: SecondaryIconButtonType) {
+}: WarningIconButtonType) {
 	const { getTheme } = useTheme();
 	const styles = stylesPrimaryIconButton(getTheme());
 	
@@ -34,7 +34,7 @@ export function SecondaryIconButton({
 				<ActivityIndicator size={28} color={getTheme().onSecondary} />
 			) : (
 				<FontAwesomeIcon
-					style={{ color: getTheme().primary }}
+					style={{ color: getTheme().error }}
 					icon={icon}
 					size={18}
 				/>
@@ -46,11 +46,11 @@ export function SecondaryIconButton({
 const stylesPrimaryIconButton = (colors: Theme) =>
 	StyleSheet.create({
 		button: {
-			backgroundColor: colors.onPrimary,
+			backgroundColor: colors.background,
 			alignItems: "center",
 			justifyContent: "center",
 			borderRadius: 32,
             borderWidth: 2,
-            borderColor: colors.primary
+            borderColor: colors.error
 		},
 	});

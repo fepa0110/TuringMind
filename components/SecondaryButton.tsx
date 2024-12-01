@@ -13,6 +13,7 @@ import { Theme } from "#types/Theme";
 
 interface SecondaryButtonType {
 	onPress: () => void;
+	icon?: IconDefinition;
 	text: string;
 	width?: DimensionValue;
 	loading?: boolean;
@@ -21,15 +22,16 @@ interface SecondaryButtonType {
 
 export function SecondaryButton({
 	onPress,
+	icon,
 	text,
 	width,
 	loading,
-	disabled
+	disabled,
 }: SecondaryButtonType) {
 	const { getTheme } = useTheme();
 	const styles = stylesSecondaryButton(getTheme(), width, disabled);
 
-	const [isLoading, setIsLoading] = useState(loading||false)
+	const [isLoading, setIsLoading] = useState(loading || false);
 
 	return (
 		<TouchableOpacity
@@ -38,30 +40,42 @@ export function SecondaryButton({
 			disabled={disabled}>
 			{isLoading ? (
 				<ActivityIndicator size={28} color={getTheme().onSecondary} />
+			) : icon !== undefined ? (
+				<FontAwesomeIcon
+					style={{ color: disabled ? getTheme().onOutline : getTheme().primary, }}
+					icon={icon}
+					size={22}
+				/>
 			) : (
-				<Text style={styles.text}>{text}</Text>
+				<></>
 			)}
+			<Text style={styles.text}>{text}</Text>
 		</TouchableOpacity>
 	);
 }
 
-const stylesSecondaryButton = (colors: Theme, width: DimensionValue | undefined, disabled: boolean | undefined) =>
+const stylesSecondaryButton = (
+	colors: Theme,
+	width: DimensionValue | undefined,
+	disabled: boolean | undefined
+) =>
 	StyleSheet.create({
 		button: {
 			flexDirection: "row",
-			width: width || 40, 
-			height: 40,
-			backgroundColor: colors.background,
 			alignItems: "center",
-			justifyContent: "center",
-            borderColor: disabled ? colors.outline : colors.primary,
-            borderWidth: 2,
+			justifyContent: "space-around",
+			width: width || 40,
+			height: 45,
+			paddingHorizontal: 10,
+			backgroundColor: colors.background,
+			borderColor: disabled ? colors.outline : colors.primary,
+			borderWidth: 2,
 			borderRadius: 32,
 		},
 		text: {
-            color: disabled ? colors.onOutline : colors.primary,
+			color: disabled ? colors.onOutline : colors.primary,
 			fontSize: 16,
 			fontFamily: "Play-Regular",
-			paddingBottom: 6
-        },
+			paddingBottom: 6,
+		},
 	});

@@ -70,23 +70,34 @@ export default function Biblioteca({ navigation }: BibliotecaNavigationProps) {
 				<View style={styles().labelsContainer}>
 					<Text style={styles().itemPrimaryLabel}>{item.nombre}</Text>
 				</View>
-				{indiceAutomata === indiceAutomataActual ? (
-					<FontAwesomeIcon
-						style={{ marginHorizontal: "3%" }}
-						icon={faCheckCircle}
-						color={colors.active}
-						size={22}
-					/>
-				) : (
-					<TouchableOpacity
-						style={{ marginHorizontal: "3%" }}
-						onPress={() => elegirAutomata(indiceAutomata)}>
+				{!item.borrador ? (
+					indiceAutomata === indiceAutomataActual ? (
 						<FontAwesomeIcon
-							icon={faCircle}
-							color={colors.outline}
+							style={{ marginHorizontal: "3%" }}
+							icon={faCheckCircle}
+							color={colors.active}
 							size={22}
 						/>
-					</TouchableOpacity>
+					) : (
+						<TouchableOpacity
+							style={{ marginHorizontal: "3%" }}
+							onPress={() => elegirAutomata(indiceAutomata)}>
+							<FontAwesomeIcon
+								icon={faCircle}
+								color={colors.outline}
+								size={22}
+							/>
+						</TouchableOpacity>
+					)
+				) : (
+					<Text
+						style={{
+							color: colors.terciary,
+							fontSize: 16,
+							fontFamily: "Play-Regular",
+						}}>
+						{"Borrador"}
+					</Text>
 				)}
 			</Pressable>
 		);

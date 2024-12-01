@@ -19,7 +19,8 @@ export async function createStorage() {
 		if (automatasGuardadosJson == null) {
 			const sumaBinariaEntry: AutomataEntry = {
 				indice: 0,
-				nombre: "Suma binaria",
+				borrador: false,
+				nombre: "Incremento binario",
 			};
 			await AsyncStorage.setItem(
 				"automatas",
@@ -27,14 +28,8 @@ export async function createStorage() {
 			);
 
 			addAutomata(sumaBinariaAutomata, 0);
-			//console.log("Storage creado");
-		} else {
-			//console.log("Storage no creado");
-			//console.log(automatasJson);
 		}
-	} catch (e) {
-		//console.log("Ocurrio un error al guardar el automata");
-	}
+	} catch (e) {}
 }
 
 export async function addAutomata(automata: Automata, posicion: number) {
@@ -45,9 +40,7 @@ export async function addAutomata(automata: Automata, posicion: number) {
 				return automataCreado;
 			}
 		);
-	} catch (e) {
-		//console.log("Ocurrio un error al guardar el automata");
-	}
+	} catch (e) {}
 }
 
 export async function getAutomatas() {
@@ -57,83 +50,60 @@ export async function getAutomatas() {
 
 		if (automatasJson != null) automatasEntries = JSON.parse(automatasJson);
 
-		//console.log("Automatas obtenidos");
-
 		return automatasEntries;
-	} catch (e) {
-		//console.log("Ocurrio un error al obtener los automatas.");
-	}
+	} catch (e) {}
 }
 
 export async function mergeAutomatas(automatasEntries: AutomataEntry[]) {
 	try {
 		await AsyncStorage.setItem("automatas", JSON.stringify(automatasEntries));
-	} catch (e) {
-		//console.log("Ocurrio un error al actualizar la lista de automatas");
-	}
+	} catch (e) {}
 }
 
 export async function editAutomata(indiceAutomata: number, automata: Automata) {
 	try {
-		const automataJson = JSON.stringify(automata)
+		const automataJson = JSON.stringify(automata);
 
-		return await AsyncStorage.setItem(indiceAutomata.toString(), automataJson).then(
-			(automataEditado) => {
-				return automataEditado;
-			}
-		);
-	} catch (e) {
-		//console.log("Ocurrio un error al guardar el automata");
-	}
+		return await AsyncStorage.setItem(
+			indiceAutomata.toString(),
+			automataJson
+		).then((automataEditado) => {
+			return automataEditado;
+		});
+	} catch (e) {}
 }
 
 export async function removeAutomata(indiceAutomata: number) {
 	try {
 		await AsyncStorage.removeItem(indiceAutomata.toString());
-	} catch (e) {
-		//console.log("Error al remover");
-	}
-
-	//console.log("Automata eliminado.");
+	} catch (e) {}
 }
 
 export async function deleteStorage() {
 	try {
 		await AsyncStorage.removeItem("automatas");
-	} catch (e) {
-		//console.log("Error al remover");
-	}
-
-	//console.log("Automata eliminado.");
+	} catch (e) {}
 }
 
 export async function removeAutomataEntry(
 	automatasEntries: AutomataEntry[],
 	indiceAutomata: number
 ) {
-	//console.log(indiceAutomata);
-	
 	automatasEntries = automatasEntries.filter(
 		(automataEntry) => automataEntry.indice !== indiceAutomata
 	);
-	//console.log("🚀 ~ file: storage.ts:91 ~ automatasEntries:", automatasEntries)
 
 	try {
 		await AsyncStorage.setItem("automatas", JSON.stringify(automatasEntries));
-	} catch (e) {
-		//console.log("Error al remover");
-	}
-
-	//console.log("Automata eliminado.");
+	} catch (e) {}
 }
 
 export async function getAutomata(claveAutomata: number) {
 	try {
-		const automatasJson = await AsyncStorage.getItem(claveAutomata.toString());
+		const automatasJson = await AsyncStorage.getItem(
+			claveAutomata.toString()
+		);
 
 		if (automatasJson != null) return JSON.parse(automatasJson);
-
-	} catch (e) {
-		//console.log("Ocurrio un error al obtener el automata.");
-	}
+	} catch (e) {}
 }

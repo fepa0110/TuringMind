@@ -8,6 +8,7 @@ import { Theme } from "#types/Theme";
 interface PrimaryIconButtonType {
 	onPress: () => void;
 	icon: IconDefinition;
+	accessibilityLabel?: string,
 	size?: number;
 	loading?: boolean;
 }
@@ -17,6 +18,7 @@ export function PrimaryIconButton({
 	icon,
 	size,
 	loading,
+	accessibilityLabel
 }: PrimaryIconButtonType) {
 	const { getTheme } = useTheme();
 	const styles = stylesPrimaryIconButton(getTheme());
@@ -27,12 +29,12 @@ export function PrimaryIconButton({
 		<TouchableOpacity
 			style={[{ width: size || 40, height: size || 40 }, styles.button]}
 			onPress={onPress}
-			accessibilityLabel="Setear caracter">
+			accessibilityLabel={accessibilityLabel}>
 			{isLoading ? (
 				<ActivityIndicator size={28} color={getTheme().onSecondary} />
 			) : (
 				<FontAwesomeIcon
-					style={{ color: getTheme().onSecondary }}
+					style={{ color: getTheme().onPrimary }}
 					icon={icon}
 					size={18}
 				/>

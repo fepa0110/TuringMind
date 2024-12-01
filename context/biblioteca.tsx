@@ -48,12 +48,16 @@ export function BibliotecaProvider({ children }: BibliotecaProps) {
 	}, []);
 
 	const addAutomata = (automata: Automata) => {
-		const automatasLength = automatas?.length || 0;
+		const indiceNuevoAutomata = automatas?.length || 0;
+		const isBorrador = automata.borrador || false
 
-		AutomatasStorage.addAutomata(automata, automatasLength);
+		// Crear automata
+		AutomatasStorage.addAutomata(automata, indiceNuevoAutomata);
+
+		// Crear entrada de automata
 		AutomatasStorage.mergeAutomatas([
 			...(automatas || []),
-			{ indice: automatasLength, nombre: automata.nombre },
+			{ indice: indiceNuevoAutomata, nombre: automata.nombre, borrador: isBorrador},
 		]);
 
 		getAutomatasFromStorage();

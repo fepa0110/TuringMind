@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Text, View } from "react-native";
+import { ScrollView, Text, View } from "react-native";
 
 import { Automata } from "#types/Automata";
 import { useTheme } from "?hooks/useTheme";
@@ -100,12 +100,13 @@ export function TablaEstadosView({ automata }: TablaEstadosViewProps) {
 	}
 
 	return (
-		<View
+		<ScrollView
 			style={{
 				flexDirection: "column",
-				justifyContent: "center",
-				alignItems: "center",
+				// justifyContent: "center",
+				// alignItems: "center",
 				width: "90%",
+				height: "100%",
 				gap: 5,
 				paddingVertical: 6,
 				marginHorizontal: 6,
@@ -134,6 +135,6 @@ export function TablaEstadosView({ automata }: TablaEstadosViewProps) {
 					</View>
 				);
 			})}
-		</View>
+		</ScrollView>
 	);
 }

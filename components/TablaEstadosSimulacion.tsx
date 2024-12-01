@@ -196,7 +196,6 @@ export function TablaEstadosSimulacion({
 				);
 
 				if (estadoNuevo !== undefined) setEstadoActual(estadoNuevo);
-				else console.log("Estado indefinido");
 			}
 		}
 	}
@@ -206,90 +205,90 @@ export function TablaEstadosSimulacion({
 	}
 
 	return (
-		<ScrollView>
-			<View
-				style={{
-					flexDirection: "column",
-					justifyContent: "center",
-					alignItems: "center",
-					width: "90%",
-					gap: 5,
-					paddingVertical: 6,
-					marginHorizontal: 6,
-				}}>
-				<Text
-					style={{
-						alignSelf: "flex-start",
-						color: colors.terciary,
-						fontSize: 16,
-						fontFamily: "Play-Regular",
-					}}>
-					{automataActual.nombre}
-				</Text>
-
-				<LabelsCaracteres />
-
-				{automataActual.estados.map((estado, indexEstado) => {
-					return (
-						<View
-							key={"estado" + estado.nombre}
-							style={{
-								flexDirection: "row",
-								alignItems: "center",
-								gap: 5,
-							}}>
-							<Text
-								style={{
-									fontSize: 18,
-									fontFamily: "Play-Regular",
-									color:
-										estado.nombre === estadoActual.nombre
-											? colors.active
-											: colors.onBackground,
-								}}>
-								{estado.nombre}
-							</Text>
-
-							<RowEstado estado={estado} />
-						</View>
-					);
-				})}
-
+		<>
+			<ScrollView>
 				<View
 					style={{
-						flex: 1,
-						flexDirection: "row",
-						gap: 22,
-						marginTop: 10,
+						flexDirection: "column",
+						justifyContent: "center",
+						alignItems: "center",
+						width: "90%",
+						gap: 5,
+						paddingVertical: 6,
+						marginHorizontal: 6,
 					}}>
-					<CopilotStep
-						text="Ejecutar la transición resaltada en la tabla"
-						order={6}
-						name="ejecutarTransicion">
-						<WalkthroughableView>
-							<PrimaryIconButton
-								icon={faForwardStep}
-								onPress={() => {
-									ejecutarSiguienteTransicion();
-									console.log(estadoActual);
-								}}
-							/>
-						</WalkthroughableView>
-					</CopilotStep>
+					<Text
+						style={{
+							alignSelf: "flex-start",
+							color: colors.terciary,
+							fontSize: 16,
+							fontFamily: "Play-Regular",
+						}}>
+						{automataActual.nombre}
+					</Text>
 
-					<CopilotStep
-						text="Volver al estado inicial. NO resetea la cinta."
-						order={7}
-						name="reiniciarAutomata">
-						<WalkthroughableView>
-							<SecondaryIconButton
-								icon={faUndo}
-								onPress={reiniciarAutomata}
-							/>
-						</WalkthroughableView>
-					</CopilotStep>
+					<LabelsCaracteres />
+
+					{automataActual.estados.map((estado, indexEstado) => {
+						return (
+							<View
+								key={"estado" + estado.nombre}
+								style={{
+									flexDirection: "row",
+									alignItems: "center",
+									gap: 5,
+								}}>
+								<Text
+									style={{
+										fontSize: 18,
+										fontFamily: "Play-Regular",
+										color:
+											estado.nombre === estadoActual.nombre
+												? colors.active
+												: colors.onBackground,
+									}}>
+									{estado.nombre}
+								</Text>
+
+								<RowEstado estado={estado} />
+							</View>
+						);
+					})}
 				</View>
+			</ScrollView>
+			<View
+				style={{
+					flex: 1,
+					flexDirection: "row",
+					gap: 22,
+					marginTop: 10,
+				}}>
+				<CopilotStep
+					text="Ejecutar la transición resaltada en la tabla"
+					order={6}
+					name="ejecutarTransicion">
+					<WalkthroughableView>
+						<PrimaryIconButton
+							icon={faForwardStep}
+							onPress={() => {
+								ejecutarSiguienteTransicion();
+								// console.log(estadoActual);
+							}}
+						/>
+					</WalkthroughableView>
+				</CopilotStep>
+				<CopilotStep
+					text="Volver al estado inicial. NO resetea la cinta."
+					order={7}
+					name="reiniciarAutomata">
+					<WalkthroughableView>
+						<SecondaryIconButton
+							icon={faUndo}
+							onPress={reiniciarAutomata}
+						/>
+					</WalkthroughableView>
+				</CopilotStep>
 			</View>
-		</ScrollView>
+		</>
 	);
 }

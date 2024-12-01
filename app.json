@@ -2,7 +2,7 @@
   "expo": {
     "name": "TuringMind",
     "slug": "turingmind",
-    "version": "1.2.1",
+    "version": "1.2.2",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -20,7 +20,7 @@
         "backgroundColor": "#F5F8FE"
       },
       "package": "com.fepa.turingmind",
-      "versionCode": 6
+      "versionCode": 7
     },
     "owner": "fepa",
     "runtimeVersion": {
@@ -37,6 +37,7 @@
     "plugins": [
       "expo-font"
     ],
-    "ios": {}
+    "ios": {},
+    "newArchEnabled": true
   }
 }
